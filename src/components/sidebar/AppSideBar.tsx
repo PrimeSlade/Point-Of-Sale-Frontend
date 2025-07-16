@@ -1,0 +1,107 @@
+import {
+  ClipboardPlus,
+  Users,
+  GraduationCap,
+  ReceiptText,
+  Settings,
+  Box,
+  NotebookPen,
+  ChartNoAxesCombined,
+  MapPin,
+} from "lucide-react";
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
+import { Link } from "react-router-dom";
+
+// Menu items.
+const items = [
+  {
+    title: "Inventory",
+    url: "items",
+    icon: Box,
+  },
+  {
+    title: "Patients",
+    url: "patients",
+    icon: Users,
+  },
+  {
+    title: "Doctors",
+    url: "doctors",
+    icon: GraduationCap,
+  },
+  {
+    title: "POS/Treatment",
+    url: "treatments",
+    icon: ClipboardPlus,
+  },
+  {
+    title: "Invoices",
+    url: "invoices",
+    icon: ReceiptText,
+  },
+  {
+    title: "Expenses",
+    url: "expenses",
+    icon: NotebookPen,
+  },
+  {
+    title: "Report",
+    url: "report",
+    icon: ChartNoAxesCombined,
+  },
+  {
+    title: "Settings",
+    url: "settings",
+    icon: Settings,
+  },
+];
+
+export function AppSidebar() {
+  return (
+    <Sidebar>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>
+            <div className="mt-40">
+              <div className="text-2xl font-bold text-black">Yaung Ni Oo</div>
+              <div className="mt-3 p-4 border rounded-xl w-55 flex flex-col gap-2 bg-[var(--background-color)] text-base">
+                <div className="flex items-center gap-3 text-[var(--primary-color)]  ">
+                  <MapPin size={20} />
+                  <span className="font-bold">Clinic</span>
+                </div>
+                <div>Zin Min Paing</div>
+                <div>Admin</div>
+              </div>
+            </div>
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className="mt-40 flex gap-3">
+              {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild className="p-6">
+                    <Link to={item.url}>
+                      <item.icon className="text-[var(--text-primary)]" />
+                      <span className="text-xl text-[var(--text-primary)]">
+                        {item.title}
+                      </span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
+  );
+}

@@ -1,12 +1,31 @@
 import "./App.css";
-import { Button } from "@/components/ui/button";
 import Layout from "@/components/layout/Layout";
+import { Route, Routes } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import InventoryPage from "./pages/InventoryPage";
+import PatientPage from "./pages/PatientPage";
+import DoctorPage from "./pages/DoctorPage";
+import TreatmentPage from "./pages/TreatmentPage";
+import InvoicePage from "./pages/InvoicePage";
+import ExpensesPage from "./pages/ExpensesPage";
+import ReportPage from "./pages/ReportPage";
+import SettingPage from "./pages/SettingPage";
 
 function App() {
   return (
-    <Layout>
-      <div className="text-[var(--primary-color)]">ok</div>
-    </Layout>
+    <Routes>
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/dashboard" element={<Layout />}>
+        <Route path="items" element={<InventoryPage />} />
+        <Route path="patients" element={<PatientPage />} />
+        <Route path="doctors" element={<DoctorPage />} />
+        <Route path="treatments" element={<TreatmentPage />} />
+        <Route path="invoices" element={<InvoicePage />} />
+        <Route path="expenses" element={<ExpensesPage />} />
+        <Route path="report" element={<ReportPage />} />
+        <Route path="settings" element={<SettingPage />} />
+      </Route>
+    </Routes>
   );
 }
 
