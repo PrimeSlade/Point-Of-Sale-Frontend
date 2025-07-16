@@ -1,0 +1,21 @@
+:root {
+  /* Base colors */
+  --primary-color: #007b9e; /* Rich Cyan-Blue - Trust and Tech */
+  --secondary-color: #00bfa6; /* Aqua Green - Clean and Inviting */
+  --accent-color: #ffc857; /* Warm Amber - Attention Grabbing (Buttons/Highlights) */
+  --danger-color: #ef476f; /* Medical Red - Alerts/Errors */
+  --success-color: #06d6a0; /* Mint Green - Confirmation */
+
+  /* Backgrounds */
+  --background-color: #f9fafb; /* Ultra Light Gray - Clean UI Background */
+  --surface-color: #ffffff; /* Pure White - Cards, Modals, etc. */
+  --hover-surface: #f0f4f8; /* Slight Hover Overlay */
+
+  /* Text */
+  --text-primary: #1f2937; /* Cool Gray 800 - For body text */
+  --text-secondary: #6b7280; /* Cool Gray 500 - For subtitles and secondary text */
+  --text-inverse: #ffffff; /* White - For text on dark backgrounds */
+
+  /* Borders */
+  --border-color: #e5e7eb; /* Cool Gray 200 - For borders and dividers */
+}
