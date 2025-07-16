@@ -1,6 +1,7 @@
 :root {
   /* Base colors */
   --primary-color: #007b9e; /* Rich Cyan-Blue - Trust and Tech */
+  --primary-color-hover: #006884; /* darker */
   --secondary-color: #00bfa6; /* Aqua Green - Clean and Inviting */
   --accent-color: #ffc857; /* Warm Amber - Attention Grabbing (Buttons/Highlights) */
   --danger-color: #ef476f; /* Medical Red - Alerts/Errors */

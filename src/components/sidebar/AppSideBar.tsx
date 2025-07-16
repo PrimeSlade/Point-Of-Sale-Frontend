@@ -20,7 +20,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 // Menu items.
 const items = [
@@ -67,6 +67,20 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const location = useLocation();
+
+  const isActive = (path: string) => {
+    return location.pathname.startsWith(path)
+      ? "bg-[var(--primary-color)] rounded-md hover:bg-[var(--primary-color-hover)]"
+      : "";
+  };
+
+  const isTextActive = (path: string) => {
+    return location.pathname.startsWith(path)
+      ? "text-white"
+      : "text-[var(--text-primary)]";
+  };
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -85,13 +99,22 @@ export function AppSidebar() {
             </div>
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="mt-40 flex gap-3">
+            <SidebarMenu className="mt-40 flex gap-3 w-55 mx-auto ">
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild className="p-6">
+                  <SidebarMenuButton
+                    asChild
+                    className={`p-6 ${isActive(`/dashboard/${item.url}`)}`}
+                  >
                     <Link to={item.url}>
-                      <item.icon className="text-[var(--text-primary)]" />
-                      <span className="text-xl text-[var(--text-primary)]">
+                      <item.icon
+                        className={isTextActive(`/dashboard/${item.url}`)}
+                      />
+                      <span
+                        className={`text-xl ${isTextActive(
+                          `/dashboard/${item.url}`
+                        )}`}
+                      >
                         {item.title}
                       </span>
                     </Link>
