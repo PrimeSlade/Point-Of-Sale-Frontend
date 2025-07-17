@@ -10,6 +10,9 @@ import InvoicePage from "./pages/InvoicePage";
 import ExpensesPage from "./pages/ExpensesPage";
 import ReportPage from "./pages/ReportPage";
 import SettingPage from "./pages/SettingPage";
+import LocationPage from "./pages/LocationPage";
+import UserPage from "./pages/UserPage";
+import GeneralPage from "./pages/GeneralPage";
 
 function App() {
   return (
@@ -23,7 +26,11 @@ function App() {
         <Route path="invoices" element={<InvoicePage />} />
         <Route path="expenses" element={<ExpensesPage />} />
         <Route path="report" element={<ReportPage />} />
-        <Route path="settings" element={<SettingPage />} />
+        <Route path="settings" element={<SettingPage />}>
+          <Route path="locations" element={<LocationPage />} />
+          <Route path="users" element={<UserPage />} />
+          <Route path="general" element={<GeneralPage />} />
+        </Route>
       </Route>
     </Routes>
   );

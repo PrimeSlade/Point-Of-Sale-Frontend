@@ -106,7 +106,10 @@ export function AppSidebar() {
                     asChild
                     className={`p-6 ${isActive(`/dashboard/${item.url}`)}`}
                   >
-                    <Link to={item.url}>
+                    <Link
+                      to={item.url}
+                      className={isTextActive(`/dashboard/${item.url}`)}
+                    >
                       <item.icon
                         className={isTextActive(`/dashboard/${item.url}`)}
                       />
