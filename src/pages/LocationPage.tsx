@@ -1,4 +1,4 @@
-import { deleteLocations, fetchLocations } from "@/api/locations";
+import { deleteLocation, fetchLocations } from "@/api/locations";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import LocationForm from "@/components/form/LocationForm";
@@ -31,14 +31,17 @@ const LocationPage = () => {
     }
   }, [error]);
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: deleteLocations,
+  const { mutate: deleteLocationMutate, isPending: isDeleting } = useMutation({
+    mutationFn: deleteLocation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["locations"] });
     },
   });
 
-  const columns = LocationColumns(mutate, isPending);
+  const columns = LocationColumns({
+    onDelete: deleteLocationMutate,
+    isDeleting,
+  });
 
   if (error) {
     return (

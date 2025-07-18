@@ -6,7 +6,7 @@ export default function Layout() {
   const { open } = useSidebar();
 
   const width = () => {
-    return open ? "w-[75%]" : "w-[90%]";
+    return open ? " md:w-[60%] lg:w-[75%]" : "w-[90%]";
   };
 
   return (

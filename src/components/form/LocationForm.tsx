@@ -20,6 +20,8 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { addLocation } from "@/api/locations";
 
 const formSchema = z.object({
   name: z
@@ -32,9 +34,10 @@ const formSchema = z.object({
     .min(2, { message: "Address must be at least 2 characters." })
     .max(50, { message: "Address must be at most 50 characters." }),
 
-  phoneNumber: z
-    .string()
-    .min(9, { message: "Phone number must be at least 9 digits." }),
+  phoneNumber: z.string().regex(/^\+?[0-9]{9,15}$/, {
+    message:
+      "Phone number must contain only digits and be 9–15 characters long.",
+  }),
 });
 
 const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -50,6 +53,11 @@ const LocationForm = () => {
       address: "",
       phoneNumber: "",
     },
+  });
+
+  const {} = useMutation({
+    mutationFn: addLocation,
+    onSuccess: () => {},
   });
 
   return (

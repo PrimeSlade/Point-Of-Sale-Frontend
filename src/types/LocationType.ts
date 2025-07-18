@@ -10,4 +10,15 @@ type LocationType = {
   };
 };
 
-export type { LocationType };
+type AddLocation = {
+  name: string;
+  address: string;
+  phoneNumber: string;
+};
+
+type LocationColumnsProps = {
+  onDelete: (id: number) => void;
+  isDeleting: boolean;
+};
+
+export type { LocationType, AddLocation, LocationColumnsProps };
