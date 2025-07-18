@@ -1,6 +1,6 @@
 import "./App.css";
 import Layout from "@/components/layout/Layout";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import InventoryPage from "./pages/InventoryPage";
 import PatientPage from "./pages/PatientPage";
@@ -27,6 +27,7 @@ function App() {
         <Route path="expenses" element={<ExpensesPage />} />
         <Route path="report" element={<ReportPage />} />
         <Route path="settings" element={<SettingPage />}>
+          <Route index element={<Navigate to="locations" replace />} />
           <Route path="locations" element={<LocationPage />} />
           <Route path="users" element={<UserPage />} />
           <Route path="general" element={<GeneralPage />} />

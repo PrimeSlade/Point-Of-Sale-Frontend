@@ -8,6 +8,7 @@ const InventoryPage = () => {
     <div>
       <Header
         header="Inventory & Services"
+        className="text-3xl"
         subHeader="Manage products and services offered"
         action={
           <DialogButton name="Add Item" icon={<Plus />} form={<ItemForm />} />

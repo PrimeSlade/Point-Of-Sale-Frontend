@@ -7,11 +7,10 @@ const SettingPage = () => {
     <div>
       <Header
         header="Settings"
+        className="text-3xl"
         subHeader="Manage clinic settings, locations, and users"
       />
-      <div className="w-full">
-        <SettingNav />
-      </div>
+      <SettingNav />
       <Outlet />
     </div>
   );
