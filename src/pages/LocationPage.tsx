@@ -1,16 +1,23 @@
-import { fetchLocations } from "@/api/locations";
+import { deleteLocations, fetchLocations } from "@/api/locations";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import LocationForm from "@/components/form/LocationForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
-import columns from "@/components/table/Columns";
+import LocationColumns from "@/components/columns/locationColumns";
 import { DataTable } from "@/components/table/data-table";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const LocationPage = () => {
+  const queryClient = useQueryClient();
+
   const { data, isLoading, error } = useQuery({
     queryFn: fetchLocations,
     queryKey: ["locations"],
@@ -18,23 +25,23 @@ const LocationPage = () => {
 
   const [errorOpen, setErrorOpen] = useState(false);
 
-  console.log(error);
-
   useEffect(() => {
     if (error) {
       setErrorOpen(true);
     }
   }, [error]);
 
-  // const { mutate } = useMutation({
-  //   mutationFn:
-  // });
+  const { mutate, isPending } = useMutation({
+    mutationFn: deleteLocations,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["locations"] });
+    },
+  });
+
+  const columns = LocationColumns(mutate, isPending);
 
   if (error) {
     return (
-      // <div className="p-4 bg-red-100 text-red-700 rounded">
-      //   Error: {error.message}
-      // </div>
       <AlertBox
         open={errorOpen}
         onClose={() => setErrorOpen(false)}

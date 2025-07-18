@@ -6,17 +6,18 @@ const fetchLocations = async () => {
 
     return data.data;
   } catch (error: any) {
-    console.log(error.response?.data);
     throw new Error(error.response?.data.error.message);
   }
 };
 
 const deleteLocations = async (id: number) => {
-  const { data } = await axiosInstance.delete(`/locations:${id}`);
+  try {
+    const { data } = await axiosInstance.delete(`/locations/${id}`);
 
-  if (!data.success) throw new Error(data.error.message);
-
-  return data.data;
+    return data.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data.error.message);
+  }
 };
 
 export { fetchLocations, deleteLocations };
