@@ -21,4 +21,14 @@ type LocationColumnsProps = {
   isDeleting: boolean;
 };
 
-export type { LocationType, AddLocation, LocationColumnsProps };
+type CreateLocationProps = {
+  onCreate: (data: AddLocation) => void;
+  isCreating: boolean;
+};
+
+export type {
+  LocationType,
+  AddLocation,
+  LocationColumnsProps,
+  CreateLocationProps,
+};

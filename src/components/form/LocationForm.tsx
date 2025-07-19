@@ -20,8 +20,7 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { addLocation } from "@/api/locations";
+import type { CreateLocationProps } from "@/types/LocationType";
 
 const formSchema = z.object({
   name: z
@@ -40,12 +39,7 @@ const formSchema = z.object({
   }),
 });
 
-const onSubmit = (values: z.infer<typeof formSchema>) => {
-  console.log("Submit triggered");
-  console.log(values);
-};
-
-const LocationForm = () => {
+const LocationForm = ({ onCreate, isCreating }: CreateLocationProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,10 +49,10 @@ const LocationForm = () => {
     },
   });
 
-  const {} = useMutation({
-    mutationFn: addLocation,
-    onSuccess: () => {},
-  });
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log(values);
+    onCreate(values);
+  };
 
   return (
     <DialogContent className="sm:max-w-[425px]">
@@ -114,6 +108,7 @@ const LocationForm = () => {
             </DialogClose>
             <Button
               type="submit"
+              disabled={isCreating}
               className="bg-[var(--success-color)] hover:bg-[var(--success-color-hover)]"
             >
               Add

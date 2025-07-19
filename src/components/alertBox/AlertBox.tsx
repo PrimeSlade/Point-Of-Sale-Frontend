@@ -46,7 +46,10 @@ const AlertBox = ({
               >
                 Cancel
               </AlertDialogCancel>
-              <AlertDialogAction onClick={onConfirm}>
+              <AlertDialogAction
+                onClick={onConfirm}
+                className="bg-[var(--danger-color)] hover:bg-[var(--danger-color-hover)]"
+              >
                 Continue
               </AlertDialogAction>
             </>

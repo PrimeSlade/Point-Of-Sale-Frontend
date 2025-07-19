@@ -1,6 +1,8 @@
 import type { LocationColumnsProps, LocationType } from "@/types/LocationType";
 import type { ColumnDef } from "@tanstack/react-table";
 import { PenLine, Trash2 } from "lucide-react";
+import AlertBox from "../alertBox/AlertBox";
+import { useState } from "react";
 
 const LocationColumns = ({
   onDelete,
@@ -27,6 +29,8 @@ const LocationColumns = ({
     cell: ({ row }) => {
       const location = row.original;
 
+      const [alertOpen, setAlertOpen] = useState(false);
+
       return (
         <>
           <div className="flex gap-5 items-center">
@@ -36,13 +40,21 @@ const LocationColumns = ({
                 className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
               />
             </button>
-            <button onClick={() => onDelete(location.id)} disabled={isDeleting}>
+            <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
               <Trash2
                 size={20}
                 className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
               />
             </button>
           </div>
+          <AlertBox
+            open={alertOpen}
+            title="Confirm Deletion?"
+            description="Are you sure you want to delete this?"
+            onClose={() => setAlertOpen(false)}
+            onConfirm={() => onDelete(location.id)}
+            mode="confirm"
+          />
         </>
       );
     },
