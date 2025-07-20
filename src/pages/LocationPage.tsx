@@ -1,4 +1,4 @@
-import { addLocation, deleteLocation, fetchLocations } from "@/api/locations";
+import { deleteLocation, fetchLocations } from "@/api/locations";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import LocationForm from "@/components/form/LocationForm";
@@ -6,12 +6,7 @@ import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import LocationColumns from "@/components/columns/locationColumns";
 import { DataTable } from "@/components/table/data-table";
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -22,17 +17,6 @@ const LocationPage = () => {
   const [errorOpen, setErrorOpen] = useState(false);
 
   const {
-    mutate: addLocationMutate,
-    isPending: isCreating,
-    error: createError,
-  } = useMutation({
-    mutationFn: addLocation,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["locations"] });
-    },
-  });
-
-  const {
     data,
     isLoading,
     error: fetchError,
@@ -41,13 +25,11 @@ const LocationPage = () => {
     queryKey: ["locations"],
   });
 
-  const error = createError || fetchError;
-
   useEffect(() => {
-    if (error) {
+    if (fetchError) {
       setErrorOpen(true);
     }
-  }, [error]);
+  }, [fetchError]);
 
   const { mutate: deleteLocationMutate, isPending: isDeleting } = useMutation({
     mutationFn: deleteLocation,
@@ -64,36 +46,32 @@ const LocationPage = () => {
   if (isLoading) return <Loading className="h-150" />;
 
   return (
-    <div>
-      <Header
-        header="Locations"
-        className="text-2xl"
-        action={
-          <DialogButton
-            isFormOpen={isFormOpen}
-            setIsFormOpen={() => setIsFormOpen(true)}
-            name="Add Location"
-            icon={<Plus />}
-            form={
-              <LocationForm
-                onCreate={addLocationMutate}
-                isCreating={isCreating}
-              />
-            }
-          />
-        }
-      />
-      <DataTable columns={columns} data={data} />
-      {error && (
-        <AlertBox
-          open={errorOpen}
-          onClose={() => setErrorOpen(false)}
-          title="Error"
-          description={error.message}
-          mode={"error"}
+    <>
+      <div>
+        <Header
+          header="Locations"
+          className="text-2xl"
+          action={
+            <DialogButton
+              name="Add Location"
+              icon={<Plus />}
+              openFrom={() => setIsFormOpen(true)}
+            />
+          }
         />
-      )}
-    </div>
+        <DataTable columns={columns} data={data ?? []} />
+        {fetchError && (
+          <AlertBox
+            open={errorOpen}
+            onClose={() => setErrorOpen(false)}
+            title="Error"
+            description={fetchError.message}
+            mode={"error"}
+          />
+        )}
+      </div>
+      <LocationForm open={isFormOpen} onClose={setIsFormOpen} />
+    </>
   );
 };
 

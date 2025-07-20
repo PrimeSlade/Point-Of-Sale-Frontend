@@ -49,7 +49,7 @@ const LocationColumns = ({
           </div>
           <AlertBox
             open={alertOpen}
-            title="Confirm Deletion?"
+            title="Confirm Deletion"
             description="Are you sure you want to delete this?"
             onClose={() => setAlertOpen(false)}
             onConfirm={() => onDelete(location.id)}

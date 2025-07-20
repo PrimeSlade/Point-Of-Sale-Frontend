@@ -10,9 +10,7 @@ const InventoryPage = () => {
         header="Inventory & Services"
         className="text-3xl"
         subHeader="Manage products and services offered"
-        action={
-          <DialogButton name="Add Item" icon={<Plus />} form={<ItemForm />} />
-        }
+        action={<DialogButton name="Add Item" icon={<Plus />} />}
       />
       <p>
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum, id nam

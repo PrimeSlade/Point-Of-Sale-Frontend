@@ -1,3 +1,5 @@
+import type { Dispatch, SetStateAction } from "react";
+
 type LocationType = {
   id: number;
   name: string;
@@ -22,8 +24,8 @@ type LocationColumnsProps = {
 };
 
 type CreateLocationProps = {
-  onCreate: (data: AddLocation) => void;
-  isCreating: boolean;
+  open: boolean;
+  onClose: Dispatch<SetStateAction<boolean>>;
 };
 
 export type {
