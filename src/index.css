@@ -180,3 +180,14 @@ button:focus-visible {
     --sidebar-ring: oklch(0.439 0 0);
   }
 }
+
+/* remove number input spinners */
+.no-spinner::-webkit-outer-spin-button,
+.no-spinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-spinner {
+  -moz-appearance: textfield; /* Firefox */
+}

@@ -4,7 +4,7 @@ import DialogButton from "@/components/button/DialogButton";
 import LocationForm from "@/components/form/LocationForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
-import LocationColumns from "@/components/columns/locationColumns";
+import LocationColumns from "@/components/columns/LocationColumns";
 import { DataTable } from "@/components/table/data-table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";

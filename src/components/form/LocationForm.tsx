@@ -25,23 +25,6 @@ import type { CreateLocationProps } from "@/types/LocationType";
 import { addLocation, editLocation } from "@/api/locations";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Name must be at least 2 characters." })
-    .max(50, { message: "Name must be at most 50 characters." }),
-
-  address: z
-    .string()
-    .min(2, { message: "Address must be at least 2 characters." })
-    .max(50, { message: "Address must be at most 50 characters." }),
-
-  phoneNumber: z.string().regex(/^\+?[0-9]{9,15}$/, {
-    message:
-      "Phone number must contain only digits and be 9–15 characters long.",
-  }),
-});
-
 const LocationForm = ({
   open,
   onClose,
@@ -51,16 +34,8 @@ const LocationForm = ({
   phoneNumber,
   id,
 }: CreateLocationProps) => {
+  //TenStack
   const queryClient = useQueryClient();
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "" || name,
-      address: "" || address,
-      phoneNumber: "" || phoneNumber,
-    },
-  });
 
   const {
     mutate: addLocationMutate,
@@ -85,6 +60,33 @@ const LocationForm = ({
       queryClient.invalidateQueries({ queryKey: ["locations"] }),
         form.reset(),
         onClose(false);
+    },
+  });
+
+  //From
+  const formSchema = z.object({
+    name: z
+      .string()
+      .min(2, { message: "Name must be at least 2 characters." })
+      .max(50, { message: "Name must be at most 50 characters." }),
+
+    address: z
+      .string()
+      .min(2, { message: "Address must be at least 2 characters." })
+      .max(50, { message: "Address must be at most 50 characters." }),
+
+    phoneNumber: z.string().regex(/^\+?[0-9]{9,15}$/, {
+      message:
+        "Phone number must contain only digits and be 9–15 characters long.",
+    }),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "" || name,
+      address: "" || address,
+      phoneNumber: "" || phoneNumber,
     },
   });
 
