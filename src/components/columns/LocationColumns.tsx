@@ -3,6 +3,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { PenLine, Trash2 } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
+import LocationForm from "../form/LocationForm";
 
 const LocationColumns = ({
   onDelete,
@@ -30,11 +31,12 @@ const LocationColumns = ({
       const location = row.original;
 
       const [alertOpen, setAlertOpen] = useState(false);
+      const [isFormOpen, setIsFormOpen] = useState(false);
 
       return (
         <>
           <div className="flex gap-5 items-center">
-            <button>
+            <button onClick={() => setIsFormOpen(true)}>
               <PenLine
                 size={20}
                 className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
@@ -54,6 +56,15 @@ const LocationColumns = ({
             onClose={() => setAlertOpen(false)}
             onConfirm={() => onDelete(location.id)}
             mode="confirm"
+          />
+          <LocationForm
+            open={isFormOpen}
+            onClose={setIsFormOpen}
+            mode="edit"
+            name={location.name}
+            address={location.address}
+            phoneNumber={location.phoneNumber.number}
+            id={location.id}
           />
         </>
       );

@@ -22,7 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import type { CreateLocationProps } from "@/types/LocationType";
-import { addLocation } from "@/api/locations";
+import { addLocation, editLocation } from "@/api/locations";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const formSchema = z.object({
@@ -42,15 +42,23 @@ const formSchema = z.object({
   }),
 });
 
-const LocationForm = ({ open, onClose }: CreateLocationProps) => {
+const LocationForm = ({
+  open,
+  onClose,
+  mode,
+  name,
+  address,
+  phoneNumber,
+  id,
+}: CreateLocationProps) => {
   const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      address: "",
-      phoneNumber: "",
+      name: "" || name,
+      address: "" || address,
+      phoneNumber: "" || phoneNumber,
     },
   });
 
@@ -67,8 +75,25 @@ const LocationForm = ({ open, onClose }: CreateLocationProps) => {
     },
   });
 
+  const {
+    mutate: editLocationMutate,
+    isPending: isEditing,
+    error: editError,
+  } = useMutation({
+    mutationFn: editLocation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["locations"] }),
+        form.reset(),
+        onClose(false);
+    },
+  });
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    addLocationMutate(values);
+    if (mode === "create") {
+      addLocationMutate(values);
+    } else {
+      editLocationMutate({ id: id!, input: values });
+    }
   };
 
   return (
@@ -138,7 +163,7 @@ const LocationForm = ({ open, onClose }: CreateLocationProps) => {
                   disabled={isCreating}
                   className="bg-[var(--success-color)] hover:bg-[var(--success-color-hover)]"
                 >
-                  Add
+                  {mode === "create" ? "Add" : "Save Changes"}
                 </Button>
               </DialogFooter>
             </form>

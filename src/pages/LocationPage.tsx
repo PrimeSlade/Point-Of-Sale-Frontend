@@ -70,7 +70,7 @@ const LocationPage = () => {
           />
         )}
       </div>
-      <LocationForm open={isFormOpen} onClose={setIsFormOpen} />
+      <LocationForm open={isFormOpen} onClose={setIsFormOpen} mode="create" />
     </>
   );
 };

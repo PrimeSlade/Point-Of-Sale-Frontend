@@ -18,12 +18,22 @@ type AddLocation = {
   phoneNumber: string;
 };
 
+type EditLocation = {
+  id: number;
+  input: AddLocation;
+};
+
 type LocationColumnsProps = {
   onDelete: (id: number) => void;
   isDeleting: boolean;
 };
 
 type CreateLocationProps = {
+  id?: number;
+  name?: string;
+  address?: string;
+  phoneNumber?: string;
+  mode: "create" | "edit";
   open: boolean;
   onClose: Dispatch<SetStateAction<boolean>>;
 };
@@ -33,4 +43,5 @@ export type {
   AddLocation,
   LocationColumnsProps,
   CreateLocationProps,
+  EditLocation,
 };

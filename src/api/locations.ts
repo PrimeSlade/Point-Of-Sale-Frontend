@@ -1,5 +1,5 @@
 import axiosInstance from "@/axiosInstance";
-import type { AddLocation } from "@/types/LocationType";
+import type { AddLocation, EditLocation } from "@/types/LocationType";
 
 const addLocation = async (input: AddLocation) => {
   try {
@@ -21,6 +21,16 @@ const fetchLocations = async () => {
   }
 };
 
+const editLocation = async ({ id, input }: EditLocation) => {
+  try {
+    const { data } = await axiosInstance.put(`/locations/${id}`, input);
+
+    return data.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data.error.message);
+  }
+};
+
 const deleteLocation = async (id: number) => {
   try {
     const { data } = await axiosInstance.delete(`/locations/${id}`);
@@ -31,4 +41,4 @@ const deleteLocation = async (id: number) => {
   }
 };
 
-export { addLocation, fetchLocations, deleteLocation };
+export { addLocation, fetchLocations, editLocation, deleteLocation };
