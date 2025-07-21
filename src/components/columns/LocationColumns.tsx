@@ -12,10 +12,13 @@ const LocationColumns = ({
   {
     accessorKey: "name",
     header: () => <div className="font-bold">Name</div>,
+    enableGlobalFilter: true, //default
   },
   {
-    accessorKey: "phoneNumber",
+    id: "phoneNumber",
+    accessorFn: (row) => row.phoneNumber?.number ?? "",
     header: () => <div className="font-bold">Phone Number</div>,
+    enableGlobalFilter: true,
     cell: ({ row }) => {
       return row.original.phoneNumber?.number;
     },
