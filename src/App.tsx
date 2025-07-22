@@ -2,7 +2,7 @@ import "./App.css";
 import Layout from "@/components/layout/Layout";
 import { Navigate, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import InventoryPage from "./pages/InventoryPage";
+import InventoryPage from "./pages/Inventory/InventoryPage";
 import PatientPage from "./pages/PatientPage";
 import DoctorPage from "./pages/DoctorPage";
 import TreatmentPage from "./pages/TreatmentPage";
@@ -13,13 +13,18 @@ import SettingPage from "./pages/SettingPage";
 import LocationPage from "./pages/LocationPage";
 import UserPage from "./pages/UserPage";
 import GeneralPage from "./pages/GeneralPage";
+import AddItemPage from "./pages/Inventory/AddItemPage";
+import ItemServicePage from "./pages/Inventory/ItemServicePage";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<LoginPage />} />
       <Route path="/dashboard" element={<Layout />}>
-        <Route path="items" element={<InventoryPage />} />
+        <Route path="items" element={<InventoryPage />}>
+          <Route index element={<ItemServicePage />} />
+          <Route path="add" element={<AddItemPage />} />
+        </Route>
         <Route path="patients" element={<PatientPage />} />
         <Route path="doctors" element={<DoctorPage />} />
         <Route path="treatments" element={<TreatmentPage />} />

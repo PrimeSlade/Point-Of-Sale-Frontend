@@ -1,13 +1,4 @@
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
   Form,
   FormControl,
   FormDescription,
@@ -41,15 +32,15 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { fetchLocations } from "@/api/locations";
 import type { LocationType } from "@/types/LocationType";
+import { useFieldArray } from "react-hook-form";
 
 const ItemForm = ({
-  open,
-  onClose,
   mode,
   name,
   category,
   exp,
   id,
+  itemUnits,
 }: CreateItemProps) => {
   //TenStack
   const queryClient = useQueryClient();
@@ -107,7 +98,25 @@ const ItemForm = ({
     "tab",
   ];
 
-  //From
+  //Form
+
+  const subUnitSchema = z.object({
+    unit: z.enum(unitType, {
+      message: "Plese select a valid unit",
+    }),
+
+    quantity: z
+      .number({
+        message: "Quantity must be a number",
+      })
+      .int({ message: "Quantity must be a whole number" })
+      .min(1, { message: "Quantity must be at least 1." }),
+
+    purchasePrice: z
+      .number()
+      .min(0, { message: "Purchase price cannot be negative." }),
+  });
+
   const formSchema = z.object({
     name: z
       .string()
@@ -132,19 +141,9 @@ const ItemForm = ({
       .min(0, { message: "Price percent cannot be less than 0%." })
       .max(100, { message: "Price percent cannot exceed 100%." }),
 
-    // unit: z.enum(unitType, {
-    //   message: "Plese select a valid unit",
-    // }),
-
-    // quantity: z
-    //   .number({
-    //     message: "Quantity must be a number",
-    //   })
-    //   .min(1, { message: "Quantity must be at least 1." }),
-
-    // purchasePrice: z.coerce
-    //   .number()
-    //   .min(0, { message: "Purchase price cannot be negative." }),
+    itemUnits: z.array(subUnitSchema).length(3, {
+      message: "You must provide exactly 3 units.",
+    }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -155,9 +154,11 @@ const ItemForm = ({
       exp: "" || exp,
       location: "",
       pricePercent: undefined,
-      // unit: "",
-      // quantity: undefined,
-      // purchasePrice: 0,
+      itemUnits: [
+        { unit: undefined, quantity: undefined, purchasePrice: undefined },
+        { unit: undefined, quantity: undefined, purchasePrice: undefined },
+        { unit: undefined, quantity: undefined, purchasePrice: undefined },
+      ],
     },
   });
 
@@ -170,15 +171,20 @@ const ItemForm = ({
     console.log(values);
   };
 
+  const { fields } = useFieldArray({
+    control: form.control,
+    name: "itemUnits",
+  });
+
   return (
     <>
-      <Dialog open={open} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Add New Item</DialogTitle>
-          </DialogHeader>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 w-[50%] mx-auto mt-20 border p-5 rounded-2xl shadow"
+        >
+          <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
               <FormField
                 control={form.control}
                 name="name"
@@ -297,61 +303,120 @@ const ItemForm = ({
                   </FormItem>
                 )}
               />
-              {/* <FormField
-                control={form.control}
-                name="unit"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Location</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+            </div>
+
+            {/* Units */}
+
+            {fields.map((field, index) => (
+              <div
+                className="grid grid-cols-1 lg:grid-cols-3 gap-3"
+                key={field.id}
+              >
+                <FormField
+                  control={form.control}
+                  name={`itemUnits.${index}.unit`}
+                  render={({ field }) => (
+                    <FormItem className="h-3">
+                      <FormLabel>Unit Types</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className=" w-full min-w-[150px]">
+                            <SelectValue placeholder="Select a Type" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {unitType?.map((d, i) => (
+                            <SelectItem value={d} key={i}>
+                              {d}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name={`itemUnits.${index}.quantity`}
+                  render={({ field }) => (
+                    <FormItem className="h-3">
+                      <FormLabel>Quantitiy</FormLabel>
                       <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select a Location" />
-                        </SelectTrigger>
+                        <Input
+                          placeholder="Quantity"
+                          type="number"
+                          className="no-spinner"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.value === ""
+                                ? undefined
+                                : Number(e.target.value)
+                            )
+                          }
+                        />
                       </FormControl>
-                      <SelectContent>
-                        {data?.map((d: LocationType) => (
-                          <SelectItem value={d.name} key={d.id}>
-                            {d.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name={`itemUnits.${index}.purchasePrice`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Purchase Price</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Price"
+                          type="number"
+                          className="no-spinner"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.value === ""
+                                ? undefined
+                                : Number(e.target.value)
+                            )
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            ))}
+          </div>
 
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
-
-              {/* {createError && (
+          {/* {createError && (
                 <div className="text-[var(--danger-color)] text-center font-medium">
                   {createError.message}
                 </div>
               )} */}
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button
-                    className="bg-[var(--danger-color)] hover:bg-[var(--danger-color-hover)]"
-                    onClick={() => form.reset()}
-                  >
-                    Cancel
-                  </Button>
-                </DialogClose>
-                <Button
-                  type="submit"
-                  //disabled={isCreating}
-                  className="bg-[var(--success-color)] hover:bg-[var(--success-color-hover)]"
-                >
-                  {mode === "create" ? "Add" : "Save Changes"}
-                </Button>
-              </DialogFooter>
-            </form>
-          </Form>
-        </DialogContent>
-      </Dialog>
+          <div className="flex gap-3 justify-end">
+            <Button
+              className="bg-[var(--danger-color)] hover:bg-[var(--danger-color-hover)]"
+              onClick={() => form.reset()}
+            >
+              Cancel
+            </Button>
+
+            <Button
+              type="submit"
+              //disabled={isCreating}
+              className="bg-[var(--success-color)] hover:bg-[var(--success-color-hover)]"
+            >
+              {mode === "create" ? "Add" : "Save Changes"}
+            </Button>
+          </div>
+        </form>
+      </Form>
     </>
   );
 };

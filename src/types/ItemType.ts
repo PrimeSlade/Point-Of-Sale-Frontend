@@ -1,13 +1,16 @@
-import type { Dispatch, SetStateAction } from "react";
-
 type CreateItemProps = {
   id?: number;
   name?: string;
   category?: string;
   exp?: Date;
+  itemUnits: ItemUnits;
   mode: "create" | "edit";
-  open: boolean;
-  onClose: Dispatch<SetStateAction<boolean>>;
 };
 
-export type { CreateItemProps };
+type ItemUnits = {
+  unit: string;
+  quantity: number;
+  purchasePrice: number;
+};
+
+export type { CreateItemProps, ItemUnits };
