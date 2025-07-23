@@ -64,9 +64,9 @@ const LocationColumns = ({
             open={isFormOpen}
             onClose={setIsFormOpen}
             mode="edit"
-            name={location.name}
-            address={location.address}
-            phoneNumber={location.phoneNumber.number}
+            oldName={location.name}
+            oldAddress={location.address}
+            oldPhoneNumber={location.phoneNumber.number}
             id={location.id}
           />
         </>

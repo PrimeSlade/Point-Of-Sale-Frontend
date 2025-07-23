@@ -29,9 +29,9 @@ const LocationForm = ({
   open,
   onClose,
   mode,
-  name,
-  address,
-  phoneNumber,
+  oldName,
+  oldAddress,
+  oldPhoneNumber,
   id,
 }: CreateLocationProps) => {
   //TenStack
@@ -84,9 +84,9 @@ const LocationForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "" || name,
-      address: "" || address,
-      phoneNumber: "" || phoneNumber,
+      name: "" || oldName,
+      address: "" || oldAddress,
+      phoneNumber: "" || oldPhoneNumber,
     },
   });
 

@@ -30,9 +30,9 @@ type LocationColumnsProps = {
 
 type CreateLocationProps = {
   id?: number;
-  name?: string;
-  address?: string;
-  phoneNumber?: string;
+  oldName?: string;
+  oldAddress?: string;
+  oldPhoneNumber?: string;
   mode: "create" | "edit";
   open: boolean;
   onClose: Dispatch<SetStateAction<boolean>>;
