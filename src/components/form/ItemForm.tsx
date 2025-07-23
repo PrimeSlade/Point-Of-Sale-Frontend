@@ -25,7 +25,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import type { CreateItemProps } from "@/types/ItemType";
+import type { ItemFormProps } from "@/types/ItemType";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
@@ -33,17 +33,22 @@ import { cn } from "@/lib/utils";
 import { fetchLocations } from "@/api/locations";
 import type { LocationType } from "@/types/LocationType";
 import { useFieldArray } from "react-hook-form";
+import { addItem } from "@/api/inventories";
+import { useNavigate } from "react-router-dom";
 
 const ItemForm = ({
   mode,
-  name,
-  category,
-  exp,
+  oldName,
+  oldCategory,
+  oldExpiryDate,
   id,
-  itemUnits,
-}: CreateItemProps) => {
+  oldItemUnits,
+  oldPricePercent,
+  oldDescription,
+}: ItemFormProps) => {
   //TenStack
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const {
     data,
@@ -53,32 +58,6 @@ const ItemForm = ({
     queryFn: fetchLocations,
     queryKey: ["locations"],
   });
-
-  // const {
-  //   mutate: addLocationMutate,
-  //   isPending: isCreating,
-  //   error: createError,
-  // } = useMutation({
-  //   mutationFn: addLocation,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["locations"] }),
-  //       form.reset(),
-  //       onClose(false);
-  //   },
-  // });
-
-  // const {
-  //   mutate: editLocationMutate,
-  //   isPending: isEditing,
-  //   error: editError,
-  // } = useMutation({
-  //   mutationFn: editLocation,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["locations"] }),
-  //       form.reset(),
-  //       onClose(false);
-  //   },
-  // });
 
   //Enum
   const locationNames = data
@@ -96,12 +75,11 @@ const ItemForm = ({
     "box",
     "pkg",
     "tab",
-  ];
+  ] as const;
 
   //Form
-
   const subUnitSchema = z.object({
-    unit: z.enum(unitType, {
+    unitType: z.enum(unitType, {
       message: "Plese select a valid unit",
     }),
 
@@ -128,11 +106,11 @@ const ItemForm = ({
       .min(2, { message: "Name must be at least 2 characters." })
       .max(50, { message: "Name must be at most 50 characters." }),
 
-    exp: z.date({
+    expiryDate: z.date({
       message: "Expire date is required.",
     }),
 
-    location: z.enum(locationNames, {
+    locationId: z.enum(locationNames, {
       message: "Please select a valid location.",
     }),
 
@@ -140,6 +118,8 @@ const ItemForm = ({
       .number()
       .min(0, { message: "Price percent cannot be less than 0%." })
       .max(100, { message: "Price percent cannot exceed 100%." }),
+
+    description: z.string().optional(),
 
     itemUnits: z.array(subUnitSchema).length(3, {
       message: "You must provide exactly 3 units.",
@@ -149,28 +129,76 @@ const ItemForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "" || name,
-      category: "" || category,
-      exp: "" || exp,
-      location: "",
-      pricePercent: undefined,
+      name: oldName || "",
+      category: oldCategory || "",
+      expiryDate: oldExpiryDate || undefined,
+      locationId: "",
+      pricePercent: oldPricePercent || undefined,
+      description: "",
       itemUnits: [
-        { unit: undefined, quantity: undefined, purchasePrice: undefined },
-        { unit: undefined, quantity: undefined, purchasePrice: undefined },
-        { unit: undefined, quantity: undefined, purchasePrice: undefined },
+        {
+          unitType: undefined,
+          quantity: undefined,
+          purchasePrice: undefined,
+        },
+        {
+          unitType: undefined,
+          quantity: undefined,
+          purchasePrice: undefined,
+        },
+        {
+          unitType: undefined,
+          quantity: undefined,
+          purchasePrice: undefined,
+        },
       ],
     },
   });
 
+  //Tenstack
+  const {
+    mutate: addItemMutate,
+    isPending: isCreating,
+    error: createError,
+  } = useMutation({
+    mutationFn: addItem,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["items"] });
+      form.reset();
+      navigate("/dashboard/items");
+    },
+  });
+
+  // const {
+  //   mutate: editLocationMutate,
+  //   isPending: isEditing,
+  //   error: editError,
+  // } = useMutation({
+  //   mutationFn: editLocation,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ["locations"] }),
+  //       form.reset(),
+  //       onClose(false);
+  //   },
+  // });
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     // if (mode === "create") {
-    //   addLocationMutate(values);
+
+    console.log(values);
+    const { itemUnits, ...item } = values;
+
+    //convert location name to id
+    const { id } = data.find((d: LocationType) => d.name === item.locationId);
+    item.locationId = id;
+
+    addItemMutate({ item, itemUnits });
     // } else {
     //   editLocationMutate({ id: id!, input: values });
     // }
-    console.log(values);
   };
 
+  //for units
   const { fields } = useFieldArray({
     control: form.control,
     name: "itemUnits",
@@ -181,7 +209,7 @@ const ItemForm = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 w-[50%] mx-auto mt-20 border p-5 rounded-2xl shadow"
+          className="space-y-4 w-[80%] mx-auto mt-20 border rounded-2xl shadow p-10"
         >
           <div className="flex flex-col gap-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
@@ -213,9 +241,9 @@ const ItemForm = ({
               />
               <FormField
                 control={form.control}
-                name="exp"
+                name="expiryDate"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col">
+                  <FormItem>
                     <FormLabel>Expire Date</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
@@ -243,6 +271,8 @@ const ItemForm = ({
                           onSelect={field.onChange}
                           disabled={(date) => date < new Date("1900-01-01")}
                           captionLayout="dropdown"
+                          fromYear={1900}
+                          toYear={new Date().getFullYear() + 10}
                         />
                       </PopoverContent>
                     </Popover>
@@ -252,7 +282,7 @@ const ItemForm = ({
               />
               <FormField
                 control={form.control}
-                name="location"
+                name="locationId"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Location</FormLabel>
@@ -303,10 +333,22 @@ const ItemForm = ({
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Description" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
             {/* Units */}
-
             {fields.map((field, index) => (
               <div
                 className="grid grid-cols-1 lg:grid-cols-3 gap-3"
@@ -314,9 +356,9 @@ const ItemForm = ({
               >
                 <FormField
                   control={form.control}
-                  name={`itemUnits.${index}.unit`}
+                  name={`itemUnits.${index}.unitType`}
                   render={({ field }) => (
-                    <FormItem className="h-3">
+                    <FormItem>
                       <FormLabel>Unit Types</FormLabel>
                       <Select
                         onValueChange={field.onChange}
@@ -344,7 +386,7 @@ const ItemForm = ({
                   control={form.control}
                   name={`itemUnits.${index}.quantity`}
                   render={({ field }) => (
-                    <FormItem className="h-3">
+                    <FormItem>
                       <FormLabel>Quantitiy</FormLabel>
                       <FormControl>
                         <Input
@@ -394,22 +436,15 @@ const ItemForm = ({
             ))}
           </div>
 
-          {/* {createError && (
-                <div className="text-[var(--danger-color)] text-center font-medium">
-                  {createError.message}
-                </div>
-              )} */}
+          {createError && (
+            <div className="text-[var(--danger-color)] text-center font-medium">
+              {createError.message}
+            </div>
+          )}
           <div className="flex gap-3 justify-end">
             <Button
-              className="bg-[var(--danger-color)] hover:bg-[var(--danger-color-hover)]"
-              onClick={() => form.reset()}
-            >
-              Cancel
-            </Button>
-
-            <Button
               type="submit"
-              //disabled={isCreating}
+              disabled={isCreating}
               className="bg-[var(--success-color)] hover:bg-[var(--success-color-hover)]"
             >
               {mode === "create" ? "Add" : "Save Changes"}

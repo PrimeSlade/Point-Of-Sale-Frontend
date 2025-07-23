@@ -2,19 +2,19 @@ import "./App.css";
 import Layout from "@/components/layout/Layout";
 import { Navigate, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import InventoryPage from "./pages/Inventory/InventoryPage";
+import InventoryPage from "./pages/inventory/InventoryPage";
 import PatientPage from "./pages/PatientPage";
 import DoctorPage from "./pages/DoctorPage";
 import TreatmentPage from "./pages/TreatmentPage";
 import InvoicePage from "./pages/InvoicePage";
 import ExpensesPage from "./pages/ExpensesPage";
 import ReportPage from "./pages/ReportPage";
-import SettingPage from "./pages/SettingPage";
-import LocationPage from "./pages/LocationPage";
-import UserPage from "./pages/UserPage";
-import GeneralPage from "./pages/GeneralPage";
-import AddItemPage from "./pages/Inventory/AddItemPage";
-import ItemServicePage from "./pages/Inventory/ItemServicePage";
+import SettingPage from "./pages/setting/SettingPage";
+import LocationPage from "./pages/setting/LocationPage";
+import UserPage from "./pages/setting/UserPage";
+import GeneralPage from "./pages/setting/GeneralPage";
+import AddItemPage from "./pages/inventory/AddItemPage";
+import ItemServicePage from "./pages/inventory/ItemPage";
 
 function App() {
   return (
