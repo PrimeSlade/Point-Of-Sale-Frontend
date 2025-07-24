@@ -5,12 +5,25 @@ type ItemFormProps = {
   oldExpiryDate?: Date;
   oldDescription?: string;
   oldPricePercent?: number;
-  oldItemUnits?: ItemUnits;
+  oldItemUnits?: ItemUnits[];
+  oldLocation?: string;
   mode: "create" | "edit";
 };
 
+type unitType =
+  | "btl"
+  | "amp"
+  | "tube"
+  | "strip"
+  | "cap"
+  | "pcs"
+  | "sac"
+  | "box"
+  | "pkg"
+  | "tab";
+
 type ItemUnits = {
-  unitType: string;
+  unitType: unitType;
   quantity: number;
   purchasePrice: number;
 };
@@ -42,6 +55,7 @@ type ItemColumnsProps = {
 };
 
 type ReturnedItemType = Item & {
+  id: number;
   location: Location;
 };
 

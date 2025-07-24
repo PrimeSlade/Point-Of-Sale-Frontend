@@ -1,10 +1,10 @@
-import type { LocationType } from "@/types/LocationType";
 import type { ColumnDef } from "@tanstack/react-table";
 import { PenLine, Trash2 } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
 import type { ItemColumnsProps, ReturnedItemType } from "@/types/ItemType";
 import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 const ItemColumns = ({
   onDelete,
@@ -66,9 +66,19 @@ const ItemColumns = ({
       const [alertOpen, setAlertOpen] = useState(false);
       const [isFormOpen, setIsFormOpen] = useState(false);
 
+      const navigate = useNavigate();
+
       return (
         <>
           <div className="flex gap-5 items-center">
+            <button
+              onClick={() => navigate(`/dashboard/items/edit/${item.id}`)}
+            >
+              <PenLine
+                size={20}
+                className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
+              />
+            </button>
             <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
               <Trash2
                 size={20}

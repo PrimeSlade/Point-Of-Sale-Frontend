@@ -44,6 +44,7 @@ const ItemForm = ({
   oldItemUnits,
   oldPricePercent,
   oldDescription,
+  oldLocation,
 }: ItemFormProps) => {
   //TenStack
   const queryClient = useQueryClient();
@@ -131,10 +132,10 @@ const ItemForm = ({
       name: oldName || "",
       category: oldCategory || "",
       expiryDate: oldExpiryDate || undefined,
-      locationId: "",
+      locationId: oldLocation || "",
       pricePercent: oldPricePercent || undefined,
-      description: "",
-      itemUnits: [
+      description: oldDescription || "",
+      itemUnits: oldItemUnits || [
         {
           unitType: undefined,
           quantity: undefined,

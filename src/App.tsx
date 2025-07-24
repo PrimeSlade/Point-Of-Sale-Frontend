@@ -13,8 +13,9 @@ import SettingPage from "./pages/setting/SettingPage";
 import LocationPage from "./pages/setting/LocationPage";
 import UserPage from "./pages/setting/UserPage";
 import GeneralPage from "./pages/setting/GeneralPage";
-import AddItemPage from "./pages/inventory/AddItemPage";
+
 import ItemServicePage from "./pages/inventory/ItemPage";
+import ItemFormPage from "./pages/inventory/ItemFormPage";
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
       <Route path="/dashboard" element={<Layout />}>
         <Route path="items" element={<InventoryPage />}>
           <Route index element={<ItemServicePage />} />
-          <Route path="add" element={<AddItemPage />} />
+          <Route path="add" element={<ItemFormPage />} />
+          <Route path="edit/:id" element={<ItemFormPage />} />
         </Route>
         <Route path="patients" element={<PatientPage />} />
         <Route path="doctors" element={<DoctorPage />} />

@@ -24,6 +24,16 @@ const getItems = async () => {
   }
 };
 
+const getItemById = async (id: number) => {
+  try {
+    const { data } = await axiosInstance.get(`/items/${id}`);
+
+    return data.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data.error.message);
+  }
+};
+
 const deleteItem = async (id: number) => {
   try {
     const { data } = await axiosInstance.delete(`/items/${id}`);
@@ -34,4 +44,4 @@ const deleteItem = async (id: number) => {
   }
 };
 
-export { addItem, getItems, deleteItem };
+export { addItem, getItems, getItemById, deleteItem };

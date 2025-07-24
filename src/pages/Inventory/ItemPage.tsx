@@ -4,6 +4,7 @@ import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import ItemColumns from "@/components/columns/ItemColumns";
 import Header from "@/components/header/Header";
+import Loading from "@/components/loading/Loading";
 import { DataTable } from "@/components/table/data-table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
@@ -56,6 +57,8 @@ const ItemServicePage = () => {
     onDelete: deleteItemMutate,
     isDeleting,
   });
+
+  if (isLoading) return <Loading className="h-150" />;
 
   return (
     <div>
