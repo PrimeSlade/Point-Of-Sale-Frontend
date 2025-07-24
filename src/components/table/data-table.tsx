@@ -16,13 +16,33 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import type { FilterFn } from "@tanstack/react-table";
+import { Button } from "../ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { useQuery } from "@tanstack/react-query";
+import { fetchLocations } from "@/api/locations";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  prompt: string;
 }
 
 const globalFuzzyFilter: FilterFn<any> = (row, columnId, filterValue) => {
@@ -33,6 +53,7 @@ const globalFuzzyFilter: FilterFn<any> = (row, columnId, filterValue) => {
 export function DataTable<TData, TValue>({
   columns,
   data,
+  prompt,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -51,16 +72,49 @@ export function DataTable<TData, TValue>({
     onGlobalFilterChange: setGlobalFilter,
   });
 
+  const {
+    data: locations,
+    isLoading,
+    error: fetchError,
+  } = useQuery({
+    queryFn: fetchLocations,
+    queryKey: ["locations"],
+  });
+
   return (
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Search by names or phone number..."
+          placeholder={prompt}
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}
           className="max-w-sm"
         />
+        {/* undefined for no filtering */}
+        <Select
+          value={
+            (table.getColumn("location")?.getFilterValue() as string) || "__all"
+          }
+          onValueChange={(value) =>
+            table
+              .getColumn("location")
+              ?.setFilterValue(value === "__all" ? undefined : value)
+          }
+        >
+          <SelectTrigger className="ml-auto">
+            <SelectValue placeholder="Select location" />
+          </SelectTrigger>
+          <SelectContent align="end">
+            <SelectItem value="__all">All Locations</SelectItem>
+            {locations?.map((loc: any) => (
+              <SelectItem key={loc.name} value={loc.name}>
+                {loc.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
+
       <div className="rounded-md border">
         <Table>
           <TableHeader>

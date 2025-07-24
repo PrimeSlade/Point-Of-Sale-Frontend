@@ -64,7 +64,11 @@ const ItemServicePage = () => {
           </div>
         }
       />
-      <DataTable columns={columns} data={data ?? []} />
+      <DataTable
+        columns={columns}
+        data={data ?? []}
+        prompt="Search by item names or category"
+      />
       {fetchError && (
         <AlertBox
           open={errorOpen}

@@ -59,7 +59,11 @@ const LocationPage = () => {
             />
           }
         />
-        <DataTable columns={columns} data={data ?? []} />
+        <DataTable
+          columns={columns}
+          data={data ?? []}
+          prompt="Search by names or phone numbers"
+        />
         {fetchError && (
           <AlertBox
             open={errorOpen}
