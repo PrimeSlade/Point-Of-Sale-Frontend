@@ -9,6 +9,7 @@ import { DataTable } from "@/components/table/data-table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const LocationPage = () => {
   const queryClient = useQueryClient();
@@ -35,6 +36,10 @@ const LocationPage = () => {
     mutationFn: deleteLocation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["locations"] });
+      toast.success("Location deleted successfully!");
+    },
+    onError: (error: any) => {
+      toast.error(error.message);
     },
   });
 

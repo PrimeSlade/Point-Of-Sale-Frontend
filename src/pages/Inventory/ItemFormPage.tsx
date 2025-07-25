@@ -12,15 +12,11 @@ const ItemFormPage = () => {
   const { id } = useParams();
   const isEdit = Boolean(id);
 
-  console.log(isEdit);
-
   const { data, isLoading } = useQuery({
     queryKey: ["item", id],
     queryFn: () => getItemById(Number(id)),
     enabled: Boolean(id),
   });
-
-  console.log(data);
 
   if (isLoading) return <Loading className="h-150" />;
 
@@ -38,13 +34,13 @@ const ItemFormPage = () => {
         }
       />
       <ItemForm
-        mode={"edit"}
+        mode={isEdit ? "edit" : "create"}
         oldName={data?.name}
         oldCategory={data?.category}
         oldExpiryDate={data?.expiryDate}
         oldDescription={data?.description}
         oldPricePercent={data?.pricePercent}
-        id={data?.id}
+        itemId={data?.id}
         oldLocation={data?.location.name}
         oldItemUnits={data?.itemUnits}
       />

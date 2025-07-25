@@ -22,6 +22,7 @@ import { useForm } from "react-hook-form";
 import type { CreateLocationProps } from "@/types/LocationType";
 import { addLocation, editLocation } from "@/api/locations";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const LocationForm = ({
   open,
@@ -43,8 +44,11 @@ const LocationForm = ({
     mutationFn: addLocation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["locations"] }),
-        form.reset(),
-        onClose(false);
+        toast.success("Location added successfully!");
+      form.reset(), onClose(false);
+    },
+    onError: (error: any) => {
+      toast.error(error.message);
     },
   });
 
@@ -56,8 +60,11 @@ const LocationForm = ({
     mutationFn: editLocation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["locations"] }),
-        form.reset(),
-        onClose(false);
+        toast.success("Location edited successfully!");
+      form.reset(), onClose(false);
+    },
+    onError: (error: any) => {
+      toast.error(error.message);
     },
   });
 
@@ -144,11 +151,6 @@ const LocationForm = ({
                   </FormItem>
                 )}
               />
-              {createError && (
-                <div className="text-[var(--danger-color)] text-center font-medium">
-                  {createError.message}
-                </div>
-              )}
               <DialogFooter>
                 <DialogClose asChild>
                   <Button
