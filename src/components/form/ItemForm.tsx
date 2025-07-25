@@ -24,7 +24,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import type { ItemFormProps } from "@/types/ItemType";
+import type { EditItemUnits, ItemFormProps } from "@/types/ItemType";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
@@ -32,7 +32,7 @@ import { cn } from "@/lib/utils";
 import { fetchLocations } from "@/api/locations";
 import type { LocationType } from "@/types/LocationType";
 import { useFieldArray } from "react-hook-form";
-import { addItem } from "@/api/inventories";
+import { addItem, editItemById } from "@/api/inventories";
 import { useNavigate } from "react-router-dom";
 
 const ItemForm = ({
@@ -40,7 +40,7 @@ const ItemForm = ({
   oldName,
   oldCategory,
   oldExpiryDate,
-  id,
+  itemId,
   oldItemUnits,
   oldPricePercent,
   oldDescription,
@@ -169,34 +169,46 @@ const ItemForm = ({
     },
   });
 
-  // const {
-  //   mutate: editLocationMutate,
-  //   isPending: isEditing,
-  //   error: editError,
-  // } = useMutation({
-  //   mutationFn: editLocation,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["locations"] }),
-  //       form.reset(),
-  //       onClose(false);
-  //   },
-  // });
+  const {
+    mutate: editItemMutate,
+    isPending: isEditing,
+    error: editError,
+  } = useMutation({
+    mutationFn: editItemById,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["items"] });
+      form.reset();
+      navigate("/dashboard/items");
+    },
+  });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // if (mode === "create") {
-
-    console.log(values);
     const { itemUnits, ...item } = values;
 
     //convert location name to id
     const { id } = data.find((d: LocationType) => d.name === item.locationId);
     item.locationId = id;
 
-    addItemMutate({ item, itemUnits });
-    // } else {
-    //   editLocationMutate({ id: id!, input: values });
-    // }
+    if (mode === "create") {
+      addItemMutate({ item, itemUnits });
+    } else {
+      const itemUnits = oldItemUnits?.map((item: EditItemUnits, index) => {
+        const newValue = values?.itemUnits[index];
+        return {
+          id: item.id,
+          unitType: newValue?.unitType,
+          quantity: newValue?.quantity,
+          purchasePrice: newValue?.purchasePrice,
+        };
+      });
+
+      editItemMutate({ id: itemId!, item, itemUnits });
+    }
   };
+
+  console.log(oldItemUnits);
+
+  const error = createError || editError;
 
   //for units
   const { fields } = useFieldArray({
@@ -436,9 +448,9 @@ const ItemForm = ({
             ))}
           </div>
 
-          {createError && (
+          {error && (
             <div className="text-[var(--danger-color)] text-center font-medium">
-              {createError.message}
+              {error.message}
             </div>
           )}
           <div className="flex gap-3 justify-end">

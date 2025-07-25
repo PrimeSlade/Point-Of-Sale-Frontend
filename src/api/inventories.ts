@@ -1,5 +1,5 @@
 import axiosInstance from "@/axiosInstance";
-import type { CreateItem } from "@/types/ItemType";
+import type { CreateItem, EditItem } from "@/types/ItemType";
 
 const addItem = async ({ item, itemUnits }: CreateItem) => {
   try {
@@ -34,6 +34,19 @@ const getItemById = async (id: number) => {
   }
 };
 
+const editItemById = async ({ id, item, itemUnits }: EditItem) => {
+  try {
+    const { data } = await axiosInstance.put(`/items/${id}`, {
+      item,
+      itemUnits,
+    });
+
+    return data.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data.error.message);
+  }
+};
+
 const deleteItem = async (id: number) => {
   try {
     const { data } = await axiosInstance.delete(`/items/${id}`);
@@ -44,4 +57,4 @@ const deleteItem = async (id: number) => {
   }
 };
 
-export { addItem, getItems, getItemById, deleteItem };
+export { addItem, getItems, getItemById, deleteItem, editItemById };

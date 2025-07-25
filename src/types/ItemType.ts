@@ -1,11 +1,11 @@
 type ItemFormProps = {
-  id?: number;
+  itemId?: number;
   oldName?: string;
   oldCategory?: string;
   oldExpiryDate?: Date;
   oldDescription?: string;
   oldPricePercent?: number;
-  oldItemUnits?: ItemUnits[];
+  oldItemUnits?: EditItemUnits[];
   oldLocation?: string;
   mode: "create" | "edit";
 };
@@ -28,6 +28,8 @@ type ItemUnits = {
   purchasePrice: number;
 };
 
+type EditItemUnits = { id: number } & Partial<ItemUnits>;
+
 type Item = {
   name: string;
   category: string;
@@ -49,6 +51,8 @@ type CreateItem = {
   itemUnits: ItemUnits[];
 };
 
+type EditItem = { id: number } & Partial<CreateItem>;
+
 type ItemColumnsProps = {
   onDelete: (id: number) => void;
   isDeleting: boolean;
@@ -65,4 +69,6 @@ export type {
   ItemColumnsProps,
   CreateItem,
   ReturnedItemType,
+  EditItem,
+  EditItemUnits,
 };
