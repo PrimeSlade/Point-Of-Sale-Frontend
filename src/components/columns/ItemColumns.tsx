@@ -2,14 +2,14 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { PenLine, Trash2 } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
-import type { ItemColumnsProps, ReturnedItemType } from "@/types/ItemType";
+import type { ItemColumnsProps, ItemType } from "@/types/ItemType";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
 const ItemColumns = ({
   onDelete,
   isDeleting,
-}: ItemColumnsProps): ColumnDef<ReturnedItemType>[] => [
+}: ItemColumnsProps): ColumnDef<ItemType>[] => [
   {
     id: "rowIndex",
     header: () => <div className="font-bold text-center">No</div>,

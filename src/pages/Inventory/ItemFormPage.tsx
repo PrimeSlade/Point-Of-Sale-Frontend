@@ -1,4 +1,5 @@
 import { getItemById } from "@/api/inventories";
+import { fetchLocations } from "@/api/locations";
 import DialogButton from "@/components/button/DialogButton";
 import ItemForm from "@/components/form/ItemForm";
 import Header from "@/components/header/Header";
@@ -12,11 +13,22 @@ const ItemFormPage = () => {
   const { id } = useParams();
   const isEdit = Boolean(id);
 
-  const { data, isLoading } = useQuery({
+  const { data: itemData, isLoading: item } = useQuery({
     queryKey: ["item", id],
     queryFn: () => getItemById(Number(id)),
     enabled: Boolean(id),
   });
+
+  const {
+    data: locationData,
+    isLoading: location,
+    error: fetchError,
+  } = useQuery({
+    queryFn: fetchLocations,
+    queryKey: ["locations"],
+  });
+
+  const isLoading = item || location;
 
   if (isLoading) return <Loading className="h-150" />;
 
@@ -35,14 +47,8 @@ const ItemFormPage = () => {
       />
       <ItemForm
         mode={isEdit ? "edit" : "create"}
-        oldName={data?.name}
-        oldCategory={data?.category}
-        oldExpiryDate={data?.expiryDate}
-        oldDescription={data?.description}
-        oldPricePercent={data?.pricePercent}
-        itemId={data?.id}
-        oldLocation={data?.location.name}
-        oldItemUnits={data?.itemUnits}
+        itemData={itemData}
+        locationData={locationData}
       />
     </div>
   );

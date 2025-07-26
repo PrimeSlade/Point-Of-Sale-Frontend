@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Select,
   SelectContent,
@@ -24,44 +24,26 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import type { EditItemUnits, ItemFormProps } from "@/types/ItemType";
+import type { ItemFormProps, ItemUnits } from "@/types/ItemType";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
-import { fetchLocations } from "@/api/locations";
 import type { LocationType } from "@/types/LocationType";
 import { useFieldArray } from "react-hook-form";
 import { addItem, editItemById } from "@/api/inventories";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
-const ItemForm = ({
-  mode,
-  oldName,
-  oldCategory,
-  oldExpiryDate,
-  itemId,
-  oldItemUnits,
-  oldPricePercent,
-  oldDescription,
-  oldLocation,
-}: ItemFormProps) => {
+const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
   //TenStack
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const {
-    data,
-    isLoading,
-    error: fetchError,
-  } = useQuery({
-    queryFn: fetchLocations,
-    queryKey: ["locations"],
-  });
-
   //Enum
-  const locationNames = data
-    ? data.map((d: LocationType) => d.name)
+  const locationNames = locationData
+    ? locationData.map((d: LocationType) => d.name)
     : ["Location"];
 
   const unitType = [
@@ -129,31 +111,35 @@ const ItemForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: oldName || "",
-      category: oldCategory || "",
-      expiryDate: oldExpiryDate || undefined,
-      locationId: oldLocation || "",
-      pricePercent: oldPricePercent || undefined,
-      description: oldDescription || "",
-      itemUnits: oldItemUnits || [
-        {
-          unitType: undefined,
-          quantity: undefined,
-          purchasePrice: undefined,
-        },
-        {
-          unitType: undefined,
-          quantity: undefined,
-          purchasePrice: undefined,
-        },
-        {
-          unitType: undefined,
-          quantity: undefined,
-          purchasePrice: undefined,
-        },
+      name: "",
+      category: "",
+      expiryDate: undefined,
+      description: "",
+      pricePercent: undefined,
+      locationId: itemData?.location.name || "",
+      itemUnits: [
+        { unitType: undefined, quantity: undefined, purchasePrice: undefined },
+        { unitType: undefined, quantity: undefined, purchasePrice: undefined },
+        { unitType: undefined, quantity: undefined, purchasePrice: undefined },
       ],
     },
   });
+
+  useEffect(() => {
+    if (mode === "edit" && itemData) {
+      form.reset({
+        name: itemData.name,
+        category: itemData.category,
+        expiryDate: itemData.expiryDate
+          ? new Date(itemData.expiryDate)
+          : undefined,
+        description: itemData.description,
+        pricePercent: itemData.pricePercent,
+        locationId: itemData.location.name,
+        itemUnits: itemData.itemUnits,
+      });
+    }
+  }, [mode, itemData]);
 
   //Tenstack
   const {
@@ -164,8 +150,12 @@ const ItemForm = ({
     mutationFn: addItem,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["items"] });
+      toast.success("Item created successfully!");
       form.reset();
       navigate("/dashboard/items");
+    },
+    onError: (error: any) => {
+      toast.error(error.message);
     },
   });
 
@@ -177,22 +167,32 @@ const ItemForm = ({
     mutationFn: editItemById,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["items"] });
+      queryClient.removeQueries({ queryKey: ["item", itemData!.id] });
+      toast.success("Item edited successfully!");
       form.reset();
       navigate("/dashboard/items");
     },
+    onError: (error: any) => {
+      toast.error(error.message);
+    },
   });
+
+  console.log(locationData);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const { itemUnits, ...item } = values;
 
     //convert location name to id
-    const { id } = data.find((d: LocationType) => d.name === item.locationId);
+    const { id } = locationData.find(
+      (d: LocationType) => d.name === item.locationId
+    )!;
+
     item.locationId = id;
 
     if (mode === "create") {
       addItemMutate({ item, itemUnits });
     } else {
-      const itemUnits = oldItemUnits?.map((item: EditItemUnits, index) => {
+      const itemUnits = itemData?.itemUnits?.map((item: ItemUnits, index) => {
         const newValue = values?.itemUnits[index];
         return {
           id: item.id,
@@ -202,13 +202,9 @@ const ItemForm = ({
         };
       });
 
-      editItemMutate({ id: itemId!, item, itemUnits });
+      editItemMutate({ id: itemData!.id, item, itemUnits });
     }
   };
-
-  console.log(oldItemUnits);
-
-  const error = createError || editError;
 
   //for units
   const { fields } = useFieldArray({
@@ -298,17 +294,14 @@ const ItemForm = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Location</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select a Location" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {data?.map((d: LocationType) => (
+                        {locationData?.map((d: LocationType) => (
                           <SelectItem value={d.name} key={d.id}>
                             {d.name}
                           </SelectItem>
@@ -334,9 +327,7 @@ const ItemForm = ({
                         {...field}
                         onChange={(e) =>
                           field.onChange(
-                            e.target.value === ""
-                              ? undefined
-                              : Number(e.target.value)
+                            e.target.value === "" ? "" : Number(e.target.value)
                           )
                         }
                       />
@@ -373,8 +364,8 @@ const ItemForm = ({
                     <FormItem>
                       <FormLabel>Unit Types</FormLabel>
                       <Select
+                        value={field.value}
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger className=" w-full min-w-[150px]">
@@ -409,7 +400,7 @@ const ItemForm = ({
                           onChange={(e) =>
                             field.onChange(
                               e.target.value === ""
-                                ? undefined
+                                ? ""
                                 : Number(e.target.value)
                             )
                           }
@@ -434,7 +425,7 @@ const ItemForm = ({
                           onChange={(e) =>
                             field.onChange(
                               e.target.value === ""
-                                ? undefined
+                                ? ""
                                 : Number(e.target.value)
                             )
                           }
@@ -448,15 +439,10 @@ const ItemForm = ({
             ))}
           </div>
 
-          {error && (
-            <div className="text-[var(--danger-color)] text-center font-medium">
-              {error.message}
-            </div>
-          )}
           <div className="flex gap-3 justify-end">
             <Button
               type="submit"
-              disabled={isCreating}
+              disabled={isCreating || isEditing}
               className="bg-[var(--success-color)] hover:bg-[var(--success-color-hover)]"
             >
               {mode === "create" ? "Add" : "Save Changes"}

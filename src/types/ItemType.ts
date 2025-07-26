@@ -1,14 +1,4 @@
-type ItemFormProps = {
-  itemId?: number;
-  oldName?: string;
-  oldCategory?: string;
-  oldExpiryDate?: Date;
-  oldDescription?: string;
-  oldPricePercent?: number;
-  oldItemUnits?: EditItemUnits[];
-  oldLocation?: string;
-  mode: "create" | "edit";
-};
+import type { LocationType } from "./LocationType";
 
 type unitType =
   | "btl"
@@ -23,12 +13,11 @@ type unitType =
   | "tab";
 
 type ItemUnits = {
+  id?: number;
   unitType: unitType;
   quantity: number;
   purchasePrice: number;
 };
-
-type EditItemUnits = { id: number } & Partial<ItemUnits>;
 
 type Item = {
   name: string;
@@ -39,13 +28,6 @@ type Item = {
   locationId: number;
 };
 
-type Location = {
-  id: number;
-  name: string;
-  address: string;
-  phoneNumberId: number;
-};
-
 type CreateItem = {
   item: Item;
   itemUnits: ItemUnits[];
@@ -53,14 +35,34 @@ type CreateItem = {
 
 type EditItem = { id: number } & Partial<CreateItem>;
 
+type Location = {
+  id: number;
+  name: string;
+  address: string;
+  phoneNumberId: number;
+};
+
 type ItemColumnsProps = {
   onDelete: (id: number) => void;
   isDeleting: boolean;
 };
 
-type ReturnedItemType = Item & {
+type ItemType = {
   id: number;
+  name: string;
+  category: string;
+  expiryDate: Date;
+  description?: string;
+  pricePercent: number;
+  locationId: number;
   location: Location;
+  itemUnits: ItemUnits[];
+};
+
+type ItemFormProps = {
+  itemData?: ItemType;
+  locationData?: any;
+  mode: "create" | "edit";
 };
 
 export type {
@@ -68,7 +70,6 @@ export type {
   ItemUnits,
   ItemColumnsProps,
   CreateItem,
-  ReturnedItemType,
   EditItem,
-  EditItemUnits,
+  ItemType,
 };
