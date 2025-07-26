@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { ItemColumnsProps, ItemType } from "@/types/ItemType";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import { smallestUnit } from "@/utils/unitUtils";
 
 const ItemColumns = ({
   onDelete,
@@ -50,11 +51,25 @@ const ItemColumns = ({
     },
   },
   {
-    accessorKey: "pricePercent",
-    header: () => <div className="font-bold">Price Percent</div>,
+    accessorKey: "Unit",
+    header: () => <div className="font-bold">Unit</div>,
     cell: ({ row }) => {
-      const value = row.getValue<number>("pricePercent");
-      return <span>{value}%</span>;
+      const itemUnits = row.original.itemUnits;
+
+      const unit = smallestUnit(itemUnits);
+
+      return <span>{unit!.unitType}</span>;
+    },
+  },
+  {
+    accessorKey: "Price",
+    header: () => <div className="font-bold">Purchase Price</div>,
+    cell: ({ row }) => {
+      const itemUnits = row.original.itemUnits;
+
+      const unit = smallestUnit(itemUnits);
+
+      return <span>{unit!.purchasePrice}</span>;
     },
   },
   {

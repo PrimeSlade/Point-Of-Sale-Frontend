@@ -1,5 +1,3 @@
-import type { LocationType } from "./LocationType";
-
 type unitType =
   | "btl"
   | "amp"
@@ -24,7 +22,6 @@ type Item = {
   category: string;
   expiryDate: Date;
   description?: string;
-  pricePercent: number;
   locationId: number;
 };
 
@@ -53,7 +50,6 @@ type ItemType = {
   category: string;
   expiryDate: Date;
   description?: string;
-  pricePercent: number;
   locationId: number;
   location: Location;
   itemUnits: ItemUnits[];

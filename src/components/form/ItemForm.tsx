@@ -47,16 +47,16 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
     : ["Location"];
 
   const unitType = [
+    "pkg",
+    "box",
+    "strip",
     "btl",
     "amp",
     "tube",
-    "strip",
-    "cap",
-    "pcs",
     "sac",
-    "box",
-    "pkg",
+    "cap",
     "tab",
+    "pcs",
   ] as const;
 
   //Form
@@ -96,11 +96,6 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
       message: "Please select a valid location.",
     }),
 
-    pricePercent: z
-      .number()
-      .min(0, { message: "Price percent cannot be less than 0%." })
-      .max(100, { message: "Price percent cannot exceed 100%." }),
-
     description: z.string().optional(),
 
     itemUnits: z.array(subUnitSchema).length(3, {
@@ -115,7 +110,6 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
       category: "",
       expiryDate: undefined,
       description: "",
-      pricePercent: undefined,
       locationId: itemData?.location.name || "",
       itemUnits: [
         { unitType: undefined, quantity: undefined, purchasePrice: undefined },
@@ -134,7 +128,6 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
           ? new Date(itemData.expiryDate)
           : undefined,
         description: itemData.description,
-        pricePercent: itemData.pricePercent,
         locationId: itemData.location.name,
         itemUnits: itemData.itemUnits,
       });
@@ -176,8 +169,6 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
       toast.error(error.message);
     },
   });
-
-  console.log(locationData);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const { itemUnits, ...item } = values;
@@ -313,29 +304,7 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="pricePercent"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Price Percent %</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Price Percent"
-                        type="number"
-                        className="no-spinner"
-                        {...field}
-                        onChange={(e) =>
-                          field.onChange(
-                            e.target.value === "" ? "" : Number(e.target.value)
-                          )
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
               <FormField
                 control={form.control}
                 name="description"
