@@ -30,7 +30,8 @@ const ItemFormPage = () => {
 
   const isLoading = item || location;
 
-  if (isLoading) return <Loading className="h-150" />;
+  if (isLoading)
+    return <Loading className="flex justify-center h-screen items-center" />;
 
   return (
     <div>

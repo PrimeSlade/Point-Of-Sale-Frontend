@@ -141,9 +141,9 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
     error: createError,
   } = useMutation({
     mutationFn: addItem,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["items"] });
-      toast.success("Item created successfully!");
+      toast.success(data?.message);
       form.reset();
       navigate("/dashboard/items");
     },
@@ -158,10 +158,10 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
     error: editError,
   } = useMutation({
     mutationFn: editItemById,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["items"] });
       queryClient.removeQueries({ queryKey: ["item", itemData!.id] });
-      toast.success("Item edited successfully!");
+      toast.success(data?.message);
       form.reset();
       navigate("/dashboard/items");
     },

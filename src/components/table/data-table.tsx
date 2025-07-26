@@ -3,6 +3,7 @@ import {
   type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -25,13 +26,26 @@ import {
   SelectValue,
 } from "../ui/select";
 import type { LocationType } from "@/types/LocationType";
+import { Button } from "../ui/button";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   prompt: string;
   filter?: boolean;
+  pagination?: boolean;
   locations?: LocationType[];
+  totalPages?: number;
+  paginationState?: {
+    pageIndex: number;
+    pageSize: number;
+  };
+  setPaginationState?: React.Dispatch<
+    React.SetStateAction<{
+      pageIndex: number;
+      pageSize: number;
+    }>
+  >;
 }
 
 const globalFuzzyFilter: FilterFn<any> = (row, columnId, filterValue) => {
@@ -45,6 +59,10 @@ export function DataTable<TData, TValue>({
   prompt,
   filter,
   locations,
+  totalPages,
+  paginationState,
+  setPaginationState,
+  pagination,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -53,10 +71,22 @@ export function DataTable<TData, TValue>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     globalFilterFn: globalFuzzyFilter,
+    manualPagination: true,
+    pageCount: totalPages,
+    onPaginationChange: (updater) => {
+      const newState =
+        typeof updater === "function"
+          ? updater(table.getState().pagination)
+          : updater;
+      setPaginationState?.(newState);
+    },
+
     state: {
+      pagination: paginationState,
       columnFilters,
       globalFilter,
     },
@@ -73,7 +103,7 @@ export function DataTable<TData, TValue>({
           className="max-w-sm"
         />
         {/* undefined for no filtering */}
-        {filter === true && (
+        {filter && (
           <Select
             value={
               (table.getColumn("location")?.getFilterValue() as string) ||
@@ -150,6 +180,28 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+      {pagination && (
+        <div className="flex items-center justify-end space-x-2 py-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              table.nextPage();
+            }}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

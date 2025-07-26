@@ -51,7 +51,7 @@ const ItemColumns = ({
     },
   },
   {
-    accessorKey: "Unit",
+    accessorKey: "unit",
     header: () => <div className="font-bold">Unit</div>,
     cell: ({ row }) => {
       const itemUnits = row.original.itemUnits;
@@ -62,7 +62,7 @@ const ItemColumns = ({
     },
   },
   {
-    accessorKey: "Price",
+    accessorKey: "price",
     header: () => <div className="font-bold">Purchase Price</div>,
     cell: ({ row }) => {
       const itemUnits = row.original.itemUnits;
@@ -106,7 +106,7 @@ const ItemColumns = ({
             title="Confirm Deletion"
             description="Are you sure you want to delete this?"
             onClose={() => setAlertOpen(false)}
-            //onConfirm={() => onDelete(location.id)}
+            onConfirm={() => onDelete(item.id)}
             mode="confirm"
           />
         </>

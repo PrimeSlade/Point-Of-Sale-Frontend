@@ -1,4 +1,4 @@
-import { deleteItem, getItems } from "@/api/inventories";
+import { deleteItemById, getItems } from "@/api/inventories";
 import { fetchLocations } from "@/api/locations";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
@@ -10,13 +10,18 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import type { PaginationState } from "@tanstack/react-table";
 
 const ItemServicePage = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const [isItemFormOpen, setIsItemFormOpen] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
+  const [paginationState, setPaginationState] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 15,
+  });
 
   //TenStack
 
@@ -32,14 +37,19 @@ const ItemServicePage = () => {
     isLoading,
     error: fetchItemError,
   } = useQuery({
-    queryFn: getItems,
-    queryKey: ["items"],
+    queryFn: () =>
+      getItems(paginationState.pageIndex + 1, paginationState.pageSize),
+    queryKey: ["items", paginationState.pageIndex],
   });
 
   const { mutate: deleteItemMutate, isPending: isDeleting } = useMutation({
-    mutationFn: deleteItem,
-    onSuccess: () => {
+    mutationFn: deleteItemById,
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["items"] });
+      toast.success(data?.message);
+    },
+    onError: (error: any) => {
+      toast.error(error.message);
     },
   });
 
@@ -58,7 +68,8 @@ const ItemServicePage = () => {
     isDeleting,
   });
 
-  if (isLoading) return <Loading className="h-150" />;
+  if (isLoading)
+    return <Loading className="flex justify-center h-screen items-center" />;
 
   return (
     <div>
@@ -78,10 +89,14 @@ const ItemServicePage = () => {
       />
       <DataTable
         columns={columns}
-        data={data ?? []}
+        data={data.data ?? []}
         prompt="Search by item names or category"
         filter={true}
         locations={locations}
+        totalPages={data?.meta.totalPages ?? 0}
+        paginationState={paginationState}
+        setPaginationState={setPaginationState}
+        pagination={true}
       />
       {error && (
         <AlertBox
