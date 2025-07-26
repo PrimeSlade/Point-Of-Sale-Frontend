@@ -8,17 +8,19 @@ const addItem = async ({ item, itemUnits }: CreateItem) => {
       itemUnits,
     });
 
-    return data.data;
+    return data;
   } catch (error: any) {
     throw new Error(error.response?.data.error.message);
   }
 };
 
-const getItems = async () => {
+const getItems = async (pageIndex: number, pageSize: number) => {
   try {
-    const { data } = await axiosInstance.get("/items");
+    const { data } = await axiosInstance.get(
+      `/items?page=${pageIndex}&limit=${pageSize}`
+    );
 
-    return data.data;
+    return data;
   } catch (error: any) {
     throw new Error(error.response?.data.error.message);
   }
@@ -41,20 +43,20 @@ const editItemById = async ({ id, item, itemUnits }: EditItem) => {
       itemUnits,
     });
 
-    return data.data;
+    return data;
   } catch (error: any) {
     throw new Error(error.response?.data.error.message);
   }
 };
 
-const deleteItem = async (id: number) => {
+const deleteItemById = async (id: number) => {
   try {
     const { data } = await axiosInstance.delete(`/items/${id}`);
 
-    return data.data;
+    return data;
   } catch (error: any) {
     throw new Error(error.response?.data.error.message);
   }
 };
 
-export { addItem, getItems, getItemById, deleteItem, editItemById };
+export { addItem, getItems, getItemById, deleteItemById, editItemById };

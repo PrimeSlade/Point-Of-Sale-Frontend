@@ -34,9 +34,9 @@ const LocationPage = () => {
 
   const { mutate: deleteLocationMutate, isPending: isDeleting } = useMutation({
     mutationFn: deleteLocation,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["locations"] });
-      toast.success("Location deleted successfully!");
+      toast.success(data?.message);
     },
     onError: (error: any) => {
       toast.error(error.message);

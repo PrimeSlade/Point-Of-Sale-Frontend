@@ -43,9 +43,9 @@ const LocationForm = ({
     error: createError,
   } = useMutation({
     mutationFn: addLocation,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["locations"] }),
-        toast.success("Location added successfully!");
+        toast.success(data?.message);
       form.reset(), onClose(false);
     },
     onError: (error: any) => {
@@ -59,9 +59,9 @@ const LocationForm = ({
     error: editError,
   } = useMutation({
     mutationFn: editLocation,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["locations"] }),
-        toast.success("Location edited successfully!");
+        toast.success(data?.message);
       form.reset(), onClose(false);
     },
     onError: (error: any) => {
