@@ -10,11 +10,14 @@ import { smallestUnit } from "@/utils/unitUtils";
 const ItemColumns = ({
   onDelete,
   isDeleting,
+  page,
 }: ItemColumnsProps): ColumnDef<ItemType>[] => [
   {
     id: "rowIndex",
     header: () => <div className="font-bold text-center">No</div>,
-    cell: ({ row }) => <div className="text-center">{row.index + 1}</div>,
+    cell: ({ row }) => (
+      <div className="text-center">{page * 15 + row.index + 1}</div>
+    ),
     enableGlobalFilter: false,
   },
 

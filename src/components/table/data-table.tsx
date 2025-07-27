@@ -15,11 +15,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import type {
-  ColumnFiltersState,
-  FilterFn,
-  OnChangeFn,
-} from "@tanstack/react-table";
 import {
   Select,
   SelectContent,
@@ -57,11 +52,6 @@ interface DataTableProps<TData, TValue> {
   setColumnFilters?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const globalFuzzyFilter: FilterFn<any> = (row, columnId, filterValue) => {
-  const value = row.getValue(columnId);
-  return String(value).toLowerCase().includes(filterValue.toLowerCase());
-};
-
 export function DataTable<TData, TValue>({
   columns,
   data,
@@ -78,15 +68,12 @@ export function DataTable<TData, TValue>({
   isLoading,
   setColumnFilters,
 }: DataTableProps<TData, TValue>) {
-  console.log(serverSideSearch);
-
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: serverSideSearch ? undefined : getFilteredRowModel(), //won't be needed for serverside
-    globalFilterFn: serverSideSearch ? undefined : globalFuzzyFilter,
     manualPagination: true,
     manualFiltering: serverSideSearch,
     pageCount: totalPages,

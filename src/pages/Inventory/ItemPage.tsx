@@ -10,10 +10,7 @@ import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import type {
-  ColumnFiltersState,
-  PaginationState,
-} from "@tanstack/react-table";
+import type { PaginationState } from "@tanstack/react-table";
 import useDebounce from "@/hooks/useDebounce";
 
 const ItemServicePage = () => {
@@ -90,6 +87,7 @@ const ItemServicePage = () => {
   const columns = ItemColumns({
     onDelete: deleteItemMutate,
     isDeleting,
+    page: paginationState.pageIndex,
   });
 
   return (

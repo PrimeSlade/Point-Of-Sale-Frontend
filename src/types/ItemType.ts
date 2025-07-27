@@ -42,6 +42,7 @@ type Location = {
 type ItemColumnsProps = {
   onDelete: (id: number) => void;
   isDeleting: boolean;
+  page: number;
 };
 
 type ItemType = {
