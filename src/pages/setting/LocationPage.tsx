@@ -16,6 +16,7 @@ const LocationPage = () => {
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
+  const [globalFilter, setGlobalFilter] = useState("");
 
   const {
     data,
@@ -68,6 +69,8 @@ const LocationPage = () => {
           columns={columns}
           data={data ?? []}
           prompt="Search by names or phone numbers"
+          globalFilter={globalFilter}
+          setGlobalFilter={setGlobalFilter}
         />
         {fetchError && (
           <AlertBox

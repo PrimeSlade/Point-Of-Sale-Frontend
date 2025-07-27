@@ -4,27 +4,41 @@ import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import ItemColumns from "@/components/columns/ItemColumns";
 import Header from "@/components/header/Header";
-import Loading from "@/components/loading/Loading";
 import { DataTable } from "@/components/table/data-table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import type { PaginationState } from "@tanstack/react-table";
+import type {
+  ColumnFiltersState,
+  PaginationState,
+} from "@tanstack/react-table";
+import useDebounce from "@/hooks/useDebounce";
 
 const ItemServicePage = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
+  const [globalFilter, setGlobalFilter] = useState("");
   const [errorOpen, setErrorOpen] = useState(false);
   const [paginationState, setPaginationState] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 15,
   });
 
-  //TenStack
+  const [columnFilters, setColumnFilters] = useState("");
 
+  const debouncedSearch = useDebounce(globalFilter);
+
+  useEffect(() => {
+    setPaginationState((prev) => ({
+      ...prev,
+      pageIndex: 0, // reset to first page
+    }));
+  }, [debouncedSearch, columnFilters]);
+
+  //TenStack
   //locations
   const { data: locations, error: fetchLocationError } = useQuery({
     queryFn: fetchLocations,
@@ -38,8 +52,18 @@ const ItemServicePage = () => {
     error: fetchItemError,
   } = useQuery({
     queryFn: () =>
-      getItems(paginationState.pageIndex + 1, paginationState.pageSize),
-    queryKey: ["items", paginationState.pageIndex],
+      getItems(
+        paginationState.pageIndex + 1,
+        paginationState.pageSize,
+        debouncedSearch,
+        columnFilters
+      ),
+    queryKey: [
+      "items",
+      paginationState.pageIndex,
+      debouncedSearch,
+      columnFilters,
+    ],
   });
 
   const { mutate: deleteItemMutate, isPending: isDeleting } = useMutation({
@@ -68,9 +92,6 @@ const ItemServicePage = () => {
     isDeleting,
   });
 
-  if (isLoading)
-    return <Loading className="flex justify-center h-screen items-center" />;
-
   return (
     <div>
       <Header
@@ -89,14 +110,18 @@ const ItemServicePage = () => {
       />
       <DataTable
         columns={columns}
-        data={data.data ?? []}
+        data={data?.data ?? []}
         prompt="Search by item names or category"
-        filter={true}
+        filter
         locations={locations}
         totalPages={data?.meta.totalPages ?? 0}
         paginationState={paginationState}
         setPaginationState={setPaginationState}
-        pagination={true}
+        pagination
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+        setColumnFilters={setColumnFilters}
+        serverSideSearch
       />
       {error && (
         <AlertBox

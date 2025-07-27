@@ -1,6 +1,5 @@
 import {
   type ColumnDef,
-  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
@@ -16,8 +15,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import type { FilterFn } from "@tanstack/react-table";
+import type {
+  ColumnFiltersState,
+  FilterFn,
+  OnChangeFn,
+} from "@tanstack/react-table";
 import {
   Select,
   SelectContent,
@@ -27,6 +29,7 @@ import {
 } from "../ui/select";
 import type { LocationType } from "@/types/LocationType";
 import { Button } from "../ui/button";
+import Loading from "../loading/Loading";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -46,6 +49,12 @@ interface DataTableProps<TData, TValue> {
       pageSize: number;
     }>
   >;
+  globalFilter: string;
+  setGlobalFilter: React.Dispatch<React.SetStateAction<string>>;
+  serverSideSearch?: boolean;
+  isLoading?: boolean;
+  columnFilters?: string;
+  setColumnFilters?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const globalFuzzyFilter: FilterFn<any> = (row, columnId, filterValue) => {
@@ -62,36 +71,42 @@ export function DataTable<TData, TValue>({
   totalPages,
   paginationState,
   setPaginationState,
-  pagination,
+  pagination = false,
+  serverSideSearch = false,
+  globalFilter,
+  setGlobalFilter,
+  isLoading,
+  setColumnFilters,
 }: DataTableProps<TData, TValue>) {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [globalFilter, setGlobalFilter] = useState("");
+  console.log(serverSideSearch);
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    globalFilterFn: globalFuzzyFilter,
+    getFilteredRowModel: serverSideSearch ? undefined : getFilteredRowModel(), //won't be needed for serverside
+    globalFilterFn: serverSideSearch ? undefined : globalFuzzyFilter,
     manualPagination: true,
+    manualFiltering: serverSideSearch,
     pageCount: totalPages,
-    onPaginationChange: (updater) => {
-      const newState =
-        typeof updater === "function"
-          ? updater(table.getState().pagination)
-          : updater;
-      setPaginationState?.(newState);
-    },
-
     state: {
       pagination: paginationState,
-      columnFilters,
       globalFilter,
     },
     onGlobalFilterChange: setGlobalFilter,
+    onPaginationChange: setPaginationState,
+    // (updater) => {
+    //   const newState =
+    //     typeof updater === "function"
+    //       ? updater(table.getState().pagination)
+    //       : updater;
+    //   setPaginationState?.(newState);
+    // },
   });
+
+  if (isLoading)
+    return <Loading className="flex justify-center h-screen items-center" />;
 
   return (
     <div>
@@ -109,11 +124,14 @@ export function DataTable<TData, TValue>({
               (table.getColumn("location")?.getFilterValue() as string) ||
               "__all"
             }
-            onValueChange={(value) =>
+            onValueChange={(value) => {
+              if (serverSideSearch) {
+                setColumnFilters?.(value);
+              }
               table
                 .getColumn("location")
-                ?.setFilterValue(value === "__all" ? undefined : value)
-            }
+                ?.setFilterValue(value === "__all" ? undefined : value);
+            }}
           >
             <SelectTrigger className="ml-auto">
               <SelectValue placeholder="Select location" />

@@ -14,10 +14,17 @@ const addItem = async ({ item, itemUnits }: CreateItem) => {
   }
 };
 
-const getItems = async (pageIndex: number, pageSize: number) => {
+const getItems = async (
+  pageIndex: number,
+  pageSize: number,
+  search: string,
+  filter: string
+) => {
   try {
     const { data } = await axiosInstance.get(
-      `/items?page=${pageIndex}&limit=${pageSize}`
+      `/items?page=${pageIndex}&limit=${pageSize}&search=${search}${
+        filter !== "__all" ? `&filter=${filter}` : ""
+      }`
     );
 
     return data;

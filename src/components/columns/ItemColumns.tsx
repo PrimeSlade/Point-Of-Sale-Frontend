@@ -79,7 +79,6 @@ const ItemColumns = ({
       const item = row.original;
 
       const [alertOpen, setAlertOpen] = useState(false);
-      const [isFormOpen, setIsFormOpen] = useState(false);
 
       const navigate = useNavigate();
 
