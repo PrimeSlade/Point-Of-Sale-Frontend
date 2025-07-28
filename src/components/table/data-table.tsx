@@ -23,8 +23,10 @@ import {
   SelectValue,
 } from "../ui/select";
 import type { LocationType } from "@/types/LocationType";
-import { Button } from "../ui/button";
 import Loading from "../loading/Loading";
+import PaginationBtn from "./PaginationBtn";
+import { useNavigate } from "react-router-dom";
+import FilterBtn from "./FilterBtn";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -68,6 +70,8 @@ export function DataTable<TData, TValue>({
   isLoading,
   setColumnFilters,
 }: DataTableProps<TData, TValue>) {
+  const navigate = useNavigate();
+
   const table = useReactTable({
     data,
     columns,
@@ -82,14 +86,15 @@ export function DataTable<TData, TValue>({
       globalFilter,
     },
     onGlobalFilterChange: setGlobalFilter,
-    onPaginationChange: setPaginationState,
-    // (updater) => {
-    //   const newState =
-    //     typeof updater === "function"
-    //       ? updater(table.getState().pagination)
-    //       : updater;
-    //   setPaginationState?.(newState);
-    // },
+    // onPaginationChange: setPaginationState,
+    onPaginationChange: (updater) => {
+      const newState =
+        typeof updater === "function"
+          ? updater(table.getState().pagination)
+          : updater;
+      setPaginationState?.(newState);
+      navigate(`/dashboard/items?page=${newState.pageIndex + 1}`);
+    },
   });
 
   if (isLoading)
@@ -106,32 +111,12 @@ export function DataTable<TData, TValue>({
         />
         {/* undefined for no filtering */}
         {filter && (
-          <Select
-            value={
-              (table.getColumn("location")?.getFilterValue() as string) ||
-              "__all"
-            }
-            onValueChange={(value) => {
-              if (serverSideSearch) {
-                setColumnFilters?.(value);
-              }
-              table
-                .getColumn("location")
-                ?.setFilterValue(value === "__all" ? undefined : value);
-            }}
-          >
-            <SelectTrigger className="ml-auto">
-              <SelectValue placeholder="Select location" />
-            </SelectTrigger>
-            <SelectContent align="end">
-              <SelectItem value="__all">All Locations</SelectItem>
-              {locations?.map((loc: any) => (
-                <SelectItem key={loc.name} value={loc.name}>
-                  {loc.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <FilterBtn
+            table={table}
+            locations={locations}
+            serverSideSearch
+            setColumnFilters={setColumnFilters}
+          />
         )}
       </div>
 
@@ -187,24 +172,7 @@ export function DataTable<TData, TValue>({
       </div>
       {pagination && (
         <div className="flex items-center justify-end space-x-2 py-4">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              table.nextPage();
-            }}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
+          <PaginationBtn table={table} />
         </div>
       )}
     </div>

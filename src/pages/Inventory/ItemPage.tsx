@@ -8,7 +8,7 @@ import { DataTable } from "@/components/table/data-table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import type { PaginationState } from "@tanstack/react-table";
 import useDebounce from "@/hooks/useDebounce";
@@ -16,6 +16,9 @@ import useDebounce from "@/hooks/useDebounce";
 const ItemServicePage = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get("page") || 1;
 
   const [globalFilter, setGlobalFilter] = useState("");
   const [errorOpen, setErrorOpen] = useState(false);
@@ -34,6 +37,13 @@ const ItemServicePage = () => {
       pageIndex: 0, // reset to first page
     }));
   }, [debouncedSearch, columnFilters]);
+
+  useEffect(() => {
+    setPaginationState((prev) => ({
+      ...prev,
+      pageIndex: Number(page) - 1,
+    }));
+  }, []);
 
   //TenStack
   //locations
