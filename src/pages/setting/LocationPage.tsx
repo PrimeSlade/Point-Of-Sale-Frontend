@@ -1,7 +1,7 @@
 import { deleteLocation, fetchLocations } from "@/api/locations";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
-import LocationForm from "@/components/form/LocationForm";
+import LocationForm from "@/components/forms/wrapper/LocationForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import LocationColumns from "@/components/columns/LocationColumns";

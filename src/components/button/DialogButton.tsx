@@ -1,6 +1,10 @@
 import { Button } from "@/components/ui/button";
 
-import type { DialogButtonProps } from "@/types/ButtonType";
+type DialogButtonProps = {
+  name: string;
+  icon?: React.ReactNode;
+  openFrom: () => void;
+};
 
 const DialogButton = ({ name, icon, openFrom }: DialogButtonProps) => {
   return (

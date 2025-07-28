@@ -39,12 +39,6 @@ type Location = {
   phoneNumberId: number;
 };
 
-type ItemColumnsProps = {
-  onDelete: (id: number) => void;
-  isDeleting: boolean;
-  page: number;
-};
-
 type ItemType = {
   id: number;
   name: string;
@@ -56,17 +50,4 @@ type ItemType = {
   itemUnits: ItemUnits[];
 };
 
-type ItemFormProps = {
-  itemData?: ItemType;
-  locationData?: any;
-  mode: "create" | "edit";
-};
-
-export type {
-  ItemFormProps,
-  ItemUnits,
-  ItemColumnsProps,
-  CreateItem,
-  EditItem,
-  ItemType,
-};
+export type { ItemUnits, CreateItem, EditItem, ItemType };

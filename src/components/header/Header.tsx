@@ -1,4 +1,9 @@
-import type { HeaderProps } from "@/types/HeaderType";
+type HeaderProps = {
+  header: string;
+  subHeader?: string;
+  action?: React.ReactNode;
+  className?: string;
+};
 
 const Header = ({ header, subHeader, action, className = "" }: HeaderProps) => {
   return (

@@ -1,9 +1,14 @@
-import type { LocationColumnsProps, LocationType } from "@/types/LocationType";
+import type { LocationType } from "@/types/LocationType";
 import type { ColumnDef } from "@tanstack/react-table";
 import { PenLine, Trash2 } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
-import LocationForm from "../form/LocationForm";
+import LocationForm from "../forms/wrapper/LocationForm";
+
+type LocationColumnsProps = {
+  onDelete: (id: number) => void;
+  isDeleting: boolean;
+};
 
 const LocationColumns = ({
   onDelete,

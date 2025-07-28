@@ -1,4 +1,6 @@
-import type { LoadingProps } from "@/types/LoadingType";
+type LoadingProps = {
+  className?: string;
+};
 
 const Loading = ({ className }: LoadingProps) => {
   return (

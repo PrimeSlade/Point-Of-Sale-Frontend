@@ -9,7 +9,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import type { AlertBoxProps } from "@/types/AlertBoxType";
+
+type AlertBoxProps = {
+  open: boolean;
+  title: string;
+  description: string;
+  mode: "error" | "confirm";
+  onClose: () => void;
+  onConfirm?: () => void;
+};
 
 const AlertBox = ({
   open,

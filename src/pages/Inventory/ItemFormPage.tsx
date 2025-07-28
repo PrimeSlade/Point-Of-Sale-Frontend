@@ -1,7 +1,7 @@
 import { getItemById } from "@/api/inventories";
 import { fetchLocations } from "@/api/locations";
 import DialogButton from "@/components/button/DialogButton";
-import ItemForm from "@/components/form/ItemForm";
+import ItemForm from "@/components/forms/wrapper/ItemForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import { useQuery } from "@tanstack/react-query";

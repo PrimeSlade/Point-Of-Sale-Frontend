@@ -2,10 +2,16 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { PenLine, Trash2 } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
-import type { ItemColumnsProps, ItemType } from "@/types/ItemType";
+import type { ItemType } from "@/types/ItemType";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { smallestUnit } from "@/utils/unitUtils";
+
+type ItemColumnsProps = {
+  onDelete: (id: number) => void;
+  isDeleting: boolean;
+  page: number;
+};
 
 const ItemColumns = ({
   onDelete,
