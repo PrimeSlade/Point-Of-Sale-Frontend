@@ -16,6 +16,7 @@ import UserPage from "./pages/setting/UserPage";
 import GeneralPage from "./pages/setting/GeneralPage";
 import ItemServicePage from "./pages/inventory/ItemPage";
 import ItemFormPage from "./pages/inventory/ItemFormPage";
+import ServicePage from "./pages/service/ServicePage";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="add" element={<ItemFormPage />} />
             <Route path="edit/:id" element={<ItemFormPage />} />
           </Route>
+          <Route path="services" element={<ServicePage />} />
           <Route path="patients" element={<PatientPage />} />
           <Route path="doctors" element={<DoctorPage />} />
           <Route path="treatments" element={<TreatmentPage />} />

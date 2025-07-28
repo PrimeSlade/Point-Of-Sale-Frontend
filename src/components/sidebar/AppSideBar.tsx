@@ -5,6 +5,7 @@ import {
   ReceiptText,
   Settings,
   Box,
+  Receipt,
   NotebookPen,
   ChartNoAxesCombined,
   MapPin,
@@ -28,6 +29,11 @@ const items = [
     title: "Inventory",
     url: "items",
     icon: Box,
+  },
+  {
+    title: "Service",
+    url: "services",
+    icon: Receipt,
   },
   {
     title: "Patients",

@@ -23,7 +23,6 @@ import type { CreateLocationProps } from "@/types/LocationType";
 import { addLocation, editLocation } from "@/api/locations";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { data } from "react-router-dom";
 
 const LocationForm = ({
   open,

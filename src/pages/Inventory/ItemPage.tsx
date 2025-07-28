@@ -103,9 +103,9 @@ const ItemServicePage = () => {
   return (
     <div>
       <Header
-        header="Inventory & Services"
+        header="Inventory"
         className="text-3xl"
-        subHeader="Manage products and services offered"
+        subHeader="Manage products"
         action={
           <div className="flex gap-2">
             <DialogButton

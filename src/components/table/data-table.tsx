@@ -93,6 +93,7 @@ export function DataTable<TData, TValue>({
           ? updater(table.getState().pagination)
           : updater;
       setPaginationState?.(newState);
+
       navigate(`/dashboard/items?page=${newState.pageIndex + 1}`);
     },
   });
