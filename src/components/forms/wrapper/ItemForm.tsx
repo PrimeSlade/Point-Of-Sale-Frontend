@@ -24,7 +24,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import type { ItemFormProps, ItemUnits } from "@/types/ItemType";
+import type { ItemType, ItemUnits } from "@/types/ItemType";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
@@ -35,6 +35,12 @@ import { addItem, editItemById } from "@/api/inventories";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useEffect } from "react";
+
+type ItemFormProps = {
+  itemData?: ItemType;
+  locationData?: any;
+  mode: "create" | "edit";
+};
 
 const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
   //TenStack
