@@ -6,6 +6,7 @@ import type { ItemType } from "@/types/ItemType";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { smallestUnit } from "@/utils/unitUtils";
+import ItemCard from "../item/ItemCard";
 
 type ItemColumnsProps = {
   onDelete: (id: number) => void;
@@ -94,6 +95,7 @@ const ItemColumns = ({
       return (
         <>
           <div className="flex gap-5 items-center">
+            <ItemCard data={item} />
             <button
               onClick={() => navigate(`/dashboard/items/edit/${item.id}`)}
             >

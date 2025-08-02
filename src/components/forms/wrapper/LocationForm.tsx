@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import ReusableFormDialog, { type types } from "../form/ReusableFrom";
 import type { Dispatch, SetStateAction } from "react";
 
-type CreateLocationProps = {
+type LocationFormProps = {
   id?: number;
   oldName?: string;
   oldAddress?: string;
@@ -25,7 +25,7 @@ const LocationForm = ({
   oldAddress,
   oldPhoneNumber,
   id,
-}: CreateLocationProps) => {
+}: LocationFormProps) => {
   //TenStack
   const queryClient = useQueryClient();
 
@@ -82,9 +82,9 @@ const LocationForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "" || oldName,
-      address: "" || oldAddress,
-      phoneNumber: "" || oldPhoneNumber,
+      name: oldName || "",
+      address: oldAddress || "",
+      phoneNumber: oldPhoneNumber || "",
     },
   });
 
