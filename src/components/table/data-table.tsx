@@ -76,9 +76,9 @@ export function DataTable<TData, TValue>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    getPaginationRowModel: pagination ? getPaginationRowModel() : undefined,
     getFilteredRowModel: serverSideSearch ? undefined : getFilteredRowModel(), //won't be needed for serverside
-    manualPagination: true,
+    manualPagination: serverSideSearch,
     manualFiltering: serverSideSearch,
     pageCount: totalPages,
     state: {
@@ -86,16 +86,17 @@ export function DataTable<TData, TValue>({
       globalFilter,
     },
     onGlobalFilterChange: setGlobalFilter,
-    // onPaginationChange: setPaginationState,
-    onPaginationChange: (updater) => {
-      const newState =
-        typeof updater === "function"
-          ? updater(table.getState().pagination)
-          : updater;
-      setPaginationState?.(newState);
+    onPaginationChange: serverSideSearch
+      ? (updater) => {
+          const newState =
+            typeof updater === "function"
+              ? updater(table.getState().pagination)
+              : updater;
+          setPaginationState?.(newState);
 
-      navigate(`/dashboard/items?page=${newState.pageIndex + 1}`);
-    },
+          navigate(`/dashboard/items?page=${newState.pageIndex + 1}`);
+        }
+      : setPaginationState,
   });
 
   if (isLoading)
