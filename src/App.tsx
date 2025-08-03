@@ -4,7 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
 import LoginPage from "./pages/LoginPage";
 import InventoryPage from "./pages/inventory/InventoryPage";
-import PatientPage from "./pages/PatientPage";
+import PatientPage from "./pages/patient/PatientPage";
 import DoctorPage from "./pages/DoctorPage";
 import TreatmentPage from "./pages/TreatmentPage";
 import InvoicePage from "./pages/InvoicePage";
