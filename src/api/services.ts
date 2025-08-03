@@ -21,7 +21,7 @@ const addService = async (input: ServiceData) => {
   }
 };
 
-const editService = async (input: ServiceData) => {
+const editServiceById = async (input: ServiceData) => {
   try {
     const { data } = await axiosInstance.put(`/services/${input.id}`, input);
 
@@ -31,7 +31,7 @@ const editService = async (input: ServiceData) => {
   }
 };
 
-const deleteService = async (id: number) => {
+const deleteServiceById = async (id: number) => {
   try {
     const { data } = await axiosInstance.delete(`/services/${id}`);
 
@@ -41,4 +41,4 @@ const deleteService = async (id: number) => {
   }
 };
 
-export { addService, fetchServices, editService, deleteService };
+export { addService, fetchServices, editServiceById, deleteServiceById };

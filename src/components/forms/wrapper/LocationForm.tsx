@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { addLocation, editLocation } from "@/api/locations";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import ReusableFormDialog, { type types } from "../form/ReusableFrom";
+import ReusableFormDialog, { type Types } from "../form/ReusableFrom";
 import type { Dispatch, SetStateAction } from "react";
 
 type LocationFormProps = {
@@ -82,9 +82,9 @@ const LocationForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: oldName || "",
-      address: oldAddress || "",
-      phoneNumber: oldPhoneNumber || "",
+      name: oldName ?? "",
+      address: oldAddress ?? "",
+      phoneNumber: oldPhoneNumber ?? "",
     },
   });
 
@@ -107,7 +107,6 @@ const LocationForm = ({
       name: "phoneNumber",
       label: "Phone Number",
       placeholder: "Enter phone number",
-      type: "tel" as types,
     },
   ];
 

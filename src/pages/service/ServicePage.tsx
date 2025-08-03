@@ -1,4 +1,4 @@
-import { deleteService, fetchServices } from "@/api/services";
+import { deleteServiceById, fetchServices } from "@/api/services";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import ServiceColumns from "@/components/columns/ServiceColumns";
@@ -7,6 +7,7 @@ import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import { DataTable } from "@/components/table/data-table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -18,6 +19,10 @@ const ServicePage = () => {
   const [errorOpen, setErrorOpen] = useState(false);
 
   const [globalFilter, setGlobalFilter] = useState("");
+  const [paginationState, setPaginationState] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 15,
+  });
 
   const {
     data: services,
@@ -29,7 +34,7 @@ const ServicePage = () => {
   });
 
   const { mutate: deleteServiceMutate, isPending: isDeleting } = useMutation({
-    mutationFn: deleteService,
+    mutationFn: deleteServiceById,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["services"] });
       toast.success(data?.message);
@@ -68,6 +73,9 @@ const ServicePage = () => {
         prompt="Search by names"
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
+        pagination
+        paginationState={paginationState}
+        setPaginationState={setPaginationState}
       />
       <ServiceForm open={isFormOpen} onClose={setIsFormOpen} mode="create" />
       {fetchServiceError && (

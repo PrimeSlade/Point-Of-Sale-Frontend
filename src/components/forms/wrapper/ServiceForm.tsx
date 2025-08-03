@@ -1,4 +1,4 @@
-import { addService, editService } from "@/api/services";
+import { addService, editServiceById } from "@/api/services";
 import type { ServiceData } from "@/types/ServiceType";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -6,7 +6,7 @@ import type { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import ReusableFormDialog, { type types } from "../form/ReusableFrom";
+import ReusableFormDialog, { type Types } from "../form/ReusableFrom";
 
 type ServiceFormProps = {
   data?: ServiceData;
@@ -40,7 +40,7 @@ const ServiceForm = ({ data, mode, open, onClose }: ServiceFormProps) => {
     isPending: isEditing,
     error: editError,
   } = useMutation({
-    mutationFn: editService,
+    mutationFn: editServiceById,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["services"] });
       toast.success(data?.message);
@@ -89,7 +89,7 @@ const ServiceForm = ({ data, mode, open, onClose }: ServiceFormProps) => {
       name: "retailPrice",
       label: "Retail Price",
       placeholder: "Enter retail price",
-      type: "number" as types,
+      type: "number" as Types,
     },
   ];
 

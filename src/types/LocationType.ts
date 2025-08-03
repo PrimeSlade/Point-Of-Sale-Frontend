@@ -3,11 +3,13 @@ type LocationType = {
   name: string;
   address: string;
   phoneNumberId: number;
-  phoneNumber: {
-    id: number;
-    number: string;
-    createdAt: string;
-  };
+  phoneNumber: PhoneNumber;
+};
+
+type PhoneNumber = {
+  id: number;
+  number: string;
+  createdAt: string;
 };
 
 type AddLocation = {
@@ -21,4 +23,4 @@ type EditLocation = {
   input: AddLocation;
 };
 
-export type { LocationType, AddLocation, EditLocation };
+export type { LocationType, AddLocation, EditLocation, PhoneNumber };

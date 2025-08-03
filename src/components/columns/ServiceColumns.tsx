@@ -2,7 +2,6 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { PenLine, Trash2 } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
-import LocationForm from "../forms/wrapper/LocationForm";
 import type { ServiceData } from "@/types/ServiceType";
 import ServiceForm from "../forms/wrapper/ServiceForm";
 
