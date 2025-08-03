@@ -50,4 +50,4 @@ type ItemType = {
   itemUnits: ItemUnits[];
 };
 
-export type { ItemUnits, CreateItem, EditItem, ItemType };
+export type { ItemUnits, CreateItem, EditItem, ItemType, Location };

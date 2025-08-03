@@ -14,7 +14,7 @@ const addItem = async ({ item, itemUnits }: CreateItem) => {
   }
 };
 
-const getItems = async (
+const fetchItems = async (
   pageIndex: number,
   pageSize: number,
   search: string,
@@ -66,4 +66,4 @@ const deleteItemById = async (id: number) => {
   }
 };
 
-export { addItem, getItems, getItemById, deleteItemById, editItemById };
+export { addItem, fetchItems, getItemById, deleteItemById, editItemById };

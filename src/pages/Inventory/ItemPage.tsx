@@ -1,4 +1,4 @@
-import { deleteItemById, getItems } from "@/api/inventories";
+import { deleteItemById, fetchItems } from "@/api/inventories";
 import { fetchLocations } from "@/api/locations";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
@@ -59,7 +59,7 @@ const ItemServicePage = () => {
     error: fetchItemError,
   } = useQuery({
     queryFn: () =>
-      getItems(
+      fetchItems(
         paginationState.pageIndex + 1,
         paginationState.pageSize,
         debouncedSearch,

@@ -1,34 +1,8 @@
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import type { ItemType, ItemUnits } from "@/types/ItemType";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
-import { cn } from "@/lib/utils";
 import type { LocationType } from "@/types/LocationType";
 import { useFieldArray } from "react-hook-form";
 import { addItem, editItemById } from "@/api/inventories";
@@ -43,6 +17,19 @@ type ItemFormProps = {
   mode: "create" | "edit";
 };
 
+const unitType = [
+  "pkg",
+  "box",
+  "strip",
+  "btl",
+  "amp",
+  "tube",
+  "sac",
+  "cap",
+  "tab",
+  "pcs",
+] as const;
+
 const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
   //TenStack
   const queryClient = useQueryClient();
@@ -52,19 +39,6 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
   const locationNames = locationData
     ? locationData.map((d: LocationType) => d.name)
     : ["Location"];
-
-  const unitType = [
-    "pkg",
-    "box",
-    "strip",
-    "btl",
-    "amp",
-    "tube",
-    "sac",
-    "cap",
-    "tab",
-    "pcs",
-  ] as const;
 
   //Form
   const subUnitSchema = z.object({
