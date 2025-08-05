@@ -17,6 +17,7 @@ import GeneralPage from "./pages/setting/GeneralPage";
 import ItemServicePage from "./pages/inventory/ItemPage";
 import ItemFormPage from "./pages/inventory/ItemFormPage";
 import ServicePage from "./pages/service/ServicePage";
+import PatientDetailsPage from "./pages/patient/PatientDetailsPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           </Route>
           <Route path="services" element={<ServicePage />} />
           <Route path="patients" element={<PatientPage />} />
+          <Route path="patients/:id" element={<PatientDetailsPage />} />
           <Route path="doctors" element={<DoctorPage />} />
           <Route path="treatments" element={<TreatmentPage />} />
           <Route path="invoices" element={<InvoicePage />} />

@@ -46,12 +46,12 @@ const items = [
     icon: GraduationCap,
   },
   {
-    title: "POS/Treatment",
+    title: "Treatment",
     url: "treatments",
     icon: ClipboardPlus,
   },
   {
-    title: "Invoices",
+    title: "POS/Invoices",
     url: "invoices",
     icon: ReceiptText,
   },

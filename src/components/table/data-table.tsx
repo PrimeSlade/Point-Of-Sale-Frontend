@@ -15,13 +15,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 import type { LocationType } from "@/types/LocationType";
 import Loading from "../loading/Loading";
 import PaginationBtn from "./PaginationBtn";

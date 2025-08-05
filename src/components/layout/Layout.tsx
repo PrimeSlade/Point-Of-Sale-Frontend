@@ -13,7 +13,7 @@ export default function Layout() {
     <>
       <AppSidebar />
       <SidebarTrigger className="mt-2" />
-      <div className={`ml-5 ${width()}`}>
+      <div className={`mx-auto ${width()}`}>
         <Outlet />
       </div>
     </>
