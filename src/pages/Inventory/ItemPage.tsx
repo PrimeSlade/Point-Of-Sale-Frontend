@@ -1,5 +1,5 @@
-import { deleteItemById, fetchItems } from "@/api/inventories";
-import { fetchLocations } from "@/api/locations";
+import { deleteItemById, getItems } from "@/api/inventories";
+import { getLocations } from "@/api/locations";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import ItemColumns from "@/components/columns/ItemColumns";
@@ -48,7 +48,7 @@ const ItemServicePage = () => {
   //TenStack
   //locations
   const { data: locations, error: fetchLocationError } = useQuery({
-    queryFn: fetchLocations,
+    queryFn: getLocations,
     queryKey: ["locations"],
   });
 
@@ -59,7 +59,7 @@ const ItemServicePage = () => {
     error: fetchItemError,
   } = useQuery({
     queryFn: () =>
-      fetchItems(
+      getItems(
         paginationState.pageIndex + 1,
         paginationState.pageSize,
         debouncedSearch,

@@ -1,5 +1,5 @@
 import { getItemById } from "@/api/inventories";
-import { fetchLocations } from "@/api/locations";
+import { getLocations } from "@/api/locations";
 import DialogButton from "@/components/button/DialogButton";
 import ItemForm from "@/components/forms/wrapper/ItemForm";
 import Header from "@/components/header/Header";
@@ -24,7 +24,7 @@ const ItemFormPage = () => {
     isLoading: location,
     error: fetchError,
   } = useQuery({
-    queryFn: fetchLocations,
+    queryFn: getLocations,
     queryKey: ["locations"],
   });
 
