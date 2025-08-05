@@ -1,7 +1,7 @@
 import axiosInstance from "@/axiosInstance";
 import type { ServiceData } from "@/types/ServiceType";
 
-const fetchServices = async () => {
+const getServices = async () => {
   try {
     const { data } = await axiosInstance.get("/services");
 
@@ -41,4 +41,4 @@ const deleteServiceById = async (id: number) => {
   }
 };
 
-export { addService, fetchServices, editServiceById, deleteServiceById };
+export { addService, getServices, editServiceById, deleteServiceById };

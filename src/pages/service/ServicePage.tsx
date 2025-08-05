@@ -1,4 +1,4 @@
-import { deleteServiceById, fetchServices } from "@/api/services";
+import { deleteServiceById, getServices } from "@/api/services";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import ServiceColumns from "@/components/columns/ServiceColumns";
@@ -29,7 +29,7 @@ const ServicePage = () => {
     isLoading,
     error: fetchServiceError,
   } = useQuery({
-    queryFn: fetchServices,
+    queryFn: getServices,
     queryKey: ["services"],
   });
 
@@ -49,7 +49,8 @@ const ServicePage = () => {
     isDeleting,
   });
 
-  if (isLoading) return <Loading className="h-150" />;
+  if (isLoading)
+    return <Loading className="flex justify-center h-screen items-center" />;
 
   return (
     <div>
@@ -69,7 +70,7 @@ const ServicePage = () => {
       />
       <DataTable
         columns={columns}
-        data={services.data ?? []}
+        data={services?.data ?? []}
         prompt="Search by names"
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}

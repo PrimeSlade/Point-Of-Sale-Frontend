@@ -11,7 +11,7 @@ const addLocation = async (input: AddLocation) => {
   }
 };
 
-const fetchLocations = async () => {
+const getLocations = async () => {
   try {
     const { data } = await axiosInstance.get("/locations");
 
@@ -41,4 +41,4 @@ const deleteLocation = async (id: number) => {
   }
 };
 
-export { addLocation, fetchLocations, editLocation, deleteLocation };
+export { addLocation, getLocations, editLocation, deleteLocation };

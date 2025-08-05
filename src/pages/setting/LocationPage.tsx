@@ -1,4 +1,4 @@
-import { deleteLocation, fetchLocations } from "@/api/locations";
+import { deleteLocation, getLocations } from "@/api/locations";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import LocationForm from "@/components/forms/wrapper/LocationForm";
@@ -23,7 +23,7 @@ const LocationPage = () => {
     isLoading,
     error: fetchError,
   } = useQuery({
-    queryFn: fetchLocations,
+    queryFn: getLocations,
     queryKey: ["locations"],
   });
 
