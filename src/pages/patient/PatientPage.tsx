@@ -1,5 +1,5 @@
-import { fetchLocations } from "@/api/locations";
-import { deletePatientById, fetchPatients } from "@/api/patients";
+import { getLocations } from "@/api/locations";
+import { deletePatientById, getPatients } from "@/api/patients";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import PatientColums from "@/components/columns/PatientColumns";
@@ -29,7 +29,7 @@ const PatientPage = () => {
     isLoading: isFetchingPatients,
     error: fetchPatientError,
   } = useQuery({
-    queryFn: fetchPatients,
+    queryFn: getPatients,
     queryKey: ["patients"],
   });
 
@@ -38,7 +38,7 @@ const PatientPage = () => {
     isLoading: isFetchingLocations,
     error: fetchLocationError,
   } = useQuery({
-    queryFn: fetchLocations,
+    queryFn: getLocations,
     queryKey: ["locations"],
   });
 
@@ -60,7 +60,8 @@ const PatientPage = () => {
 
   const isLoading = isFetchingPatients || isFetchingLocations;
 
-  if (isLoading) return <Loading className="h-150" />;
+  if (isLoading)
+    return <Loading className="flex justify-center h-screen items-center" />;
 
   return (
     <>

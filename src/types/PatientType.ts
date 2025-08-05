@@ -11,6 +11,7 @@ type Department = "og" | "oto" | "surgery" | "general";
 type PatientFormData = {
   id?: number;
   name: string;
+  email?: string;
   gender: Gender;
   dateOfBirth: Date;
   address?: string;
@@ -25,6 +26,7 @@ type PatientFormData = {
 type PatientData = {
   id?: number;
   name: string;
+  email?: string;
   gender: Gender;
   dateOfBirth: Date;
   address?: string;
@@ -37,7 +39,7 @@ type PatientData = {
   phoneNumberId: number;
   phoneNumber: PhoneNumber;
   registeredAt: Date;
-  treatment: Treatment;
+  treatments: Treatment[];
 };
 
 export type { PatientFormData, PatientData };

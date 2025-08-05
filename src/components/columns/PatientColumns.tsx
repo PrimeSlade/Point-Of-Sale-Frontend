@@ -1,12 +1,13 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { PenLine, Trash2 } from "lucide-react";
+import { Eye, PenLine, Trash2 } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
 import type { PatientData } from "@/types/PatientType";
 import PatientForm from "../forms/wrapper/PatientForm";
-import { fetchLocations } from "@/api/locations";
+import { getLocations } from "@/api/locations";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../loading/Loading";
+import { useNavigate } from "react-router-dom";
 
 type PatientColumsProps = {
   onDelete: (id: number) => void;
@@ -56,20 +57,33 @@ const PatientColums = ({
       const [alertOpen, setAlertOpen] = useState(false);
       const [isFormOpen, setIsFormOpen] = useState(false);
 
+      const navigate = useNavigate();
+
       const {
         data: locationData,
         isLoading: isFetchingLocations,
         error: fetchError,
       } = useQuery({
-        queryFn: fetchLocations,
+        queryFn: getLocations,
         queryKey: ["locations"],
       });
 
-      if (isFetchingLocations) return <Loading className="h-150" />;
+      if (isFetchingLocations)
+        return (
+          <Loading className="flex justify-center h-screen items-center" />
+        );
 
       return (
         <>
           <div className="flex gap-5 items-center">
+            <button
+              onClick={() => navigate(`/dashboard/patients/${patient.id}`)}
+            >
+              <Eye
+                size={20}
+                className="text-[var(--success-color)] hover:text-[var(--success-color-hover)] hover:border hover:border-white"
+              />
+            </button>
             <button onClick={() => setIsFormOpen(true)}>
               <PenLine
                 size={20}

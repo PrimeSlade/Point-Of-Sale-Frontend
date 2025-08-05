@@ -11,9 +11,19 @@ const addPatient = async (input: PatientFormData) => {
   }
 };
 
-const fetchPatients = async () => {
+const getPatients = async () => {
   try {
     const { data } = await axiosInstance.get("/patients");
+
+    return data;
+  } catch (error: any) {
+    throw new Error(error.response?.data.error.message);
+  }
+};
+
+const getPatientById = async (id: number) => {
+  try {
+    const { data } = await axiosInstance.get(`/patients/${id}`);
 
     return data;
   } catch (error: any) {
@@ -41,4 +51,10 @@ const deletePatientById = async (id: number) => {
   }
 };
 
-export { addPatient, fetchPatients, editPatientById, deletePatientById };
+export {
+  addPatient,
+  getPatients,
+  getPatientById,
+  editPatientById,
+  deletePatientById,
+};

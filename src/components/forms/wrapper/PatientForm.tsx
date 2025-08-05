@@ -93,6 +93,8 @@ const PatientForm = ({
       message: "Please select a gender.",
     }),
 
+    email: z.email().optional(),
+
     dateOfBirth: z.date({
       message: "Date of birth is required.",
     }),
@@ -130,7 +132,8 @@ const PatientForm = ({
     defaultValues: {
       name: data?.name ?? "",
       gender: data?.gender ?? undefined,
-      dateOfBirth: data ? new Date(data?.dateOfBirth) : undefined,
+      email: data?.email ?? "",
+      dateOfBirth: data?.dateOfBirth ? new Date(data?.dateOfBirth) : undefined,
       address: data?.address ?? "",
       patientStatus: data?.patientStatus ?? undefined,
       patientCondition: data?.patientCondition ?? undefined,
@@ -162,6 +165,7 @@ const PatientForm = ({
       placeholder: "Enter a patient name",
     },
     { name: "address", label: "Address", placeholder: "Enter address" },
+    { name: "email", label: "Email", placeholder: "Enter patient email" },
     {
       name: "gender",
       label: "Gender",
