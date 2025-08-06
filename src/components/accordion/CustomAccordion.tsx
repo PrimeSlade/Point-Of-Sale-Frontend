@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import type { PatientData } from "@/types/PatientType";
-import { formatDate } from "@/utils/formatDate";
+import { formatDate } from "@/utils/formatData";
 
 type CustomAccordionProps = {
   data: PatientData;

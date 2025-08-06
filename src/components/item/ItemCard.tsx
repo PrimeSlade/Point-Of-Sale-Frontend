@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 
 import type { ItemType } from "@/types/ItemType";
-import { formatDate } from "@/utils/formatDate";
+import { formatDate } from "@/utils/formatData";
 import { Eye } from "lucide-react";
 
 type ItemCardProps = {

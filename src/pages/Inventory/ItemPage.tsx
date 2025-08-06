@@ -133,6 +133,7 @@ const ItemServicePage = () => {
         setGlobalFilter={setGlobalFilter}
         setColumnFilters={setColumnFilters}
         serverSideSearch
+        navigateTo="/dashboard/items"
       />
       {error && (
         <AlertBox

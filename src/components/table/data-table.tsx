@@ -45,6 +45,7 @@ interface DataTableProps<TData, TValue> {
   isLoading?: boolean;
   columnFilters?: string;
   setColumnFilters?: React.Dispatch<React.SetStateAction<string>>;
+  navigateTo: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -62,6 +63,7 @@ export function DataTable<TData, TValue>({
   setGlobalFilter,
   isLoading,
   setColumnFilters,
+  navigateTo,
 }: DataTableProps<TData, TValue>) {
   const navigate = useNavigate();
 
@@ -87,7 +89,7 @@ export function DataTable<TData, TValue>({
               : updater;
           setPaginationState?.(newState);
 
-          navigate(`/dashboard/items?page=${newState.pageIndex + 1}`);
+          navigate(`${navigateTo}?page=${newState.pageIndex + 1}`);
         }
       : setPaginationState,
   });

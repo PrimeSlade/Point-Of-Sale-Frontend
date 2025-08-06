@@ -6,7 +6,7 @@ import type { ItemType } from "@/types/ItemType";
 import { useNavigate } from "react-router-dom";
 import { smallestUnit } from "@/utils/unitUtils";
 import ItemCard from "../item/ItemCard";
-import { formatDate } from "@/utils/formatDate";
+import { formatDate } from "@/utils/formatData";
 
 type ItemColumnsProps = {
   onDelete: (id: number) => void;
@@ -31,12 +31,10 @@ const ItemColumns = ({
   {
     accessorKey: "name",
     header: () => <div className="font-bold">Name</div>,
-    enableGlobalFilter: true, //default
   },
   {
     accessorKey: "category",
     header: () => <div className="font-bold">Category</div>,
-    enableGlobalFilter: true,
   },
   {
     accessorKey: "expiryDate",

@@ -30,7 +30,7 @@ import type {
   FieldValues,
   UseFormReturn,
 } from "react-hook-form";
-import { formatDate } from "@/utils/formatDate";
+import { formatDate } from "@/utils/formatData";
 const unitType = [
   "pkg",
   "box",

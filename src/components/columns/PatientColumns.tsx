@@ -8,6 +8,7 @@ import { getLocations } from "@/api/locations";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../loading/Loading";
 import { useNavigate } from "react-router-dom";
+import { calcAge } from "@/utils/formatData";
 
 type PatientColumnsProps = {
   onDelete: (id: number) => void;
@@ -28,6 +29,13 @@ const PatientColumns = ({
     accessorKey: "name",
     header: () => <div className="font-bold">Name</div>,
     enableGlobalFilter: true, //default
+  },
+  {
+    id: "age",
+    header: () => <div className="font-bold">Age</div>,
+    cell: ({ row }) => {
+      return calcAge(new Date(row.original.dateOfBirth));
+    },
   },
   {
     id: "phoneNumber",

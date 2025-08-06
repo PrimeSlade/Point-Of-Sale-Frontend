@@ -1,6 +1,6 @@
 import type { PatientData } from "@/types/PatientType";
 import { Button } from "../ui/button";
-import { formatDate } from "@/utils/formatDate";
+import { calcAge, formatDate } from "@/utils/formatData";
 
 type PatientCardProps = {
   data: PatientData;
@@ -11,12 +11,12 @@ const PatientCard = ({ data }: PatientCardProps) => {
 
   const formatted = formatDate(data?.dateOfBirth);
 
-  const calcAge = (dob: Date): string => {
-    const age = new Date().getFullYear() - dob.getFullYear();
-    const month = new Date().getMonth() - dob.getMonth();
+  //   const calcAge = (dob: Date): string => {
+  //     const age = new Date().getFullYear() - dob.getFullYear();
+  //     const month = new Date().getMonth() - dob.getMonth();
 
-    return age > 1 ? `${age}yrs` : `${month} months`;
-  };
+  //     return age > 1 ? `${age}yrs` : `${month} months`;
+  //   };
 
   const formatText = (input: string): string => {
     return input
@@ -78,7 +78,7 @@ const PatientCard = ({ data }: PatientCardProps) => {
             Gender
           </label>
           <div id="gender" className="font-bold">
-            {data?.gender}
+            {formatText(data?.gender)}
           </div>
         </div>
         <div>

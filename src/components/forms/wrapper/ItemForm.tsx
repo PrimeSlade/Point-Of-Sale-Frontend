@@ -141,7 +141,7 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
     mutationFn: editItemById,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["items"] });
-      queryClient.removeQueries({ queryKey: ["item", itemData!.id] });
+      //queryClient.invalidateQueries({ queryKey: ["item", itemData!.id] }); //won't be needed for now since I am not staying in this page after edited
       toast.success(data?.message);
       form.reset();
       navigate("/dashboard/items");

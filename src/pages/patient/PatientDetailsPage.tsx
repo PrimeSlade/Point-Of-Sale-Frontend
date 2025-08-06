@@ -18,7 +18,7 @@ const PatientDetailsPage = () => {
     isLoading: isFetchingPatient,
     error: fetchPatientError,
   } = useQuery({
-    queryKey: ["item", id],
+    queryKey: ["patient", id],
     queryFn: () => getPatientById(Number(id)),
     enabled: Boolean(id),
   });
