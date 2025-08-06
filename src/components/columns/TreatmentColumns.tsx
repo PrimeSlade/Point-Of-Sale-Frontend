@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import Loading from "../loading/Loading";
 import { useNavigate } from "react-router-dom";
 import type { TreatmentData } from "@/types/TreatmentType";
+import { calcAge, formatDate } from "@/utils/formatData";
 
 type TreatmentColumsProps = {
   onDelete: (id: number) => void;
@@ -30,27 +31,37 @@ const TreatmentColumns = ({
   {
     id: "name",
     header: () => <div className="font-bold">Name</div>,
-
-    enableGlobalFilter: true, //default
-  },
-  //   {
-  //     id: "phoneNumber",
-  //     accessorFn: (row) => row.phoneNumber?.number ?? "",
-  //     header: () => <div className="font-bold">Phone Number</div>,
-  //     cell: ({ row }) => {
-  //       return row.original.phoneNumber?.number;
-  //     },
-  //     enableGlobalFilter: true, //default
-  //   },
-  {
-    accessorKey: "department",
-    header: () => <div className="font-bold">Department</div>,
-    enableGlobalFilter: true, //default
+    cell: ({ row }) => {
+      return row.original.patient?.name;
+    },
   },
   {
-    accessorKey: "address",
-    header: () => <div className="font-bold">Address</div>,
-    enableGlobalFilter: false, //default
+    id: "age",
+    header: () => <div className="font-bold">Age</div>,
+    cell: ({ row }) => {
+      return calcAge(new Date(row.original.patient?.dateOfBirth!));
+    },
+  },
+  {
+    id: "phoneNumber",
+    header: () => <div className="font-bold">Phone Number</div>,
+    cell: ({ row }) => {
+      return row.original.patient?.phoneNumber?.number;
+    },
+  },
+  {
+    id: "doctorName",
+    header: () => <div className="font-bold">Doctor Name</div>,
+    cell: ({ row }) => {
+      return row.original.doctor?.name;
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: () => <div className="font-bold">Date</div>,
+    cell: ({ row }) => (
+      <div>{formatDate(new Date(row.original.createdAt))}</div>
+    ),
   },
   {
     accessorKey: "action",
@@ -60,20 +71,6 @@ const TreatmentColumns = ({
 
       const [alertOpen, setAlertOpen] = useState(false);
       const navigate = useNavigate();
-
-      const {
-        data: locationData,
-        isLoading: isFetchingLocations,
-        error: fetchError,
-      } = useQuery({
-        queryFn: getLocations,
-        queryKey: ["locations"],
-      });
-
-      if (isFetchingLocations)
-        return (
-          <Loading className="flex justify-center h-screen items-center" />
-        );
 
       return (
         <>
