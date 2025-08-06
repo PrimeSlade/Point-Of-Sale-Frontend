@@ -16,8 +16,11 @@ const LocationPage = () => {
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
+
+  //client side filtering
   const [globalFilter, setGlobalFilter] = useState("");
 
+  //tenstack
   const {
     data,
     isLoading,

@@ -3,10 +3,10 @@ import { PenLine, Trash2 } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
 import type { ItemType } from "@/types/ItemType";
-import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { smallestUnit } from "@/utils/unitUtils";
 import ItemCard from "../item/ItemCard";
+import { formatDate } from "@/utils/formatDate";
 
 type ItemColumnsProps = {
   onDelete: (id: number) => void;
@@ -46,7 +46,7 @@ const ItemColumns = ({
       const date = new Date(value);
 
       //fn
-      const formatted = format(date, "P");
+      const formatted = formatDate(date);
 
       return <span>{formatted}</span>;
     },

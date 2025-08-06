@@ -1,6 +1,7 @@
 import type { Doctor } from "./DoctorType";
+import type { PatientData } from "./PatientType";
 
-type Treatment = {
+type TreatmentData = {
   length: any;
   id: number;
   createdAt: string; // ISO date string
@@ -9,6 +10,7 @@ type Treatment = {
   diagnosis: string;
   treatment: string;
   doctor?: Doctor;
+  patient?: PatientData;
 };
 
-export type { Treatment };
+export type { TreatmentData };

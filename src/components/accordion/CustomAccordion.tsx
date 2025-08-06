@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import type { PatientData } from "@/types/PatientType";
-import { format } from "date-fns";
+import { formatDate } from "@/utils/formatDate";
 
 type CustomAccordionProps = {
   data: PatientData;
@@ -19,7 +19,7 @@ const CustomAccordion = ({ data }: CustomAccordionProps) => {
       className="max-h-[620px] overflow-y-auto"
     >
       {data?.treatments.map((tre) => {
-        const formatted = format(tre.createdAt, "P");
+        const formatted = formatDate(new Date(tre.createdAt));
         return (
           <AccordionItem value={tre.id + ""}>
             <AccordionTrigger>

@@ -6,7 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import InventoryPage from "./pages/inventory/InventoryPage";
 import PatientPage from "./pages/patient/PatientPage";
 import DoctorPage from "./pages/DoctorPage";
-import TreatmentPage from "./pages/TreatmentPage";
+import TreatmentPage from "./pages/treatment/TreatmentPage";
 import InvoicePage from "./pages/InvoicePage";
 import ExpensesPage from "./pages/ExpensesPage";
 import ReportPage from "./pages/ReportPage";

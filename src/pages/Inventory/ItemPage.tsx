@@ -20,17 +20,19 @@ const ItemServicePage = () => {
   const [searchParams] = useSearchParams();
   const page = searchParams.get("page") || 1;
 
+  //serverside pagination, searching and filtering
   const [globalFilter, setGlobalFilter] = useState("");
   const [errorOpen, setErrorOpen] = useState(false);
   const [paginationState, setPaginationState] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 15,
   });
-
   const [columnFilters, setColumnFilters] = useState("");
 
+  //delay the serach input in order to prevent server traffic
   const debouncedSearch = useDebounce(globalFilter);
 
+  //reset the page when the search result is displayed
   useEffect(() => {
     setPaginationState((prev) => ({
       ...prev,
@@ -38,6 +40,7 @@ const ItemServicePage = () => {
     }));
   }, [debouncedSearch, columnFilters]);
 
+  //saved the page for reloading
   useEffect(() => {
     setPaginationState((prev) => ({
       ...prev,

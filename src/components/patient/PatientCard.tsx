@@ -1,6 +1,6 @@
 import type { PatientData } from "@/types/PatientType";
-import { format } from "date-fns";
 import { Button } from "../ui/button";
+import { formatDate } from "@/utils/formatDate";
 
 type PatientCardProps = {
   data: PatientData;
@@ -9,7 +9,7 @@ type PatientCardProps = {
 const PatientCard = ({ data }: PatientCardProps) => {
   const dob = new Date(data?.dateOfBirth);
 
-  const formatted = format(data?.dateOfBirth, "P");
+  const formatted = formatDate(data?.dateOfBirth);
 
   const calcAge = (dob: Date): string => {
     const age = new Date().getFullYear() - dob.getFullYear();
@@ -28,7 +28,7 @@ const PatientCard = ({ data }: PatientCardProps) => {
   const treatments = data?.treatments;
 
   const lastVisit = treatments?.[0]
-    ? format(new Date(treatments[0].createdAt), "P")
+    ? formatDate(new Date(treatments[0].createdAt))
     : "No visits yet";
 
   return (

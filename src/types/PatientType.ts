@@ -1,6 +1,6 @@
 import type { Location } from "./ItemType";
 import type { PhoneNumber } from "./LocationType";
-import type { Treatment } from "./TreatmentType";
+import type { TreatmentData } from "./TreatmentType";
 
 type Gender = "male" | "female";
 type PatientStatus = "new_patient" | "follow_up" | "post_op";
@@ -39,7 +39,7 @@ type PatientData = {
   phoneNumberId: number;
   phoneNumber: PhoneNumber;
   registeredAt: Date;
-  treatments: Treatment[];
+  treatments: TreatmentData[];
 };
 
 export type { PatientFormData, PatientData };

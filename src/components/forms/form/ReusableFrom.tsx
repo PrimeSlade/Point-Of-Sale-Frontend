@@ -31,9 +31,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
+import { formatDate } from "@/utils/formatDate";
 
 export type Types = "text" | "number" | "email" | "password";
 
@@ -73,6 +73,7 @@ function ReusableFormDialog<T>({
 }: ReusableFormDialogProps<T>) {
   return (
     <Dialog open={open} onOpenChange={onClose}>
+      {/* it fields len is more than 6, remove the w and apply grid  */}
       <DialogContent
         className={`${fields.length > 6 ? "" : "sm:max-w-[425px]"}`}
       >
@@ -86,6 +87,7 @@ function ReusableFormDialog<T>({
               fields.length > 6 ? "grid grid-cols-2 gap-3" : ""
             } `}
           >
+            {/*three main inputs which are select,date and normal input(number or others)  */}
             {fields.map(
               ({
                 name,
@@ -115,7 +117,7 @@ function ReusableFormDialog<T>({
                                   )}
                                 >
                                   {field.value ? (
-                                    format(field.value, "P")
+                                    formatDate(field.value)
                                   ) : (
                                     <span>Pick a date</span>
                                   )}

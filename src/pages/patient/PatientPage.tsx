@@ -2,7 +2,7 @@ import { getLocations } from "@/api/locations";
 import { deletePatientById, getPatients } from "@/api/patients";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
-import PatientColums from "@/components/columns/PatientColumns";
+import PatientColumns from "@/components/columns/PatientColumns";
 import PatientForm from "@/components/forms/wrapper/PatientForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
@@ -18,12 +18,15 @@ const PatientPage = () => {
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
+
+  //client side pagination and filtering
   const [globalFilter, setGlobalFilter] = useState("");
   const [paginationState, setPaginationState] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 15,
   });
 
+  //tenstack
   const {
     data: patients,
     isLoading: isFetchingPatients,
@@ -53,7 +56,7 @@ const PatientPage = () => {
     },
   });
 
-  const columns = PatientColums({
+  const columns = PatientColumns({
     onDelete: deletePatientMutate,
     isDeleting,
   });

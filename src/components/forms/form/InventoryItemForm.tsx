@@ -14,7 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { format } from "date-fns";
+
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -30,6 +30,7 @@ import type {
   FieldValues,
   UseFormReturn,
 } from "react-hook-form";
+import { formatDate } from "@/utils/formatDate";
 const unitType = [
   "pkg",
   "box",
@@ -111,7 +112,7 @@ const InventoryItemForm = <T extends FieldValues>({
                           )}
                         >
                           {field.value ? (
-                            format(field.value, "P")
+                            formatDate(field.value)
                           ) : (
                             <span>Pick a date</span>
                           )}
@@ -187,7 +188,7 @@ const InventoryItemForm = <T extends FieldValues>({
                 name={`itemUnits.${index}.unitType`}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Unit Types</FormLabel>
+                    <FormLabel>Unit Type</FormLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className=" w-full min-w-[150px]">

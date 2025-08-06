@@ -15,7 +15,7 @@ const TreatmentCard = ({ data }: TreatmentCardProps) => {
         {data.treatments.length >= 1 ? (
           <CustomAccordion data={data} />
         ) : (
-          <p className="text-[var(--text-secondary)]">
+          <p className="text-[var(--text-secondary)] mt-5">
             No treatments found. Once treatments are added, they’ll appear here.
           </p>
         )}

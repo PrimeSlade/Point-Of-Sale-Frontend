@@ -33,10 +33,11 @@ const PaginationBtn = <TData,>({ table }: Props<TData>) => {
               e.preventDefault();
               table.previousPage();
             }}
+            className="cursor-pointer"
           />
         </PaginationItem>
         {pages.map((page, index) => (
-          <PaginationItem key={index}>
+          <PaginationItem key={index} className="cursor-pointer">
             {page === "..." ? (
               <PaginationEllipsis />
             ) : (
@@ -59,6 +60,7 @@ const PaginationBtn = <TData,>({ table }: Props<TData>) => {
               e.preventDefault();
               table.nextPage();
             }}
+            className="cursor-pointer"
           />
         </PaginationItem>
       </PaginationContent>

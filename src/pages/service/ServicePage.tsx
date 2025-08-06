@@ -18,12 +18,14 @@ const ServicePage = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
 
+  //client side pagination
   const [globalFilter, setGlobalFilter] = useState("");
   const [paginationState, setPaginationState] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 15,
   });
 
+  //tenstack
   const {
     data: services,
     isLoading,

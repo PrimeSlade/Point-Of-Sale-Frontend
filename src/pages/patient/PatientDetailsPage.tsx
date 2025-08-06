@@ -12,6 +12,7 @@ const PatientDetailsPage = () => {
   const { id } = useParams();
   const [errorOpen, setErrorOpen] = useState(false);
 
+  //tenstack
   const {
     data: patient,
     isLoading: isFetchingPatient,

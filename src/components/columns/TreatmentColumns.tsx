@@ -2,42 +2,46 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Eye, PenLine, Trash2 } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
-import type { PatientData } from "@/types/PatientType";
-import PatientForm from "../forms/wrapper/PatientForm";
 import { getLocations } from "@/api/locations";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../loading/Loading";
 import { useNavigate } from "react-router-dom";
+import type { TreatmentData } from "@/types/TreatmentType";
 
-type PatientColumnsProps = {
+type TreatmentColumsProps = {
   onDelete: (id: number) => void;
   isDeleting: boolean;
+  page: number;
 };
 
-const PatientColumns = ({
+const TreatmentColumns = ({
   onDelete,
   isDeleting,
-}: PatientColumnsProps): ColumnDef<PatientData>[] => [
+  page,
+}: TreatmentColumsProps): ColumnDef<TreatmentData>[] => [
   {
     id: "rowIndex",
     header: () => <div className="font-bold text-center">No</div>,
-    cell: ({ row }) => <div className="text-center">{row.index + 1}</div>,
+    cell: ({ row }) => (
+      <div className="text-center">{page * 15 + row.index + 1}</div>
+    ),
     enableGlobalFilter: false,
   },
   {
-    accessorKey: "name",
+    id: "name",
     header: () => <div className="font-bold">Name</div>,
+
     enableGlobalFilter: true, //default
   },
-  {
-    id: "phoneNumber",
-    accessorFn: (row) => row.phoneNumber?.number ?? "",
-    header: () => <div className="font-bold">Phone Number</div>,
-    cell: ({ row }) => {
-      return row.original.phoneNumber?.number;
-    },
-    enableGlobalFilter: true, //default
-  },
+  //   {
+  //     id: "phoneNumber",
+  //     accessorFn: (row) => row.phoneNumber?.number ?? "",
+  //     header: () => <div className="font-bold">Phone Number</div>,
+  //     cell: ({ row }) => {
+  //       return row.original.phoneNumber?.number;
+  //     },
+  //     enableGlobalFilter: true, //default
+  //   },
   {
     accessorKey: "department",
     header: () => <div className="font-bold">Department</div>,
@@ -55,8 +59,6 @@ const PatientColumns = ({
       const patient = row.original;
 
       const [alertOpen, setAlertOpen] = useState(false);
-      const [isFormOpen, setIsFormOpen] = useState(false);
-
       const navigate = useNavigate();
 
       const {
@@ -84,7 +86,7 @@ const PatientColumns = ({
                 className="text-[var(--success-color)] hover:text-[var(--success-color-hover)] hover:border hover:border-white"
               />
             </button>
-            <button onClick={() => setIsFormOpen(true)}>
+            <button>
               <PenLine
                 size={20}
                 className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
@@ -105,16 +107,9 @@ const PatientColumns = ({
             onConfirm={() => onDelete(patient.id!)}
             mode="confirm"
           />
-          <PatientForm
-            mode="edit"
-            data={patient}
-            open={isFormOpen}
-            onClose={setIsFormOpen}
-            locationData={locationData}
-          />
         </>
       );
     },
   },
 ];
-export default PatientColumns;
+export default TreatmentColumns;

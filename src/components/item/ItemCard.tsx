@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 
 import type { ItemType } from "@/types/ItemType";
-import { format } from "date-fns";
+import { formatDate } from "@/utils/formatDate";
 import { Eye } from "lucide-react";
 
 type ItemCardProps = {
@@ -15,7 +15,7 @@ type ItemCardProps = {
 };
 
 const ItemCard = ({ data }: ItemCardProps) => {
-  const formatted = format(data.expiryDate, "P");
+  const formatted = formatDate(data.expiryDate);
 
   return (
     <Dialog>
