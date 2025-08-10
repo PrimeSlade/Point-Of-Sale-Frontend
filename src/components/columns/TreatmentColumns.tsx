@@ -67,7 +67,7 @@ const TreatmentColumns = ({
     accessorKey: "action",
     header: () => <div className="font-bold">Actions</div>,
     cell: ({ row }) => {
-      const patient = row.original;
+      const treatment = row.original;
 
       const [alertOpen, setAlertOpen] = useState(false);
       const navigate = useNavigate();
@@ -76,14 +76,18 @@ const TreatmentColumns = ({
         <>
           <div className="flex gap-5 items-center">
             <button
-              onClick={() => navigate(`/dashboard/patients/${patient.id}`)}
+              onClick={() => navigate(`/dashboard/patients/${treatment.id}`)}
             >
               <Eye
                 size={20}
                 className="text-[var(--success-color)] hover:text-[var(--success-color-hover)] hover:border hover:border-white"
               />
             </button>
-            <button>
+            <button
+              onClick={() =>
+                navigate(`/dashboard/treatments/edit/${treatment.id}`)
+              }
+            >
               <PenLine
                 size={20}
                 className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
@@ -101,7 +105,7 @@ const TreatmentColumns = ({
             title="Confirm Deletion"
             description="Are you sure you want to delete this?"
             onClose={() => setAlertOpen(false)}
-            onConfirm={() => onDelete(patient.id!)}
+            onConfirm={() => onDelete(treatment.id!)}
             mode="confirm"
           />
         </>

@@ -1,5 +1,5 @@
 import axiosInstance from "@/axiosInstance";
-import type { TreatmentData, TreatmentForm } from "@/types/TreatmentType";
+import type { TreatmentForm } from "@/types/TreatmentType";
 
 const addTreatment = async (input: TreatmentForm) => {
   try {
@@ -31,7 +31,17 @@ const getTreatments = async (
   }
 };
 
-const editTreatmentById = async (input: TreatmentData) => {
+const getTreatmentById = async (id: number) => {
+  try {
+    const { data } = await axiosInstance.get(`/treatments/${id}`);
+
+    return data;
+  } catch (error: any) {
+    throw new Error(error.response?.data.error.message);
+  }
+};
+
+const editTreatmentById = async (input: TreatmentForm) => {
   try {
     const { data } = await axiosInstance.put(`/treatments/${input.id}`, input);
 
@@ -50,4 +60,10 @@ const deleteTreatmentById = async (id: number) => {
     throw new Error(error.response?.data.error.message);
   }
 };
-export { addTreatment, getTreatments, editTreatmentById, deleteTreatmentById };
+export {
+  addTreatment,
+  getTreatments,
+  getTreatmentById,
+  editTreatmentById,
+  deleteTreatmentById,
+};

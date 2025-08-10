@@ -13,6 +13,7 @@ type TreatmentData = {
 };
 
 type TreatmentForm = {
+  id?: number;
   doctorId: string;
   patientId: number;
   diagnosis?: string;

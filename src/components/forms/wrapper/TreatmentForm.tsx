@@ -1,20 +1,21 @@
-import { addTreatment } from "@/api/treatments";
+import { addTreatment, editTreatmentById } from "@/api/treatments";
 import PatientDoctorForm from "@/components/treatment/PatientDoctorForm";
 import PatientInfo from "@/components/treatment/PatientInfo";
 import TreatmentTextarea from "@/components/treatment/TreatmentTextarea";
 import { Button } from "@/components/ui/button";
 import type { DoctorData } from "@/types/DoctorType";
 import type { PatientData } from "@/types/PatientType";
+import type { TreatmentData } from "@/types/TreatmentType";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import z from "zod";
 
 type TreatmentFormProps = {
-  treatmentData?: any;
+  treatmentData?: TreatmentData;
   patientData?: PatientData[];
   doctorData?: DoctorData[];
   mode: "create" | "edit";
@@ -24,6 +25,7 @@ const TreatmentForm = ({
   patientData,
   doctorData,
   mode,
+  treatmentData,
 }: TreatmentFormProps) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -47,13 +49,29 @@ const TreatmentForm = ({
   });
 
   //tenstack
-
   const {
     mutate: addTreatmentMutate,
     isPending: isCreating,
     error: createError,
   } = useMutation({
     mutationFn: addTreatment,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["treatments"] });
+      toast.success(data?.message);
+      form.reset();
+      navigate("/dashboard/treatments");
+    },
+    onError: (error: any) => {
+      toast.error(error.message);
+    },
+  });
+
+  const {
+    mutate: editTreatmentMutate,
+    isPending: isEditing,
+    error: editError,
+  } = useMutation({
+    mutationFn: editTreatmentById,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["treatments"] });
       toast.success(data?.message);
@@ -73,6 +91,19 @@ const TreatmentForm = ({
     },
   });
 
+  //to keep data up to date
+  useEffect(() => {
+    if (treatmentData) {
+      setSelectedPatient(treatmentData?.patient || null);
+      setSelectedDoctor(treatmentData?.doctor || null);
+
+      form.reset({
+        diagnosis: treatmentData.diagnosis,
+        treatment: treatmentData.treatment,
+      });
+    }
+  }, [treatmentData]);
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     if (!selectedPatient || !selectedDoctor) {
       toast.error("Please select a patient and a doctor before creating.");
@@ -87,9 +118,9 @@ const TreatmentForm = ({
 
     if (mode === "create") {
       addTreatmentMutate(data);
+    } else {
+      editTreatmentMutate({ id: treatmentData?.id, ...data });
     }
-
-    console.log(values);
   };
 
   return (
