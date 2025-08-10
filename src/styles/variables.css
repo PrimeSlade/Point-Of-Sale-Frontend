@@ -1,12 +1,14 @@
 :root {
   /* Base colors */
   --primary-color: #007b9e; /* Rich Cyan-Blue - Trust and Tech */
+  --primary-bg: #e6f6fa; /* Light Aqua - Background */
   --primary-color-hover: #006884; /* darker */
   --secondary-color: #00bfa6; /* Aqua Green - Clean and Inviting */
   --accent-color: #ffc857; /* Warm Amber - Attention Grabbing (Buttons/Highlights) */
   --danger-color: #d92d43; /* Stronger Danger Red */
   --danger-color-hover: #b22535;
   --success-color: #10b981; /* Mint Green - Confirmation */
+  --success-bg: #f0fdf4;
   --success-color-hover: #0e9f6e; /* daker */
   --edit-color: #4a90e2; /* Cool Blue */
   --edit-color-hover: #357ab8;

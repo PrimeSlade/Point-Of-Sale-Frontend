@@ -8,7 +8,7 @@ type TreatmentCardProps = {
 const TreatmentCard = ({ data }: TreatmentCardProps) => {
   console.log(data);
   return (
-    <div className="border rounded-lg h-full">
+    <div className="border rounded-lg h-full shadow">
       <h1 className="font-bold text-xl p-5">Treatment History</h1>
       <hr />
       <div className="px-5">

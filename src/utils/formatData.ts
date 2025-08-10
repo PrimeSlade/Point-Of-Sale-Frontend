@@ -4,6 +4,13 @@ const formatDate = (date: Date) => {
   return format(date, "dd/MM/yyyy");
 };
 
+const formatText = (input: string): string => {
+  return input
+    .split("_")
+    .map((text) => text[0].toUpperCase() + text.slice(1))
+    .join(" ");
+};
+
 const calcAge = (dob: Date): string => {
   const age = new Date().getFullYear() - dob.getFullYear();
   const month = new Date().getMonth() - dob.getMonth();
@@ -15,4 +22,4 @@ const calcAge = (dob: Date): string => {
     : `${month} month`;
 };
 
-export { formatDate, calcAge };
+export { formatDate, calcAge, formatText };

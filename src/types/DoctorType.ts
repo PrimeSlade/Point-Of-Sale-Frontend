@@ -1,4 +1,6 @@
-type Doctor = {
+import type { PhoneNumber } from "./LocationType";
+
+type DoctorData = {
   id?: string;
   name: string;
   email: string;
@@ -7,6 +9,7 @@ type Doctor = {
   description: string;
   locationId: number;
   phoneNumberId: number;
+  phoneNumber: PhoneNumber;
 };
 
-export type { Doctor };
+export type { DoctorData };

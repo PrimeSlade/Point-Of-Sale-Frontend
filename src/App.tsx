@@ -38,6 +38,7 @@ function App() {
           <Route path="treatments" element={<NestedLayout />}>
             <Route index element={<TreatmentPage />} />
             <Route path="add" element={<TreatmentFormPage />} />
+            <Route path="edit/:id" element={<TreatmentFormPage />} />
           </Route>
           <Route path="invoices" element={<InvoicePage />} />
           <Route path="expenses" element={<ExpensesPage />} />

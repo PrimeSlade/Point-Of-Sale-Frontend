@@ -45,7 +45,7 @@ interface DataTableProps<TData, TValue> {
   isLoading?: boolean;
   columnFilters?: string;
   setColumnFilters?: React.Dispatch<React.SetStateAction<string>>;
-  navigateTo: string;
+  navigateTo?: string;
 }
 
 export function DataTable<TData, TValue>({

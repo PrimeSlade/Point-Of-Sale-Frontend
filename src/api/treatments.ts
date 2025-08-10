@@ -1,7 +1,7 @@
 import axiosInstance from "@/axiosInstance";
-import type { TreatmentData } from "@/types/TreatmentType";
+import type { TreatmentData, TreatmentForm } from "@/types/TreatmentType";
 
-const addTreatment = async (input: TreatmentData) => {
+const addTreatment = async (input: TreatmentForm) => {
   try {
     const { data } = await axiosInstance.post("/treatments/add", input);
 

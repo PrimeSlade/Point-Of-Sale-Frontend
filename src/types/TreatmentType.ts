@@ -1,15 +1,22 @@
-import type { Doctor } from "./DoctorType";
+import type { DoctorData } from "./DoctorType";
 import type { PatientData } from "./PatientType";
 
 type TreatmentData = {
-  id: number;
+  id?: number;
   createdAt: string; // ISO date string
   doctorId: string; // UUID string
   patientId: number;
-  diagnosis: string;
+  diagnosis?: string;
   treatment: string;
-  doctor?: Doctor;
+  doctor?: DoctorData;
   patient?: PatientData;
 };
 
-export type { TreatmentData };
+type TreatmentForm = {
+  doctorId: string;
+  patientId: number;
+  diagnosis?: string;
+  treatment: string;
+};
+
+export type { TreatmentData, TreatmentForm };
