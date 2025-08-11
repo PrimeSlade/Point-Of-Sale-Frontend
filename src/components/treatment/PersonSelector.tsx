@@ -9,7 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import type { DoctorData } from "@/types/DoctorType";
 import type { PatientData } from "@/types/PatientType";
-import { calcAge } from "@/utils/formatData";
+import { calcAge } from "@/utils/formatDate";
 import { Plus, UserRound, X } from "lucide-react";
 import { useState } from "react";
 

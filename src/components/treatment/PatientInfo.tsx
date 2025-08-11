@@ -1,5 +1,5 @@
 import type { PatientData } from "@/types/PatientType";
-import { formatText } from "@/utils/formatData";
+import { formatText } from "@/utils/formatDate";
 
 type PatientInfoProps = {
   data: PatientData | null;

@@ -6,7 +6,7 @@ import type { ItemType } from "@/types/ItemType";
 import { useNavigate } from "react-router-dom";
 import { smallestUnit } from "@/utils/unitUtils";
 import ItemCard from "../item/ItemCard";
-import { formatDate } from "@/utils/formatData";
+import { formatDate } from "@/utils/formatDate";
 
 type ItemColumnsProps = {
   onDelete: (id: number) => void;

@@ -8,7 +8,7 @@ import { getLocations } from "@/api/locations";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../loading/Loading";
 import { useNavigate } from "react-router-dom";
-import { calcAge } from "@/utils/formatData";
+import { calcAge } from "@/utils/formatDate";
 
 type PatientColumnsProps = {
   onDelete: (id: number) => void;

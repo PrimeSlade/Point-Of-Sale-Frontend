@@ -33,7 +33,7 @@ import {
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { formatDate } from "@/utils/formatData";
+import { formatDate } from "@/utils/formatDate";
 
 export type Types = "text" | "number" | "email" | "password";
 

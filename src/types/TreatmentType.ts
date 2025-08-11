@@ -20,4 +20,9 @@ type TreatmentForm = {
   treatment: string;
 };
 
-export type { TreatmentData, TreatmentForm };
+type DateRange = {
+  startDate: Date | undefined;
+  endDate: Date | undefined;
+};
+
+export type { TreatmentData, TreatmentForm, DateRange };

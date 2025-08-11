@@ -2,12 +2,9 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Eye, PenLine, Trash2 } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
-import { getLocations } from "@/api/locations";
-import { useQuery } from "@tanstack/react-query";
-import Loading from "../loading/Loading";
 import { useNavigate } from "react-router-dom";
 import type { TreatmentData } from "@/types/TreatmentType";
-import { calcAge, formatDate } from "@/utils/formatData";
+import { calcAge, formatDate } from "@/utils/formatDate";
 
 type TreatmentColumsProps = {
   onDelete: (id: number) => void;

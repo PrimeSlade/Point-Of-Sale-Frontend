@@ -5,6 +5,8 @@ import TreatmentColumns from "@/components/columns/TreatmentColumns";
 import Header from "@/components/header/Header";
 import { DataTable } from "@/components/table/data-table";
 import useDebounce from "@/hooks/useDebounce";
+import type { DateRange } from "@/types/TreatmentType";
+import { formatLocalDate } from "@/utils/formatDate";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { PaginationState } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
@@ -21,8 +23,12 @@ const TreatmentPage = () => {
     pageIndex: 0,
     pageSize: 15,
   });
+  const [date, setDate] = useState<DateRange>({
+    startDate: undefined,
+    endDate: undefined,
+  });
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get("page") || 1;
 
   //delay the serach input in order to prevent server traffic
@@ -34,7 +40,8 @@ const TreatmentPage = () => {
       ...prev,
       pageIndex: 0, // reset to first page
     }));
-  }, [debouncedSearch]);
+    setSearchParams({ page: "1" });
+  }, [debouncedSearch, date.startDate && date.endDate]);
 
   //saved the page for reloading
   useEffect(() => {
@@ -54,9 +61,17 @@ const TreatmentPage = () => {
       getTreatments(
         paginationState.pageIndex + 1,
         paginationState.pageSize,
-        debouncedSearch
+        debouncedSearch,
+        date.startDate ? formatLocalDate(date.startDate) : undefined,
+        date.endDate ? formatLocalDate(date.endDate) : undefined
       ),
-    queryKey: ["treatments", paginationState.pageIndex, debouncedSearch],
+    queryKey: [
+      "treatments",
+      paginationState.pageIndex,
+      debouncedSearch,
+      date.startDate,
+      date.endDate,
+    ],
   });
 
   const { mutate: deleteTreatmentMutate, isPending: isDeleting } = useMutation({
@@ -109,6 +124,9 @@ const TreatmentPage = () => {
         setGlobalFilter={setGlobalFilter}
         serverSideSearch
         navigateTo="/dashboard/treatments"
+        filterByDate
+        date={date}
+        setDate={setDate}
       />
       {fetchTreatmentError && (
         <AlertBox

@@ -17,7 +17,7 @@ const ItemServicePage = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get("page") || 1;
 
   //serverside pagination, searching and filtering
@@ -38,6 +38,7 @@ const ItemServicePage = () => {
       ...prev,
       pageIndex: 0, // reset to first page
     }));
+    setSearchParams({ page: "1" });
   }, [debouncedSearch, columnFilters]);
 
   //saved the page for reloading

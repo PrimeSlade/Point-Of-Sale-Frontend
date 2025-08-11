@@ -1,6 +1,6 @@
 import type { PatientData } from "@/types/PatientType";
 import { Button } from "../ui/button";
-import { calcAge, formatDate, formatText } from "@/utils/formatData";
+import { calcAge, formatDate, formatText } from "@/utils/formatDate";
 
 type PatientCardProps = {
   data: PatientData;

@@ -20,6 +20,9 @@ import Loading from "../loading/Loading";
 import PaginationBtn from "./PaginationBtn";
 import { useNavigate } from "react-router-dom";
 import FilterBtn from "./FilterBtn";
+import type { DateRange } from "@/types/TreatmentType";
+import FilterByDate from "./FilterByDate";
+import { setDate } from "date-fns";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -46,6 +49,9 @@ interface DataTableProps<TData, TValue> {
   columnFilters?: string;
   setColumnFilters?: React.Dispatch<React.SetStateAction<string>>;
   navigateTo?: string;
+  filterByDate?: boolean;
+  date?: DateRange;
+  setDate?: React.Dispatch<React.SetStateAction<DateRange>>;
 }
 
 export function DataTable<TData, TValue>({
@@ -64,6 +70,9 @@ export function DataTable<TData, TValue>({
   isLoading,
   setColumnFilters,
   navigateTo,
+  filterByDate,
+  date,
+  setDate,
 }: DataTableProps<TData, TValue>) {
   const navigate = useNavigate();
 
@@ -114,6 +123,9 @@ export function DataTable<TData, TValue>({
             serverSideSearch
             setColumnFilters={setColumnFilters}
           />
+        )}
+        {FilterByDate && date && setDate && (
+          <FilterByDate date={date} setDate={setDate} />
         )}
       </div>
 
