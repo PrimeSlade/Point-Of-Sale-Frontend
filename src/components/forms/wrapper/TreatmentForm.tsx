@@ -43,7 +43,7 @@ const TreatmentForm = ({
       .min(5, {
         message: "Treatment must be at least 5 characters.",
       })
-      .max(250, {
+      .max(300, {
         message: "Treatment must not be longer than 250 characters.",
       }),
   });

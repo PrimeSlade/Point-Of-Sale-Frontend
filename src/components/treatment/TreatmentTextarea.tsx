@@ -40,24 +40,12 @@ const TreatmentTextarea = ({
               </span>
             </FormLabel>
             <FormControl>
-              <Textarea
-                placeholder={placeholder}
-                className="resize-none"
-                {...field}
-              />
+              <Textarea placeholder={placeholder} {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
         )}
       />
-      {/* <div>
-        <label htmlFor={label} className="font-bold">
-          {title}
-        </label>
-      </div>
-      <div>
-        <Textarea id={label} placeholder={placeholder} />
-      </div> */}
     </div>
   );
 };

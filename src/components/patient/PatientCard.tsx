@@ -1,12 +1,15 @@
 import type { PatientData } from "@/types/PatientType";
 import { Button } from "../ui/button";
 import { calcAge, formatDate, formatText } from "@/utils/formatDate";
+import { useNavigate } from "react-router-dom";
 
 type PatientCardProps = {
   data: PatientData;
 };
 
 const PatientCard = ({ data }: PatientCardProps) => {
+  const navigate = useNavigate();
+
   const dob = new Date(data?.dateOfBirth);
 
   const formatted = formatDate(data?.dateOfBirth);
@@ -151,7 +154,10 @@ const PatientCard = ({ data }: PatientCardProps) => {
             </div>
           </div>
         </div>
-        <Button className="bg-[var(--success-color)] hover:bg-[var(--success-color-hover)] mt-2">
+        <Button
+          className="bg-[var(--success-color)] hover:bg-[var(--success-color-hover)] mt-2"
+          onClick={() => navigate("/dashboard/treatments/add")}
+        >
           New Treatment
         </Button>
       </div>

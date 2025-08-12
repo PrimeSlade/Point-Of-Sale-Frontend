@@ -1,10 +1,11 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { Eye, PenLine, Trash2 } from "lucide-react";
+import { PenLine, Trash2 } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { TreatmentData } from "@/types/TreatmentType";
 import { calcAge, formatDate } from "@/utils/formatDate";
+import TreatmentCard from "../treatment/TreatmentCard";
 
 type TreatmentColumsProps = {
   onDelete: (id: number) => void;
@@ -72,14 +73,7 @@ const TreatmentColumns = ({
       return (
         <>
           <div className="flex gap-5 items-center">
-            <button
-              onClick={() => navigate(`/dashboard/patients/${treatment.id}`)}
-            >
-              <Eye
-                size={20}
-                className="text-[var(--success-color)] hover:text-[var(--success-color-hover)] hover:border hover:border-white"
-              />
-            </button>
+            <TreatmentCard data={treatment} />
             <button
               onClick={() =>
                 navigate(`/dashboard/treatments/edit/${treatment.id}`)
