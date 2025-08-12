@@ -38,7 +38,9 @@ const ItemServicePage = () => {
       ...prev,
       pageIndex: 0, // reset to first page
     }));
-    setSearchParams({ page: "1" });
+    if (debouncedSearch || columnFilters) {
+      setSearchParams({ page: "1" });
+    }
   }, [debouncedSearch, columnFilters]);
 
   //saved the page for reloading

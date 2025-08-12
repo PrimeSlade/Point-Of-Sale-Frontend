@@ -22,7 +22,6 @@ import { useNavigate } from "react-router-dom";
 import FilterBtn from "./FilterBtn";
 import type { DateRange } from "@/types/TreatmentType";
 import FilterByDate from "./FilterByDate";
-import { setDate } from "date-fns";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -45,7 +44,6 @@ interface DataTableProps<TData, TValue> {
   globalFilter: string;
   setGlobalFilter: React.Dispatch<React.SetStateAction<string>>;
   serverSideSearch?: boolean;
-  isLoading?: boolean;
   columnFilters?: string;
   setColumnFilters?: React.Dispatch<React.SetStateAction<string>>;
   navigateTo?: string;
@@ -67,7 +65,6 @@ export function DataTable<TData, TValue>({
   serverSideSearch = false,
   globalFilter,
   setGlobalFilter,
-  isLoading,
   setColumnFilters,
   navigateTo,
   filterByDate,
@@ -103,9 +100,6 @@ export function DataTable<TData, TValue>({
       : setPaginationState,
   });
 
-  if (isLoading)
-    return <Loading className="flex justify-center h-screen items-center" />;
-
   return (
     <div>
       <div className="flex items-center py-4">
@@ -124,7 +118,7 @@ export function DataTable<TData, TValue>({
             setColumnFilters={setColumnFilters}
           />
         )}
-        {FilterByDate && date && setDate && (
+        {filterByDate && date && setDate && (
           <FilterByDate date={date} setDate={setDate} />
         )}
       </div>

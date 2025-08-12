@@ -20,6 +20,7 @@ import PatientDetailsPage from "./pages/patient/PatientDetailsPage";
 import NestedLayout from "./components/layout/NestedLayout";
 import TreatmentFormPage from "./pages/treatment/TreatmentFormPage";
 import ExpenseMainPage from "./pages/expense/ExpenseMainPage";
+import CategoryPage from "./pages/expense/CategoryPage";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="expenses" element={<ExpenseMainPage />}>
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<ExpensesPage />} />
+            <Route path="category" element={<CategoryPage />} />
           </Route>
           <Route path="report" element={<ReportPage />} />
           <Route path="settings" element={<SettingPage />}>

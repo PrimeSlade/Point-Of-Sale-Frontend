@@ -2,55 +2,35 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { PenLine, Trash2 } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
-import type { ItemType } from "@/types/ItemType";
-import { useNavigate } from "react-router-dom";
-import { smallestUnit } from "@/utils/unitUtils";
-import ItemCard from "../item/ItemCard";
+import type { CategoryType } from "../../types/ExpenseType";
 import { formatDate } from "@/utils/formatDate";
 import { getLocations } from "@/api/locations";
 import Loading from "../loading/Loading";
 import { useQuery } from "@tanstack/react-query";
+import CategoryForm from "../forms/wrapper/CategoryForm";
 
-type ItemColumnsProps = {
+type CategoryColumnsProps = {
   onDelete: (id: number) => void;
   isDeleting: boolean;
-  page: number;
 };
 
-const ItemColumns = ({
+const CategoryColumn = ({
   onDelete,
   isDeleting,
-  page,
-}: ItemColumnsProps): ColumnDef<ItemType>[] => [
+}: CategoryColumnsProps): ColumnDef<CategoryType>[] => [
   {
     id: "rowIndex",
-    header: () => <div className="font-bold text-center">No</div>,
-    cell: ({ row }) => (
-      <div className="text-center">{page * 15 + row.index + 1}</div>
-    ),
+    header: () => <div className="font-bold ">No</div>,
+    cell: ({ row }) => <div className="">{row.index + 1}</div>,
     enableGlobalFilter: false,
   },
-
   {
     accessorKey: "name",
-    header: () => <div className="font-bold">Name</div>,
-  },
-  {
-    accessorKey: "category",
     header: () => <div className="font-bold">Category</div>,
   },
   {
-    accessorKey: "expiryDate",
-    header: () => <div className="font-bold">Expiry Date</div>,
-    cell: ({ row }) => {
-      const value = row.getValue<string>("expiryDate");
-      const date = new Date(value);
-
-      //fn
-      const formatted = formatDate(date);
-
-      return <span>{formatted}</span>;
-    },
+    accessorKey: "description",
+    header: () => <div className="font-bold">Description</div>,
   },
   {
     id: "location",
@@ -62,39 +42,23 @@ const ItemColumns = ({
     },
   },
   {
-    accessorKey: "unit",
-    header: () => <div className="font-bold">Unit</div>,
+    accessorKey: "createdAt",
+    header: () => <div className="font-bold">Date</div>,
     cell: ({ row }) => {
-      const itemUnits = row.original.itemUnits;
-
-      const unit = smallestUnit(itemUnits);
-
-      return <span>{unit!.unitType}</span>;
-    },
-  },
-  {
-    accessorKey: "price",
-    header: () => <div className="font-bold">Purchase Price</div>,
-    cell: ({ row }) => {
-      const itemUnits = row.original.itemUnits;
-
-      const unit = smallestUnit(itemUnits);
-
-      return <span>{unit!.purchasePrice}</span>;
+      return formatDate(new Date(row.original.createdAt));
     },
   },
   {
     accessorKey: "action",
     header: () => <div className="font-bold">Actions</div>,
     cell: ({ row }) => {
-      const item = row.original;
+      const category = row.original;
 
       const [alertOpen, setAlertOpen] = useState(false);
-
-      const navigate = useNavigate();
+      const [isFormOpen, setIsFormOpen] = useState(false);
 
       const {
-        data: locationData,
+        data: locations,
         isLoading: isFetchingLocations,
         error: fetchError,
       } = useQuery({
@@ -110,10 +74,7 @@ const ItemColumns = ({
       return (
         <>
           <div className="flex gap-5 items-center">
-            <ItemCard data={item} />
-            <button
-              onClick={() => navigate(`/dashboard/items/edit/${item.id}`)}
-            >
+            <button onClick={() => setIsFormOpen(true)}>
               <PenLine
                 size={20}
                 className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
@@ -131,12 +92,19 @@ const ItemColumns = ({
             title="Confirm Deletion"
             description="Are you sure you want to delete this?"
             onClose={() => setAlertOpen(false)}
-            onConfirm={() => onDelete(item.id)}
+            onConfirm={() => onDelete(category.id!)}
             mode="confirm"
+          />
+          <CategoryForm
+            data={category}
+            locationData={locations}
+            mode="edit"
+            open={isFormOpen}
+            onClose={setIsFormOpen}
           />
         </>
       );
     },
   },
 ];
-export default ItemColumns;
+export default CategoryColumn;

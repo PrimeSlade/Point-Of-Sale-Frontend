@@ -47,7 +47,7 @@ export type FormFieldConfig = {
   //Might delete it later
   type?: Types;
   fieldType?: FieldType;
-  options?: { value: string; label: string }[];
+  options?: { value: string | number; label: string }[];
   optional?: boolean;
 };
 
@@ -174,8 +174,12 @@ function ReusableFormDialog<T>({
                             </span>
                           </FormLabel>
                           <Select
-                            value={field.value}
-                            onValueChange={field.onChange}
+                            value={field.value?.toString() ?? ""}
+                            onValueChange={(val) => {
+                              // Only convert if val looks like a number
+                              const num = Number(val);
+                              field.onChange(isNaN(num) ? val : num);
+                            }}
                           >
                             <FormControl>
                               <SelectTrigger className="w-full">
@@ -184,7 +188,10 @@ function ReusableFormDialog<T>({
                             </FormControl>
                             <SelectContent>
                               {options.map((opt) => (
-                                <SelectItem key={opt.value} value={opt.value}>
+                                <SelectItem
+                                  key={opt.value}
+                                  value={opt.value.toString()}
+                                >
                                   {opt.label}
                                 </SelectItem>
                               ))}

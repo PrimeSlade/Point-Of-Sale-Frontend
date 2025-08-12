@@ -1,7 +1,7 @@
 import type { LocationType } from "@/types/LocationType";
 import type { PatientData } from "@/types/PatientType";
 import { type Dispatch, type SetStateAction } from "react";
-import z, { optional } from "zod";
+import z from "zod";
 import ReusableFormDialog, { type FieldType } from "../form/ReusableFrom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -11,7 +11,7 @@ import { toast } from "sonner";
 
 type PatientFormProps = {
   data?: PatientData;
-  locationData?: any;
+  locationData?: LocationType[];
   mode: "create" | "edit";
   open: boolean;
   onClose: Dispatch<SetStateAction<boolean>>;
@@ -77,11 +77,6 @@ const PatientForm = ({
     },
   });
 
-  //Enum
-  const locationNames = locationData
-    ? locationData.map((d: LocationType) => d.name)
-    : ["Location"];
-
   //From
   const formSchema = z.object({
     name: z
@@ -117,8 +112,8 @@ const PatientForm = ({
       message: "Please select a department.",
     }),
 
-    locationId: z.enum(locationNames, {
-      message: "Please select a location.",
+    locationId: z.number({
+      message: "Please select a valid location.",
     }),
 
     phoneNumber: z.string().regex(/^\+?[0-9]{9,15}$/, {
@@ -139,18 +134,12 @@ const PatientForm = ({
       patientCondition: data?.patientCondition ?? undefined,
       patientType: data?.patientType ?? undefined,
       department: data?.department ?? undefined,
-      locationId: data?.location?.name ?? "",
+      locationId: data?.location?.id ?? undefined,
       phoneNumber: data?.phoneNumber?.number ?? "",
     },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    const { id } = locationData.find(
-      (d: LocationType) => d.name === values.locationId
-    )!;
-
-    values.locationId = id;
-
     if (mode === "create") {
       addPatientMutate(values);
     } else {
@@ -174,7 +163,6 @@ const PatientForm = ({
       name: "email",
       label: "Email",
       placeholder: "Enter patient email",
-      optional: true,
     },
     {
       name: "gender",
@@ -222,7 +210,10 @@ const PatientForm = ({
       label: "Location",
       placeholder: "Select a Location",
       fieldType: "select" as FieldType,
-      options: locationNames.map((l: string) => ({ value: l, label: l })),
+      options: locationData!.map((l: LocationType) => ({
+        value: l.id,
+        label: l.name,
+      })),
     },
     {
       name: "phoneNumber",

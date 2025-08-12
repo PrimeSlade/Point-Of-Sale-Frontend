@@ -40,7 +40,9 @@ const TreatmentPage = () => {
       ...prev,
       pageIndex: 0, // reset to first page
     }));
-    setSearchParams({ page: "1" });
+    if (debouncedSearch || (data?.startDate && data?.endDate)) {
+      setSearchParams({ page: "1" });
+    }
   }, [debouncedSearch, date.startDate && date.endDate]);
 
   //saved the page for reloading
