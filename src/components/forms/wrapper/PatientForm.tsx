@@ -1,7 +1,7 @@
 import type { LocationType } from "@/types/LocationType";
 import type { PatientData } from "@/types/PatientType";
 import { type Dispatch, type SetStateAction } from "react";
-import z from "zod";
+import z, { optional } from "zod";
 import ReusableFormDialog, { type FieldType } from "../form/ReusableFrom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -164,8 +164,18 @@ const PatientForm = ({
       label: "Patient Name",
       placeholder: "Enter a patient name",
     },
-    { name: "address", label: "Address", placeholder: "Enter address" },
-    { name: "email", label: "Email", placeholder: "Enter patient email" },
+    {
+      name: "address",
+      label: "Address",
+      placeholder: "Enter address",
+      optional: true,
+    },
+    {
+      name: "email",
+      label: "Email",
+      placeholder: "Enter patient email",
+      optional: true,
+    },
     {
       name: "gender",
       label: "Gender",

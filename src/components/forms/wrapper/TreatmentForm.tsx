@@ -165,6 +165,7 @@ const TreatmentForm = ({
               title="Diagnosis"
               form={form}
               name="diagnosis"
+              optional
             />
             <TreatmentTextarea
               label="treatment"

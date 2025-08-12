@@ -25,7 +25,10 @@ const PatientDoctorForm = <T extends PatientData | DoctorData>({
 }: PatientDoctorFormProps<T>) => {
   return (
     <div className="border rounded-xl p-5 flex flex-col gap-3 shadow min-h-45">
-      <div className="font-bold">{title}</div>
+      <div>
+        <span className="font-bold">{title}</span>
+        <span className="text-[var(--danger-color)]">*</span>
+      </div>
       <div>
         <PersonSelector
           btnLabel={btnLabel}

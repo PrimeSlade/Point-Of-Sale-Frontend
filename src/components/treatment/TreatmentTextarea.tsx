@@ -14,6 +14,7 @@ type TreatmentTextareaProps = {
   title: string;
   form: UseFormReturn<any>;
   name: string;
+  optional?: boolean;
 };
 
 const TreatmentTextarea = ({
@@ -21,6 +22,7 @@ const TreatmentTextarea = ({
   placeholder,
   form,
   name,
+  optional = false,
 }: TreatmentTextareaProps) => {
   return (
     <div className="flex flex-col gap-3">
@@ -29,7 +31,14 @@ const TreatmentTextarea = ({
         name={name}
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="font-bold">{title}</FormLabel>
+            <FormLabel className="font-bold">
+              <span>
+                {title}
+                {!optional && (
+                  <span className="text-[var(--danger-color)]">*</span>
+                )}
+              </span>
+            </FormLabel>
             <FormControl>
               <Textarea
                 placeholder={placeholder}

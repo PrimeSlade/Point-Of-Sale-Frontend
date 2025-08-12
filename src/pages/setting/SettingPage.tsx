@@ -1,8 +1,15 @@
 import Header from "@/components/header/Header";
-import SettingNav from "@/components/setting/SettingNav";
+import NavBar from "@/components/navbar/NavBar";
+import { AlignJustify, MapPin, Users } from "lucide-react";
 import { Outlet } from "react-router-dom";
 
 const SettingPage = () => {
+  const navItems = [
+    { name: "Locations", path: "locations", icon: <MapPin /> },
+    { name: "Users", path: "users", icon: <Users /> },
+    { name: "General", path: "general", icon: <AlignJustify /> },
+  ];
+
   return (
     <div>
       <Header
@@ -10,7 +17,7 @@ const SettingPage = () => {
         className="text-3xl"
         subHeader="Manage clinic settings, locations, and users"
       />
-      <SettingNav />
+      <NavBar navItems={navItems} path="settings" />
       <Outlet />
     </div>
   );

@@ -48,6 +48,7 @@ export type FormFieldConfig = {
   type?: Types;
   fieldType?: FieldType;
   options?: { value: string; label: string }[];
+  optional?: boolean;
 };
 
 type ReusableFormDialogProps<T> = {
@@ -96,6 +97,7 @@ function ReusableFormDialog<T>({
                 type = "text",
                 fieldType = "input",
                 options,
+                optional,
               }) => {
                 if (fieldType === "date") {
                   return (
@@ -105,7 +107,14 @@ function ReusableFormDialog<T>({
                       name={name}
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>{label}</FormLabel>
+                          <FormLabel>
+                            <span>
+                              {label}
+                              <span className="text-[var(--danger-color)]">
+                                *
+                              </span>
+                            </span>
+                          </FormLabel>
                           <Popover>
                             <PopoverTrigger asChild>
                               <FormControl>
@@ -156,7 +165,14 @@ function ReusableFormDialog<T>({
                       name={name}
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>{label}</FormLabel>
+                          <FormLabel>
+                            <span>
+                              {label}
+                              <span className="text-[var(--danger-color)]">
+                                *
+                              </span>
+                            </span>
+                          </FormLabel>
                           <Select
                             value={field.value}
                             onValueChange={field.onChange}
@@ -189,7 +205,16 @@ function ReusableFormDialog<T>({
                     name={name}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{label}</FormLabel>
+                        <FormLabel>
+                          <span>
+                            {label}
+                            {!optional && (
+                              <span className="text-[var(--danger-color)]">
+                                *
+                              </span>
+                            )}
+                          </span>
+                        </FormLabel>
                         <FormControl>
                           <Input
                             placeholder={placeholder}

@@ -1,13 +1,17 @@
-import { AlignJustify, MapPin, Users } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
-const SettingNav = () => {
-  const navItems = [
-    { name: "Locations", path: "locations", icon: <MapPin /> },
-    { name: "Users", path: "users", icon: <Users /> },
-    { name: "General", path: "general", icon: <AlignJustify /> },
-  ];
+type NavItem = {
+  name: string;
+  path: string;
+  icon: React.ReactNode;
+};
 
+type NavBarProps = {
+  navItems: NavItem[];
+  path: string;
+};
+
+const NavBar = ({ navItems, path }: NavBarProps) => {
   const location = useLocation();
 
   const isActive = (path: string) => {
@@ -24,7 +28,7 @@ const SettingNav = () => {
             <Link
               to={item.path}
               className={`flex gap-2 pb-3 font-bold ${isActive(
-                `/dashboard/settings/${item.path}`
+                `/dashboard/${path}/${item.path}`
               )}`}
             >
               <span>{item.icon}</span>
@@ -37,4 +41,4 @@ const SettingNav = () => {
   );
 };
 
-export default SettingNav;
+export default NavBar;

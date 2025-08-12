@@ -74,7 +74,12 @@ const InventoryItemForm = <T extends FieldValues>({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Item Name</FormLabel>
+                  <FormLabel>
+                    <span>
+                      Item Name
+                      <span className="text-[var(--danger-color)]">*</span>
+                    </span>
+                  </FormLabel>
                   <FormControl>
                     <Input placeholder="Item Name" {...field} />
                   </FormControl>
@@ -87,7 +92,12 @@ const InventoryItemForm = <T extends FieldValues>({
               name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category</FormLabel>
+                  <FormLabel>
+                    <span>
+                      Category
+                      <span className="text-[var(--danger-color)]">*</span>
+                    </span>
+                  </FormLabel>
                   <FormControl>
                     <Input placeholder="Category" {...field} />
                   </FormControl>
@@ -100,7 +110,12 @@ const InventoryItemForm = <T extends FieldValues>({
               name="expiryDate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Expire Date</FormLabel>
+                  <FormLabel>
+                    <span>
+                      Expire Date
+                      <span className="text-[var(--danger-color)]">*</span>
+                    </span>
+                  </FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -141,7 +156,12 @@ const InventoryItemForm = <T extends FieldValues>({
               name="locationId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Location</FormLabel>
+                  <FormLabel>
+                    <span>
+                      Location
+                      <span className="text-[var(--danger-color)]">*</span>
+                    </span>
+                  </FormLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger className="w-full">
@@ -188,7 +208,12 @@ const InventoryItemForm = <T extends FieldValues>({
                 name={`itemUnits.${index}.unitType`}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Unit Type</FormLabel>
+                    <FormLabel>
+                      <span>
+                        Unit Type
+                        <span className="text-[var(--danger-color)]">*</span>
+                      </span>
+                    </FormLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className=" w-full min-w-[150px]">
@@ -213,7 +238,12 @@ const InventoryItemForm = <T extends FieldValues>({
                 name={`itemUnits.${index}.quantity`}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Quantity</FormLabel>
+                    <FormLabel>
+                      <span>
+                        Quantity
+                        <span className="text-[var(--danger-color)]">*</span>
+                      </span>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Quantity"
@@ -236,7 +266,12 @@ const InventoryItemForm = <T extends FieldValues>({
                 name={`itemUnits.${index}.purchasePrice`}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Purchase Price</FormLabel>
+                    <FormLabel>
+                      <span>
+                        Purchase Price
+                        <span className="text-[var(--danger-color)]">*</span>
+                      </span>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Price"

@@ -7,7 +7,7 @@ import PatientPage from "./pages/patient/PatientPage";
 import DoctorPage from "./pages/DoctorPage";
 import TreatmentPage from "./pages/treatment/TreatmentPage";
 import InvoicePage from "./pages/InvoicePage";
-import ExpensesPage from "./pages/ExpensesPage";
+import ExpensesPage from "./pages/expense/ExpensesPage";
 import ReportPage from "./pages/ReportPage";
 import SettingPage from "./pages/setting/SettingPage";
 import LocationPage from "./pages/setting/LocationPage";
@@ -19,6 +19,7 @@ import ServicePage from "./pages/service/ServicePage";
 import PatientDetailsPage from "./pages/patient/PatientDetailsPage";
 import NestedLayout from "./components/layout/NestedLayout";
 import TreatmentFormPage from "./pages/treatment/TreatmentFormPage";
+import ExpenseMainPage from "./pages/expense/ExpenseMainPage";
 
 function App() {
   return (
@@ -41,7 +42,10 @@ function App() {
             <Route path="edit/:id" element={<TreatmentFormPage />} />
           </Route>
           <Route path="invoices" element={<InvoicePage />} />
-          <Route path="expenses" element={<ExpensesPage />} />
+          <Route path="expenses" element={<ExpenseMainPage />}>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<ExpensesPage />} />
+          </Route>
           <Route path="report" element={<ReportPage />} />
           <Route path="settings" element={<SettingPage />}>
             <Route index element={<Navigate to="locations" replace />} />
