@@ -2,7 +2,7 @@ import { deleteCategoryById, getCategories } from "@/api/categories";
 import { getLocations } from "@/api/locations";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
-import CategoryColumn from "@/components/columns/CategoryColumn";
+import CategoryColumns from "@/components/columns/CategoryColumns";
 import CategoryForm from "@/components/forms/wrapper/CategoryForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
@@ -51,9 +51,10 @@ const CategoryPage = () => {
     },
   });
 
-  const columns = CategoryColumn({
+  const columns = CategoryColumns({
     onDelete: deleteCategoryMutate,
     isDeleting,
+    locations,
   });
 
   const isLoading = isFetchingCategories || isFetchingLocations;
@@ -97,7 +98,6 @@ const CategoryPage = () => {
         />
       )}
       <CategoryForm
-        data={categories?.data}
         locationData={locations}
         mode="create"
         open={isFormOpen}

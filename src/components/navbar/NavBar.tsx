@@ -23,8 +23,8 @@ const NavBar = ({ navItems, path }: NavBarProps) => {
   return (
     <nav>
       <ul className="flex gap-20 border-b mt-10">
-        {navItems.map((item) => (
-          <li>
+        {navItems.map((item, i) => (
+          <li key={i}>
             <Link
               to={item.path}
               className={`flex gap-2 pb-3 font-bold ${isActive(

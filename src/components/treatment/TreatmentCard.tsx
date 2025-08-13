@@ -42,12 +42,17 @@ const TreatmentCard = ({ data }: TreatmentCardProps) => {
               <div className="px-3 py-2">{formatted}</div>
             </div>
 
-            <h1 className="font-bold text-[var(--text-secondary)] col-span-3">
-              Diagnosis
-            </h1>
-            <div className="px-3 py-2 border rounded-md bg-[var(--background-color)] col-span-3">
-              {data.diagnosis}
-            </div>
+            {data.diagnosis && (
+              <>
+                <h1 className="font-bold text-[var(--text-secondary)] col-span-3">
+                  Diagnosis
+                </h1>
+                <div className="px-3 py-2 border rounded-md bg-[var(--background-color)] col-span-3">
+                  {data.diagnosis}
+                </div>
+              </>
+            )}
+
             <h1 className="font-bold text-[var(--text-secondary)] col-span-3">
               Treatment
             </h1>

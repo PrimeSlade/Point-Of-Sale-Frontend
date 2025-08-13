@@ -8,15 +8,18 @@ import { getLocations } from "@/api/locations";
 import Loading from "../loading/Loading";
 import { useQuery } from "@tanstack/react-query";
 import CategoryForm from "../forms/wrapper/CategoryForm";
+import type { LocationType } from "@/types/LocationType";
 
 type CategoryColumnsProps = {
   onDelete: (id: number) => void;
   isDeleting: boolean;
+  locations: LocationType[];
 };
 
 const CategoryColumn = ({
   onDelete,
   isDeleting,
+  locations,
 }: CategoryColumnsProps): ColumnDef<CategoryType>[] => [
   {
     id: "rowIndex",
@@ -56,20 +59,6 @@ const CategoryColumn = ({
 
       const [alertOpen, setAlertOpen] = useState(false);
       const [isFormOpen, setIsFormOpen] = useState(false);
-
-      const {
-        data: locations,
-        isLoading: isFetchingLocations,
-        error: fetchError,
-      } = useQuery({
-        queryFn: getLocations,
-        queryKey: ["locations"],
-      });
-
-      if (isFetchingLocations)
-        return (
-          <Loading className="flex justify-center h-screen items-center" />
-        );
 
       return (
         <>
