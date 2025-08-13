@@ -1,5 +1,5 @@
 import axiosInstance from "@/axiosInstance";
-import type { TreatmentForm } from "@/types/TreatmentType";
+import type { ExpenseForm } from "@/types/ExpenseType";
 
 const getExpenses = async () => {
   try {
@@ -11,7 +11,7 @@ const getExpenses = async () => {
   }
 };
 
-const addExpense = async (input: TreatmentForm) => {
+const addExpense = async (input: ExpenseForm) => {
   try {
     const { data } = await axiosInstance.post("/expenses/add", input);
 
@@ -21,7 +21,7 @@ const addExpense = async (input: TreatmentForm) => {
   }
 };
 
-const editExpenseById = async (input: TreatmentForm) => {
+const editExpenseById = async (input: ExpenseForm) => {
   try {
     const { data } = await axiosInstance.put(`/expenses/${input.id}`, input);
 
