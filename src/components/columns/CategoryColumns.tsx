@@ -4,9 +4,6 @@ import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
 import type { CategoryType } from "../../types/ExpenseType";
 import { formatDate } from "@/utils/formatDate";
-import { getLocations } from "@/api/locations";
-import Loading from "../loading/Loading";
-import { useQuery } from "@tanstack/react-query";
 import CategoryForm from "../forms/wrapper/CategoryForm";
 import type { LocationType } from "@/types/LocationType";
 

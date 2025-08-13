@@ -51,12 +51,6 @@ const CategoryPage = () => {
     },
   });
 
-  const columns = CategoryColumns({
-    onDelete: deleteCategoryMutate,
-    isDeleting,
-    locations,
-  });
-
   const isLoading = isFetchingCategories || isFetchingLocations;
   const fetchError = fetchCategoriesError || fetchLocationsError;
 
@@ -67,6 +61,12 @@ const CategoryPage = () => {
   }, [fetchError]);
 
   if (isLoading) return <Loading className="h-150" />;
+
+  const columns = CategoryColumns({
+    onDelete: deleteCategoryMutate,
+    isDeleting,
+    locations,
+  });
 
   return (
     <>

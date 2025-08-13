@@ -56,15 +56,16 @@ const PatientPage = () => {
     },
   });
 
-  const columns = PatientColumns({
-    onDelete: deletePatientMutate,
-    isDeleting,
-  });
-
   const isLoading = isFetchingPatients || isFetchingLocations;
 
   if (isLoading)
     return <Loading className="flex justify-center h-screen items-center" />;
+
+  const columns = PatientColumns({
+    onDelete: deletePatientMutate,
+    isDeleting,
+    locations,
+  });
 
   return (
     <>

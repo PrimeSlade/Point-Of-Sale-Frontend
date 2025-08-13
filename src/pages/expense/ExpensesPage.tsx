@@ -69,13 +69,6 @@ const ExpensesPage = () => {
   const fetchError =
     fetchExpensesError || fetchLocationsError || fetchCategoriesError;
 
-  const columns = ExpensesColumns({
-    onDelete: deleteExpenseMutate,
-    isDeleting,
-    locations,
-    categories: categories?.data,
-  });
-
   useEffect(() => {
     if (fetchError) {
       setErrorOpen(true);
@@ -83,6 +76,13 @@ const ExpensesPage = () => {
   }, [fetchError]);
 
   if (isLoading) return <Loading className="h-150" />;
+
+  const columns = ExpensesColumns({
+    onDelete: deleteExpenseMutate,
+    isDeleting,
+    locations,
+    categories: categories?.data,
+  });
 
   return (
     <>

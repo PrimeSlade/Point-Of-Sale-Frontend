@@ -7,9 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { smallestUnit } from "@/utils/unitUtils";
 import ItemCard from "../item/ItemCard";
 import { formatDate } from "@/utils/formatDate";
-import { getLocations } from "@/api/locations";
-import Loading from "../loading/Loading";
-import { useQuery } from "@tanstack/react-query";
 
 type ItemColumnsProps = {
   onDelete: (id: number) => void;
@@ -92,20 +89,6 @@ const ItemColumns = ({
       const [alertOpen, setAlertOpen] = useState(false);
 
       const navigate = useNavigate();
-
-      const {
-        data: locationData,
-        isLoading: isFetchingLocations,
-        error: fetchError,
-      } = useQuery({
-        queryFn: getLocations,
-        queryKey: ["locations"],
-      });
-
-      if (isFetchingLocations)
-        return (
-          <Loading className="flex justify-center h-screen items-center" />
-        );
 
       return (
         <>

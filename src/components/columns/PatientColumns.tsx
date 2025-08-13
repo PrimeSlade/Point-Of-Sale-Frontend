@@ -4,20 +4,20 @@ import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
 import type { PatientData } from "@/types/PatientType";
 import PatientForm from "../forms/wrapper/PatientForm";
-import { getLocations } from "@/api/locations";
-import { useQuery } from "@tanstack/react-query";
-import Loading from "../loading/Loading";
 import { useNavigate } from "react-router-dom";
 import { calcAge } from "@/utils/formatDate";
+import type { LocationType } from "@/types/LocationType";
 
 type PatientColumnsProps = {
   onDelete: (id: number) => void;
   isDeleting: boolean;
+  locations: LocationType[];
 };
 
 const PatientColumns = ({
   onDelete,
   isDeleting,
+  locations,
 }: PatientColumnsProps): ColumnDef<PatientData>[] => [
   {
     id: "rowIndex",
@@ -67,20 +67,6 @@ const PatientColumns = ({
 
       const navigate = useNavigate();
 
-      const {
-        data: locationData,
-        isLoading: isFetchingLocations,
-        error: fetchError,
-      } = useQuery({
-        queryFn: getLocations,
-        queryKey: ["locations"],
-      });
-
-      if (isFetchingLocations)
-        return (
-          <Loading className="flex justify-center h-screen items-center" />
-        );
-
       return (
         <>
           <div className="flex gap-5 items-center">
@@ -118,7 +104,7 @@ const PatientColumns = ({
             data={patient}
             open={isFormOpen}
             onClose={setIsFormOpen}
-            locationData={locationData}
+            locationData={locations}
           />
         </>
       );
