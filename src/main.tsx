@@ -6,6 +6,7 @@ import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import { SidebarProvider } from "./components/ui/sidebar.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthContextProvider } from "./contexts/authContext.tsx";
 
 const queryClient = new QueryClient();
 
@@ -13,9 +14,11 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <SidebarProvider>
-          <App />
-        </SidebarProvider>
+        <AuthContextProvider>
+          <SidebarProvider>
+            <App />
+          </SidebarProvider>
+        </AuthContextProvider>
       </QueryClientProvider>
     </BrowserRouter>
   </StrictMode>

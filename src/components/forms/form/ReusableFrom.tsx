@@ -52,8 +52,8 @@ export type FormFieldConfig = {
 };
 
 type ReusableFormDialogProps<T> = {
-  open: boolean;
-  onClose: (open: boolean) => void;
+  open?: boolean;
+  onClose?: (open: boolean) => void;
   title: string;
   fields: FormFieldConfig[];
   form: UseFormReturn<any>;
