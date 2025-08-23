@@ -22,12 +22,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Link, useLocation } from "react-router-dom";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from "@/components/ui/accordion";
+import { useAuth } from "@/hooks/useAuth";
+import { toUpperCase } from "@/utils/formatText";
 
 // Menu items.
 const items = [
@@ -35,51 +31,61 @@ const items = [
     title: "Inventory",
     url: "items",
     icon: Box,
+    subject: "Item",
   },
   {
     title: "Service",
     url: "services",
     icon: Receipt,
+    subject: "Service",
   },
   {
     title: "Patients",
     url: "patients",
     icon: Users,
+    subject: "Patient",
   },
   {
     title: "Doctors",
     url: "doctors",
     icon: GraduationCap,
+    subject: "Doctor",
   },
   {
     title: "Treatment",
     url: "treatments",
     icon: ClipboardPlus,
+    subject: "Treatment",
   },
   {
     title: "POS/Invoices",
     url: "invoices",
     icon: ReceiptText,
+    subject: "Invoice",
   },
   {
     title: "Expenses",
     url: "expenses",
     icon: NotebookPen,
+    subject: "Expense",
   },
   {
     title: "Report",
     url: "report",
     icon: ChartNoAxesCombined,
+    subject: "all", // no dedicated "Report" subject in your type
   },
   {
     title: "Settings",
     url: "settings",
     icon: Settings,
+    subject: "all", // same here, default to "all"
   },
 ];
 
 export function AppSidebar() {
   const location = useLocation();
+  const { user, can } = useAuth();
 
   const isActive = (path: string) => {
     return location.pathname.startsWith(path)
@@ -103,39 +109,44 @@ export function AppSidebar() {
               <div className="mt-3 p-4 border rounded-xl w-55 flex flex-col gap-2 bg-[var(--background-color)] text-base">
                 <div className="flex items-center gap-3 text-[var(--primary-color)]  ">
                   <MapPin size={20} />
-                  <span className="font-bold">Clinic</span>
+                  <span className="font-bold">
+                    {toUpperCase(user!.location.name)}
+                  </span>
                 </div>
-                <div>Zin Min Paing</div>
-                <div>Admin</div>
+                <div>{user?.name}</div>
+                <div>{toUpperCase(user!.role.name)}</div>
               </div>
             </div>
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="mt-40 flex gap-3 w-55 mx-auto ">
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    className={`p-6 ${isActive(`/dashboard/${item.url}`)}`}
-                  >
-                    <Link
-                      to={item.url}
-                      className={isTextActive(`/dashboard/${item.url}`)}
+              {items.map((item) => {
+                if (!can("read", item.subject)) return null;
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      asChild
+                      className={`p-6 ${isActive(`/dashboard/${item.url}`)}`}
                     >
-                      <item.icon
+                      <Link
+                        to={item.url}
                         className={isTextActive(`/dashboard/${item.url}`)}
-                      />
-                      <span
-                        className={`text-xl ${isTextActive(
-                          `/dashboard/${item.url}`
-                        )}`}
                       >
-                        {item.title}
-                      </span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+                        <item.icon
+                          className={isTextActive(`/dashboard/${item.url}`)}
+                        />
+                        <span
+                          className={`text-xl ${isTextActive(
+                            `/dashboard/${item.url}`
+                          )}`}
+                        >
+                          {item.title}
+                        </span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

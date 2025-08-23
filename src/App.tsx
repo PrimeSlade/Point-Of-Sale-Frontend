@@ -2,7 +2,7 @@ import "./App.css";
 import Layout from "@/components/layout/Layout";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
-import LoginPage from "./pages/LoginPage";
+import LoginPage from "./pages/auth/LoginPage";
 import PatientPage from "./pages/patient/PatientPage";
 import DoctorPage from "./pages/DoctorPage";
 import TreatmentPage from "./pages/treatment/TreatmentPage";
@@ -44,8 +44,7 @@ function App() {
           </Route>
           <Route path="invoices" element={<InvoicePage />} />
           <Route path="expenses" element={<ExpenseMainPage />}>
-            <Route index element={<Navigate to="dashboard" replace />} />
-            <Route path="dashboard" element={<ExpensesPage />} />
+            <Route path="" element={<ExpensesPage />} />
             <Route path="category" element={<CategoryPage />} />
           </Route>
           <Route path="report" element={<ReportPage />} />

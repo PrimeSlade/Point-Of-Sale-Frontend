@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 type NavItem = {
   name: string;
@@ -8,32 +8,28 @@ type NavItem = {
 
 type NavBarProps = {
   navItems: NavItem[];
-  path: string;
 };
 
-const NavBar = ({ navItems, path }: NavBarProps) => {
-  const location = useLocation();
-
-  const isActive = (path: string) => {
-    return location.pathname.startsWith(path)
-      ? "text-[var(--primary-color)] border-b-2 border-b-[var(--primary-color)]"
-      : "";
-  };
-
+const NavBar = ({ navItems }: NavBarProps) => {
   return (
     <nav>
       <ul className="flex gap-20 border-b mt-10">
         {navItems.map((item, i) => (
           <li key={i}>
-            <Link
+            <NavLink
               to={item.path}
-              className={`flex gap-2 pb-3 font-bold ${isActive(
-                `/dashboard/${path}/${item.path}`
-              )}`}
+              end
+              className={({ isActive }) =>
+                `flex gap-2 pb-3 font-bold ${
+                  isActive
+                    ? "text-[var(--primary-color)] border-b-2 border-b-[var(--primary-color)]"
+                    : ""
+                }`
+              }
             >
               <span>{item.icon}</span>
               <span>{item.name}</span>
-            </Link>
+            </NavLink>
           </li>
         ))}
       </ul>
