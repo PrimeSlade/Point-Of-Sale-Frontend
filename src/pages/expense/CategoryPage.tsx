@@ -8,6 +8,7 @@ import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import { DataTable } from "@/components/table/data-table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -20,6 +21,10 @@ const CategoryPage = () => {
 
   //client side filtering
   const [globalFilter, setGlobalFilter] = useState("");
+  const [paginationState, setPaginationState] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
 
   //tenstack
   const {
@@ -87,6 +92,9 @@ const CategoryPage = () => {
         prompt="Search by names"
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
+        pagination
+        paginationState={paginationState}
+        setPaginationState={setPaginationState}
       />
       {fetchError && (
         <AlertBox

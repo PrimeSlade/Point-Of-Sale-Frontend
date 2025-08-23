@@ -4,6 +4,7 @@ import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
 import type { ServiceData } from "@/types/ServiceType";
 import ServiceForm from "../forms/wrapper/ServiceForm";
+import { useAuth } from "@/hooks/useAuth";
 
 type ServiceColumnsProps = {
   onDelete: (id: number) => void;
@@ -40,21 +41,27 @@ const ServiceColumns = ({
       const [alertOpen, setAlertOpen] = useState(false);
       const [isFormOpen, setIsFormOpen] = useState(false);
 
+      const { can } = useAuth();
+
       return (
         <>
           <div className="flex gap-5 items-center">
-            <button onClick={() => setIsFormOpen(true)}>
-              <PenLine
-                size={20}
-                className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
-              />
-            </button>
-            <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
-              <Trash2
-                size={20}
-                className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
-              />
-            </button>
+            {can("update", "Service") && (
+              <button onClick={() => setIsFormOpen(true)}>
+                <PenLine
+                  size={20}
+                  className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
+                />
+              </button>
+            )}
+            {can("delete", "Service") && (
+              <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
+                <Trash2
+                  size={20}
+                  className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
+                />
+              </button>
+            )}
           </div>
           <AlertBox
             open={alertOpen}

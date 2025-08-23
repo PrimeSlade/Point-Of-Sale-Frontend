@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 
 const ExpenseMainPage = () => {
   const navItems = [
-    { name: "Expense", path: "dashboard", icon: <DollarSign /> },
+    { name: "Expense", path: "", icon: <DollarSign /> },
     { name: "Category", path: "category", icon: <Layers /> },
   ];
 
@@ -16,7 +16,7 @@ const ExpenseMainPage = () => {
         className="text-3xl"
         subHeader="Monitor additional expenses for smooth operations"
       />
-      <NavBar navItems={navItems} path="expenses" />
+      <NavBar navItems={navItems} />
       <Outlet />
     </div>
   );

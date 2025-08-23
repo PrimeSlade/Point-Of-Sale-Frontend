@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { smallestUnit } from "@/utils/unitUtils";
 import ItemCard from "../item/ItemCard";
 import { formatDate } from "@/utils/formatDate";
+import { useAuth } from "@/hooks/useAuth";
 
 type ItemColumnsProps = {
   onDelete: (id: number) => void;
@@ -90,24 +91,30 @@ const ItemColumns = ({
 
       const navigate = useNavigate();
 
+      const { can } = useAuth();
+
       return (
         <>
           <div className="flex gap-5 items-center">
             <ItemCard data={item} />
-            <button
-              onClick={() => navigate(`/dashboard/items/edit/${item.id}`)}
-            >
-              <PenLine
-                size={20}
-                className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
-              />
-            </button>
-            <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
-              <Trash2
-                size={20}
-                className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
-              />
-            </button>
+            {can("update", "Item") && (
+              <button
+                onClick={() => navigate(`/dashboard/items/edit/${item.id}`)}
+              >
+                <PenLine
+                  size={20}
+                  className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
+                />
+              </button>
+            )}
+            {can("delete", "Item") && (
+              <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
+                <Trash2
+                  size={20}
+                  className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
+                />
+              </button>
+            )}
           </div>
           <AlertBox
             open={alertOpen}

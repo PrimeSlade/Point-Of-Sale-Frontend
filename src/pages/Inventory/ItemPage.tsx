@@ -12,6 +12,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import type { PaginationState } from "@tanstack/react-table";
 import useDebounce from "@/hooks/useDebounce";
+import { useAuth } from "@/hooks/useAuth";
 
 const ItemServicePage = () => {
   const queryClient = useQueryClient();
@@ -31,6 +32,9 @@ const ItemServicePage = () => {
 
   //delay the serach input in order to prevent server traffic
   const debouncedSearch = useDebounce(globalFilter);
+
+  //useAuth
+  const { can } = useAuth();
 
   //reset the page when the search result is displayed
   useEffect(() => {
@@ -114,11 +118,13 @@ const ItemServicePage = () => {
         subHeader="Manage products"
         action={
           <div className="flex gap-2">
-            <DialogButton
-              name="Add Item"
-              icon={<Plus />}
-              openFrom={() => navigate("/dashboard/items/add")}
-            />
+            {can("create", "Item") && (
+              <DialogButton
+                name="Add Item"
+                icon={<Plus />}
+                openFrom={() => navigate("/dashboard/items/add")}
+              />
+            )}
           </div>
         }
       />

@@ -6,6 +6,7 @@ import ServiceForm from "@/components/forms/wrapper/ServiceForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import { DataTable } from "@/components/table/data-table";
+import { useAuth } from "@/hooks/useAuth";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
@@ -24,6 +25,9 @@ const ServicePage = () => {
     pageIndex: 0,
     pageSize: 15,
   });
+
+  //useAuth
+  const { can } = useAuth();
 
   //tenstack
   const {
@@ -62,11 +66,13 @@ const ServicePage = () => {
         subHeader="Manage services"
         action={
           <div className="flex gap-2">
-            <DialogButton
-              name="Add Service"
-              icon={<Plus />}
-              openFrom={() => setIsFormOpen(true)}
-            />
+            {can("create", "Service") && (
+              <DialogButton
+                name="Add Service"
+                icon={<Plus />}
+                openFrom={() => setIsFormOpen(true)}
+              />
+            )}
           </div>
         }
       />
