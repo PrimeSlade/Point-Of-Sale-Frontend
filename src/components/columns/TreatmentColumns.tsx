@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import type { TreatmentData } from "@/types/TreatmentType";
 import { calcAge, formatDate } from "@/utils/formatDate";
 import TreatmentCard from "../treatment/TreatmentCard";
+import { useAuth } from "@/hooks/useAuth";
 
 type TreatmentColumsProps = {
   onDelete: (id: number) => void;
@@ -70,26 +71,32 @@ const TreatmentColumns = ({
       const [alertOpen, setAlertOpen] = useState(false);
       const navigate = useNavigate();
 
+      const { can } = useAuth();
+
       return (
         <>
           <div className="flex gap-5 items-center">
             <TreatmentCard data={treatment} />
-            <button
-              onClick={() =>
-                navigate(`/dashboard/treatments/edit/${treatment.id}`)
-              }
-            >
-              <PenLine
-                size={20}
-                className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
-              />
-            </button>
-            <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
-              <Trash2
-                size={20}
-                className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
-              />
-            </button>
+            {can("update", "Treatment") && (
+              <button
+                onClick={() =>
+                  navigate(`/dashboard/treatments/edit/${treatment.id}`)
+                }
+              >
+                <PenLine
+                  size={20}
+                  className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
+                />
+              </button>
+            )}
+            {can("delete", "Treatment") && (
+              <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
+                <Trash2
+                  size={20}
+                  className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
+                />
+              </button>
+            )}
           </div>
           <AlertBox
             open={alertOpen}

@@ -67,7 +67,7 @@ const items = [
     title: "Expenses",
     url: "expenses",
     icon: NotebookPen,
-    subject: "Expense",
+    subject: ["Expense", "Category"],
   },
   {
     title: "Report",
@@ -79,7 +79,7 @@ const items = [
     title: "Settings",
     url: "settings",
     icon: Settings,
-    subject: "all", // same here, default to "all"
+    subject: ["Location", "User"], // same here, default to "all"
   },
 ];
 

@@ -7,6 +7,7 @@ import PatientForm from "../forms/wrapper/PatientForm";
 import { useNavigate } from "react-router-dom";
 import { calcAge } from "@/utils/formatDate";
 import type { LocationType } from "@/types/LocationType";
+import { useAuth } from "@/hooks/useAuth";
 
 type PatientColumnsProps = {
   onDelete: (id: number) => void;
@@ -67,6 +68,8 @@ const PatientColumns = ({
 
       const navigate = useNavigate();
 
+      const { can } = useAuth();
+
       return (
         <>
           <div className="flex gap-5 items-center">
@@ -78,18 +81,22 @@ const PatientColumns = ({
                 className="text-[var(--success-color)] hover:text-[var(--success-color-hover)] hover:border hover:border-white"
               />
             </button>
-            <button onClick={() => setIsFormOpen(true)}>
-              <PenLine
-                size={20}
-                className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
-              />
-            </button>
-            <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
-              <Trash2
-                size={20}
-                className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
-              />
-            </button>
+            {can("update", "Patient") && (
+              <button onClick={() => setIsFormOpen(true)}>
+                <PenLine
+                  size={20}
+                  className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
+                />
+              </button>
+            )}
+            {can("delete", "Patient") && (
+              <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
+                <Trash2
+                  size={20}
+                  className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
+                />
+              </button>
+            )}
           </div>
           <AlertBox
             open={alertOpen}

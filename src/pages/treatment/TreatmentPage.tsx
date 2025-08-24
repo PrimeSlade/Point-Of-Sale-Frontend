@@ -4,6 +4,7 @@ import DialogButton from "@/components/button/DialogButton";
 import TreatmentColumns from "@/components/columns/TreatmentColumns";
 import Header from "@/components/header/Header";
 import { DataTable } from "@/components/table/data-table";
+import { useAuth } from "@/hooks/useAuth";
 import useDebounce from "@/hooks/useDebounce";
 import type { DateRange } from "@/types/TreatmentType";
 import { formatLocalDate } from "@/utils/formatDate";
@@ -12,6 +13,7 @@ import type { PaginationState } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
+import { Can } from "@casl/react";
 
 const TreatmentPage = () => {
   const queryClient = useQueryClient();
@@ -33,6 +35,9 @@ const TreatmentPage = () => {
 
   //delay the serach input in order to prevent server traffic
   const debouncedSearch = useDebounce(globalFilter);
+
+  //useAuth
+  const { can } = useAuth();
 
   //reset the page when the search result is displayed
   useEffect(() => {
@@ -107,10 +112,12 @@ const TreatmentPage = () => {
         className="text-3xl"
         action={
           <div className="flex gap-2">
-            <DialogButton
-              name="Register New Treatment"
-              openFrom={() => navigate("/dashboard/treatments/add")}
-            />
+            {can("create", "Treatment") && (
+              <DialogButton
+                name="Register New Treatment"
+                openFrom={() => navigate("/dashboard/treatments/add")}
+              />
+            )}
           </div>
         }
       />

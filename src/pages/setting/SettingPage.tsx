@@ -5,9 +5,19 @@ import { Outlet } from "react-router-dom";
 
 const SettingPage = () => {
   const navItems = [
-    { name: "Locations", path: "locations", icon: <MapPin /> },
-    { name: "Users", path: "users", icon: <Users /> },
-    { name: "General", path: "general", icon: <AlignJustify /> },
+    {
+      name: "Locations",
+      path: "locations",
+      icon: <MapPin />,
+      subject: "Location",
+    },
+    { name: "Users", path: "users", icon: <Users />, subject: "User" },
+    {
+      name: "General",
+      path: "general",
+      icon: <AlignJustify />,
+      subject: "all",
+    },
   ];
 
   return (
@@ -17,7 +27,7 @@ const SettingPage = () => {
         className="text-3xl"
         subHeader="Manage clinic settings, locations, and users"
       />
-      <NavBar navItems={navItems} path="settings" />
+      <NavBar navItems={navItems} />
       <Outlet />
     </div>
   );

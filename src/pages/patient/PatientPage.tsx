@@ -7,6 +7,7 @@ import PatientForm from "@/components/forms/wrapper/PatientForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import { DataTable } from "@/components/table/data-table";
+import { useAuth } from "@/hooks/useAuth";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
@@ -25,6 +26,9 @@ const PatientPage = () => {
     pageIndex: 0,
     pageSize: 15,
   });
+
+  //useAuth
+  const { can } = useAuth();
 
   //tenstack
   const {
@@ -76,11 +80,13 @@ const PatientPage = () => {
           subHeader="Manage patient records and information"
           action={
             <div className="flex gap-2">
-              <DialogButton
-                name="Add New Patient"
-                icon={<Plus />}
-                openFrom={() => setIsFormOpen(true)}
-              />
+              {can("create", "Patient") && (
+                <DialogButton
+                  name="Add New Patient"
+                  icon={<Plus />}
+                  openFrom={() => setIsFormOpen(true)}
+                />
+              )}
             </div>
           }
         />

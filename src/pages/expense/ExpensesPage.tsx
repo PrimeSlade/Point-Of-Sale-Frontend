@@ -8,6 +8,7 @@ import ExpenseForm from "@/components/forms/wrapper/ExpenseForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import { DataTable } from "@/components/table/data-table";
+import { useAuth } from "@/hooks/useAuth";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
@@ -25,6 +26,9 @@ const ExpensesPage = () => {
     pageIndex: 0,
     pageSize: 10,
   });
+
+  //useAuth
+  const { can } = useAuth();
 
   //tenstack
 
@@ -95,11 +99,15 @@ const ExpensesPage = () => {
         header="Expenses"
         className="text-2xl"
         action={
-          <DialogButton
-            name="Add Expense"
-            icon={<Plus />}
-            openFrom={() => setIsFormOpen(true)}
-          />
+          <>
+            {can("create", "Expense") && (
+              <DialogButton
+                name="Add Expense"
+                icon={<Plus />}
+                openFrom={() => setIsFormOpen(true)}
+              />
+            )}
+          </>
         }
       />
       <DataTable

@@ -4,6 +4,7 @@ import { PenLine, Trash2 } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
 import LocationForm from "../forms/wrapper/LocationForm";
+import { useAuth } from "@/hooks/useAuth";
 
 type LocationColumnsProps = {
   onDelete: (id: number) => void;
@@ -41,21 +42,27 @@ const LocationColumns = ({
       const [alertOpen, setAlertOpen] = useState(false);
       const [isFormOpen, setIsFormOpen] = useState(false);
 
+      const { can } = useAuth();
+
       return (
         <>
           <div className="flex gap-5 items-center">
-            <button onClick={() => setIsFormOpen(true)}>
-              <PenLine
-                size={20}
-                className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
-              />
-            </button>
-            <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
-              <Trash2
-                size={20}
-                className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
-              />
-            </button>
+            {can("update", "Location") && (
+              <button onClick={() => setIsFormOpen(true)}>
+                <PenLine
+                  size={20}
+                  className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
+                />
+              </button>
+            )}
+            {can("delete", "Location") && (
+              <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
+                <Trash2
+                  size={20}
+                  className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
+                />
+              </button>
+            )}
           </div>
           <AlertBox
             open={alertOpen}

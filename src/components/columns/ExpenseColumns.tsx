@@ -6,6 +6,7 @@ import type { CategoryType, ExpenseType } from "../../types/ExpenseType";
 import { formatDate } from "@/utils/formatDate";
 import ExpenseForm from "../forms/wrapper/ExpenseForm";
 import type { LocationType } from "@/types/LocationType";
+import { useAuth } from "@/hooks/useAuth";
 
 type ExpenseColumnsProps = {
   onDelete: (id: number) => void;
@@ -68,21 +69,27 @@ const ExpensesColumns = ({
       const [alertOpen, setAlertOpen] = useState(false);
       const [isFormOpen, setIsFormOpen] = useState(false);
 
+      const { can } = useAuth();
+
       return (
         <>
           <div className="flex gap-5 items-center">
-            <button onClick={() => setIsFormOpen(true)}>
-              <PenLine
-                size={20}
-                className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
-              />
-            </button>
-            <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
-              <Trash2
-                size={20}
-                className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
-              />
-            </button>
+            {can("update", "Expense") && (
+              <button onClick={() => setIsFormOpen(true)}>
+                <PenLine
+                  size={20}
+                  className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
+                />
+              </button>
+            )}
+            {can("delete", "Expense") && (
+              <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
+                <Trash2
+                  size={20}
+                  className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
+                />
+              </button>
+            )}
           </div>
           <AlertBox
             open={alertOpen}

@@ -7,9 +7,10 @@ import Loading from "@/components/loading/Loading";
 import LocationColumns from "@/components/columns/LocationColumns";
 import { DataTable } from "@/components/table/data-table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Plus } from "lucide-react";
+import { Divide, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
 
 const LocationPage = () => {
   const queryClient = useQueryClient();
@@ -19,6 +20,9 @@ const LocationPage = () => {
 
   //client side filtering
   const [globalFilter, setGlobalFilter] = useState("");
+
+  //useAuth
+  const { can } = useAuth();
 
   //tenstack
   const {
@@ -61,11 +65,15 @@ const LocationPage = () => {
           header="Locations"
           className="text-2xl"
           action={
-            <DialogButton
-              name="Add Location"
-              icon={<Plus />}
-              openFrom={() => setIsFormOpen(true)}
-            />
+            <>
+              {can("create", "Location") && (
+                <DialogButton
+                  name="Add Location"
+                  icon={<Plus />}
+                  openFrom={() => setIsFormOpen(true)}
+                />
+              )}
+            </>
           }
         />
         <DataTable

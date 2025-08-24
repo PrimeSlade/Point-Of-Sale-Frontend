@@ -8,7 +8,7 @@ type AuthContextType = {
   user: User | null;
   isLoading: boolean;
   error: unknown;
-  can: (action: string, subject: string) => boolean;
+  can: (action: string, subject: string | string[]) => boolean;
   ability: PureAbility;
 };
 
@@ -28,7 +28,13 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     }))
   );
 
-  const can = (action: string, subject: string) => ability.can(action, subject);
+  const can = (action: string, subject: string | string[]) => {
+    //if ararys, check with some
+    if (Array.isArray(subject)) {
+      return subject.some((s) => ability.can(action, s));
+    }
+    return ability.can(action, subject);
+  };
 
   return (
     <AuthContext value={{ user, isLoading, error, can, ability }}>

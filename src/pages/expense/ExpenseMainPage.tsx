@@ -5,8 +5,13 @@ import { Outlet } from "react-router-dom";
 
 const ExpenseMainPage = () => {
   const navItems = [
-    { name: "Expense", path: "", icon: <DollarSign /> },
-    { name: "Category", path: "category", icon: <Layers /> },
+    { name: "Expense", path: "", icon: <DollarSign />, subject: "Expense" },
+    {
+      name: "Category",
+      path: "category",
+      icon: <Layers />,
+      subject: "Category",
+    },
   ];
 
   return (

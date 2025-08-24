@@ -7,6 +7,7 @@ import CategoryForm from "@/components/forms/wrapper/CategoryForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import { DataTable } from "@/components/table/data-table";
+import { useAuth } from "@/hooks/useAuth";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
@@ -25,6 +26,9 @@ const CategoryPage = () => {
     pageIndex: 0,
     pageSize: 10,
   });
+
+  //useAuth
+  const { can } = useAuth();
 
   //tenstack
   const {
@@ -79,11 +83,15 @@ const CategoryPage = () => {
         header="Categories"
         className="text-2xl"
         action={
-          <DialogButton
-            name="Add Category"
-            icon={<Plus />}
-            openFrom={() => setIsFormOpen(true)}
-          />
+          <>
+            {can("create", "Category") && (
+              <DialogButton
+                name="Add Category"
+                icon={<Plus />}
+                openFrom={() => setIsFormOpen(true)}
+              />
+            )}
+          </>
         }
       />
       <DataTable
