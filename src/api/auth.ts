@@ -11,4 +11,14 @@ const login = async (input: LoginForm) => {
   }
 };
 
-export { login };
+const clearCookie = async () => {
+  try {
+    const { data } = await axiosInstance.post("/auth/logout");
+
+    return data;
+  } catch (error: any) {
+    throw new Error(error.response?.data.error.message);
+  }
+};
+
+export { login, clearCookie };
