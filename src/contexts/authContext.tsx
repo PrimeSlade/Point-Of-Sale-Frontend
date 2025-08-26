@@ -35,7 +35,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext value={{ user, isLoading, error, can, ability }}>
+    <AuthContext value={{ user: user ?? null, isLoading, error, can, ability }}>
       {children}
     </AuthContext>
   );

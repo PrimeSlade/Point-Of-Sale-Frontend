@@ -20,7 +20,7 @@ const CredentialForm = () => {
   } = useMutation({
     mutationFn: login,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries({ queryKey: ["me"] });
       form.reset();
       navigate("/dashboard");
     },

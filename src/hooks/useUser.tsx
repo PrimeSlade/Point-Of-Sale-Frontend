@@ -3,8 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 
 const useUser = () => {
   return useQuery({
+    queryKey: ["me"],
     queryFn: fetchUser,
-    queryKey: ["user"],
+    // staleTime: 0, // always consider fresh? set 0 to refetch often
+    //refetchOnWindowFocus: true, // auto refresh when tab is focused
+    // retry: false, // up to you—disable retries if auth can fail
   });
 };
 

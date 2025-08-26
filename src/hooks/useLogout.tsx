@@ -12,7 +12,7 @@ const useLogout = () => {
       const data = await clearCookie();
 
       if (data.success) {
-        queryClient.removeQueries({ queryKey: ["user"] });
+        queryClient.invalidateQueries({ queryKey: ["me"] });
         navigate("/");
       }
     } catch (error: any) {
