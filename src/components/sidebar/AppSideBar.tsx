@@ -28,6 +28,7 @@ import { Button } from "../ui/button";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
 import useLogout from "@/hooks/useLogout";
+import useUser from "@/hooks/useUser";
 
 // Menu items.
 const items = [
@@ -91,6 +92,8 @@ export function AppSidebar() {
   const location = useLocation();
   const { user, can } = useAuth();
 
+  //const { data: user, isLoading } = useUser();
+
   const { logout } = useLogout();
 
   const [alertOpen, setAlertOpen] = useState(false);
@@ -125,7 +128,7 @@ export function AppSidebar() {
                         {toUpperCase(user!.location.name)}
                       </span>
                     </div>
-                    <div>{user?.name}</div>
+                    <div>{user!.name}</div>
                     <div>{toUpperCase(user!.role.name)}</div>
                   </div>
                 </div>
@@ -169,7 +172,7 @@ export function AppSidebar() {
                 <SidebarMenu className="w-55 mx-auto">
                   <SidebarMenuItem>
                     <Button
-                      className="w-full bg-[var(--primary-color-hover)] hover:bg-[var(--primary-color)] mb-2"
+                      className="w-full bg-white hover:bg-[var(--danger-color)] hover:text-white mb-2 text-black border border-[var(--danger-color)] "
                       onClick={() => setAlertOpen(true)}
                     >
                       Log out

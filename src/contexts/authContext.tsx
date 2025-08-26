@@ -19,8 +19,6 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const { data: user, isLoading, error } = useUser();
 
-  console.log(user?.role.permissions);
-
   const ability = new PureAbility(
     user?.role.permissions?.map((p: Permission) => ({
       action: p.action,

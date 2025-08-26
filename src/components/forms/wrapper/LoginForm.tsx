@@ -19,8 +19,7 @@ const CredentialForm = () => {
     error: loginError,
   } = useMutation({
     mutationFn: login,
-    onSuccess: (data) => {
-      toast.success(data?.message);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
       form.reset();
       navigate("/dashboard");

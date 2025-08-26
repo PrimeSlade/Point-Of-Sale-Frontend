@@ -3,6 +3,7 @@ import { AppSidebar } from "../sidebar/AppSideBar";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import Loading from "../loading/Loading";
+import Header from "../header/Header";
 
 export default function Layout() {
   const { open } = useSidebar();
@@ -23,6 +24,7 @@ export default function Layout() {
       <AppSidebar />
       <SidebarTrigger className="mt-2" />
       <div className={`mx-auto ${width()}`}>
+        <Header header="Dashboard" className="text-3xl" />
         <Outlet />
       </div>
     </>
