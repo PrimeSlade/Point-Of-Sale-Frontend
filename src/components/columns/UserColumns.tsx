@@ -2,25 +2,26 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { PenLine, Trash2 } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
-import type { CategoryType, ExpenseType } from "../../types/ExpenseType";
-import { formatDate } from "@/utils/formatDate";
-import ExpenseForm from "../forms/wrapper/ExpenseForm";
-import type { LocationType } from "@/types/LocationType";
 import { useAuth } from "@/hooks/useAuth";
+import type { User } from "@/types/UserType";
+import type { LocationType } from "@/types/LocationType";
+import { toUpperCase } from "@/utils/formatText";
+import UserForm from "../forms/wrapper/UserForm";
+import type { Role } from "@/types/RoleType";
 
-type ExpenseColumnsProps = {
-  onDelete: (id: number) => void;
+type UserColumnsProps = {
+  onDelete: (id: string) => void;
   isDeleting: boolean;
   locations: LocationType[];
-  categories: CategoryType[];
+  roles: Role[];
 };
 
-const ExpensesColumns = ({
+const UserColumns = ({
   onDelete,
   isDeleting,
   locations,
-  categories,
-}: ExpenseColumnsProps): ColumnDef<ExpenseType>[] => [
+  roles,
+}: UserColumnsProps): ColumnDef<User>[] => [
   {
     id: "rowIndex",
     header: () => <div className="font-bold text-center">No</div>,
@@ -30,41 +31,41 @@ const ExpensesColumns = ({
   {
     accessorKey: "name",
     header: () => <div className="font-bold">Name</div>,
+    enableGlobalFilter: true, //default
   },
   {
-    id: "category",
-    accessorFn: (row) => row.category.name ?? "",
-    header: () => <div className="font-bold">Category</div>,
+    accessorKey: "email",
+    header: () => <div className="font-bold">Email</div>,
+  },
+  {
+    id: "role",
+    accessorFn: (row) => row.role?.name ?? "",
+    header: () => <div className="font-bold">Role</div>,
+    cell: ({ row }) => {
+      return toUpperCase(row.original?.role?.name);
+    },
   },
   {
     id: "location",
     accessorFn: (row) => row.location?.name ?? "",
     header: () => <div className="font-bold">Location</div>,
-    enableGlobalFilter: true,
     cell: ({ row }) => {
-      return row.original.location?.name;
+      return row.original?.location.name;
     },
   },
   {
-    accessorKey: "description",
-    header: () => <div className="font-bold">Description</div>,
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="font-bold">Amount</div>,
-  },
-  {
-    accessorKey: "date",
-    header: () => <div className="font-bold">Date</div>,
+    accessorKey: "pricePercent",
+    header: () => <div className="font-bold">Price Percent</div>,
     cell: ({ row }) => {
-      return formatDate(new Date(row.original.date));
+      return `${row.original?.pricePercent}%`;
     },
   },
+
   {
     accessorKey: "action",
     header: () => <div className="font-bold">Actions</div>,
     cell: ({ row }) => {
-      const expense = row.original;
+      const user = row.original;
 
       const [alertOpen, setAlertOpen] = useState(false);
       const [isFormOpen, setIsFormOpen] = useState(false);
@@ -74,7 +75,7 @@ const ExpensesColumns = ({
       return (
         <>
           <div className="flex gap-5 items-center">
-            {can("update", "Expense") && (
+            {can("update", "User") && (
               <button onClick={() => setIsFormOpen(true)}>
                 <PenLine
                   size={20}
@@ -82,7 +83,7 @@ const ExpensesColumns = ({
                 />
               </button>
             )}
-            {can("delete", "Expense") && (
+            {can("delete", "User") && (
               <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
                 <Trash2
                   size={20}
@@ -96,20 +97,20 @@ const ExpensesColumns = ({
             title="Confirm Deletion"
             description="Are you sure you want to delete this?"
             onClose={() => setAlertOpen(false)}
-            onConfirm={() => onDelete(expense.id!)}
+            onConfirm={() => onDelete(user.id)}
             mode="confirm"
           />
-          <ExpenseForm
-            data={expense}
-            locationData={locations}
-            mode="edit"
+          <UserForm
             open={isFormOpen}
             onClose={setIsFormOpen}
-            categoryData={categories}
+            mode="edit"
+            locationData={locations}
+            roleData={roles}
+            data={user}
           />
         </>
       );
     },
   },
 ];
-export default ExpensesColumns;
+export default UserColumns;

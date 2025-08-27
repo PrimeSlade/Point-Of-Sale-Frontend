@@ -16,6 +16,12 @@ const LocationColumns = ({
   isDeleting,
 }: LocationColumnsProps): ColumnDef<LocationType>[] => [
   {
+    id: "rowIndex",
+    header: () => <div className="font-bold text-center">No</div>,
+    cell: ({ row }) => <div className="text-center">{row.index + 1}</div>,
+    enableGlobalFilter: false,
+  },
+  {
     accessorKey: "name",
     header: () => <div className="font-bold">Name</div>,
     enableGlobalFilter: true, //default

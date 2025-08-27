@@ -7,7 +7,7 @@ import Loading from "@/components/loading/Loading";
 import LocationColumns from "@/components/columns/LocationColumns";
 import { DataTable } from "@/components/table/data-table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Divide, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";

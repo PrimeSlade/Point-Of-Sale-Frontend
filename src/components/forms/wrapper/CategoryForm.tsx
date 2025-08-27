@@ -9,7 +9,7 @@ import type { CategoryType } from "@/types/ExpenseType";
 import type { LocationType } from "@/types/LocationType";
 import { addCategory, editCategoryById } from "@/api/categories";
 
-type CategoryFormProps = {
+type CategoryFormProps = {  
   data?: CategoryType;
   mode: "create" | "edit";
   open: boolean;

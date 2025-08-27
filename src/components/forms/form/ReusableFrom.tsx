@@ -34,6 +34,7 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { formatDate } from "@/utils/formatDate";
+import { toUpperCase } from "@/utils/formatText";
 
 export type Types = "text" | "number" | "email" | "password";
 
@@ -192,7 +193,7 @@ function ReusableFormDialog<T>({
                                   key={opt.value}
                                   value={opt.value.toString()}
                                 >
-                                  {opt.label}
+                                  {toUpperCase(opt.label)}
                                 </SelectItem>
                               ))}
                             </SelectContent>

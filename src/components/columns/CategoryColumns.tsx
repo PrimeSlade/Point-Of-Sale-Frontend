@@ -21,8 +21,8 @@ const CategoryColumn = ({
 }: CategoryColumnsProps): ColumnDef<CategoryType>[] => [
   {
     id: "rowIndex",
-    header: () => <div className="font-bold ">No</div>,
-    cell: ({ row }) => <div className="">{row.index + 1}</div>,
+    header: () => <div className="font-bold text-center">No</div>,
+    cell: ({ row }) => <div className="text-center">{row.index + 1}</div>,
     enableGlobalFilter: false,
   },
   {

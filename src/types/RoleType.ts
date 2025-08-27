@@ -1,7 +1,7 @@
 type Role = {
   id: number;
   name: string;
-  permissions: Permission[];
+  permissions?: Permission[];
 };
 
 type Permission = {

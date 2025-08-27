@@ -12,4 +12,14 @@ type User = {
   location: Location;
 };
 
-export type { User };
+type UserForm = {
+  id?: string;
+  name: string;
+  password: string;
+  email: string;
+  pricePercent: number;
+  locationId: number;
+  roleId: number;
+};
+
+export type { User, UserForm };
