@@ -36,7 +36,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { formatDate } from "@/utils/formatDate";
 import { toUpperCase } from "@/utils/formatText";
 
-export type Types = "text" | "number" | "email" | "password";
+export type Types = "text" | "number" | "email" | "password" | "radio";
 
 export type FieldType = "input" | "select" | "date";
 
@@ -44,8 +44,6 @@ export type FormFieldConfig = {
   name: string;
   label: string;
   placeholder: string;
-
-  //Might delete it later
   type?: Types;
   fieldType?: FieldType;
   options?: { value: string | number; label: string }[];

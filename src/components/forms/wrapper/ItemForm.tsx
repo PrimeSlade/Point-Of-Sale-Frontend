@@ -91,7 +91,7 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
       category: "",
       expiryDate: undefined,
       description: "",
-      locationId: itemData?.location.name || "",
+      locationId: itemData?.location.name ?? "",
       itemUnits: [
         { unitType: undefined, quantity: undefined, purchasePrice: undefined },
         { unitType: undefined, quantity: undefined, purchasePrice: undefined },

@@ -1,6 +1,6 @@
 import { getLocations } from "@/api/locations";
-import { getRoles } from "@/api/role";
-import { deleteUserById, getUsers } from "@/api/user";
+import { getRoles } from "@/api/roles";
+import { deleteUserById, getUsers } from "@/api/users";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import UserColumns from "@/components/columns/UserColumns";
@@ -30,7 +30,9 @@ const UserPage = () => {
   const { user, can } = useAuth();
   const { logout } = useLogout();
 
-  //tenstack;
+  //tenstack
+
+  //users
   const {
     data: users,
     isLoading: isFetchingUsers,
@@ -40,6 +42,7 @@ const UserPage = () => {
     queryKey: ["users"],
   });
 
+  //locations
   const {
     data: locations,
     isLoading: isFetchingLocations,
@@ -49,6 +52,7 @@ const UserPage = () => {
     queryKey: ["locations"],
   });
 
+  //roles
   const {
     data: roles,
     isLoading: isFetchingRoles,
@@ -116,6 +120,8 @@ const UserPage = () => {
         prompt="Search by names or emails"
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
+        filter
+        locations={locations}
       />
       {fetchError && (
         <AlertBox

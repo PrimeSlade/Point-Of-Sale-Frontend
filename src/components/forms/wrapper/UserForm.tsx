@@ -10,7 +10,7 @@ import ReusableFormDialog, {
 } from "../form/ReusableFrom";
 import type { User } from "@/types/UserType";
 import type { LocationType } from "@/types/LocationType";
-import { addUser, editUserById } from "@/api/user";
+import { addUser, editUserById } from "@/api/users";
 import type { Role } from "@/types/RoleType";
 import { useAuth } from "@/hooks/useAuth";
 

@@ -21,6 +21,8 @@ import NestedLayout from "./components/layout/NestedLayout";
 import TreatmentFormPage from "./pages/treatment/TreatmentFormPage";
 import ExpenseMainPage from "./pages/expense/ExpenseMainPage";
 import CategoryPage from "./pages/expense/CategoryPage";
+import RolePage from "./pages/setting/RolePage";
+import RoleFormPage from "./pages/setting/RoleFormPage";
 
 function App() {
   return (
@@ -52,6 +54,9 @@ function App() {
             <Route index element={<Navigate to="locations" replace />} />
             <Route path="locations" element={<LocationPage />} />
             <Route path="users" element={<UserPage />} />
+            <Route path="roles" element={<RolePage />} />
+            <Route path="roles/add" element={<RoleFormPage />} />
+            <Route path="roles/edit/:id" element={<RoleFormPage />} />
             <Route path="general" element={<GeneralPage />} />
           </Route>
         </Route>
