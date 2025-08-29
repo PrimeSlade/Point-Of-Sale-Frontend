@@ -73,7 +73,7 @@ function ReusableFormDialog<T>({
 }: ReusableFormDialogProps<T>) {
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      {/* it fields len is more than 6, remove the w and apply grid  */}
+      {/* if fields len is more than 6, remove the w and apply grid  */}
       <DialogContent
         className={`${fields.length > 6 ? "" : "sm:max-w-[425px]"}`}
       >

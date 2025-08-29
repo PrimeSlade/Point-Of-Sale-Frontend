@@ -35,11 +35,6 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  //Enum
-  const locationNames = locationData
-    ? locationData.map((d: LocationType) => d.name)
-    : ["Location"];
-
   //Form
   const subUnitSchema = z.object({
     unitType: z.enum(unitType, {
@@ -73,7 +68,7 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
       message: "Expire date is required.",
     }),
 
-    locationId: z.enum(locationNames, {
+    locationId: z.number({
       message: "Please select a valid location.",
     }),
 
@@ -91,7 +86,7 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
       category: "",
       expiryDate: undefined,
       description: "",
-      locationId: itemData?.location.name ?? "",
+      locationId: itemData?.location.id ?? undefined,
       itemUnits: [
         { unitType: undefined, quantity: undefined, purchasePrice: undefined },
         { unitType: undefined, quantity: undefined, purchasePrice: undefined },
@@ -109,7 +104,7 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
           ? new Date(itemData.expiryDate)
           : undefined,
         description: itemData.description,
-        locationId: itemData.location.name,
+        locationId: itemData.location.id,
         itemUnits: itemData.itemUnits,
       });
     }
@@ -153,14 +148,7 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const { itemUnits, ...item } = values;
-
-    //convert location name to id
-    const { id } = locationData.find(
-      (d: LocationType) => d.name === item.locationId
-    )!;
-
-    item.locationId = id;
-
+    console.log(values);
     if (mode === "create") {
       addItemMutate({ item, itemUnits });
     } else {
