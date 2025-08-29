@@ -162,7 +162,12 @@ const InventoryItemForm = <T extends FieldValues>({
                       <span className="text-[var(--danger-color)]">*</span>
                     </span>
                   </FormLabel>
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select
+                    value={field.value?.toString() ?? ""}
+                    onValueChange={(val) => {
+                      field.onChange(Number(val));
+                    }}
+                  >
                     <FormControl>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select a Location" />
@@ -170,7 +175,7 @@ const InventoryItemForm = <T extends FieldValues>({
                     </FormControl>
                     <SelectContent>
                       {locationData?.map((d: LocationType) => (
-                        <SelectItem value={d.name} key={d.id}>
+                        <SelectItem value={String(d.id)} key={d.id}>
                           {d.name}
                         </SelectItem>
                       ))}
