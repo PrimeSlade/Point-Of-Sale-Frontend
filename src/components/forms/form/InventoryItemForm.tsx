@@ -205,7 +205,7 @@ const InventoryItemForm = <T extends FieldValues>({
           {/* Units */}
           {fields.map((unitField, index) => (
             <div
-              className="grid grid-cols-1 lg:grid-cols-3 gap-3"
+              className="grid grid-cols-1 lg:grid-cols-4 gap-3"
               key={unitField.id}
             >
               <FormField
@@ -234,6 +234,34 @@ const InventoryItemForm = <T extends FieldValues>({
                       </SelectContent>
                     </Select>
 
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={`itemUnits.${index}.rate`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      <span>
+                        Rate
+                        <span className="text-[var(--danger-color)]">*</span>
+                      </span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Rate"
+                        type="number"
+                        className="no-spinner"
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value === "" ? "" : Number(e.target.value)
+                          )
+                        }
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

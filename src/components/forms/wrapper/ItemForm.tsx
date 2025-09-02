@@ -3,7 +3,6 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ItemType, ItemUnits } from "@/types/ItemType";
-import type { LocationType } from "@/types/LocationType";
 import { useFieldArray } from "react-hook-form";
 import { addItem, editItemById } from "@/api/inventories";
 import { useNavigate } from "react-router-dom";
@@ -39,6 +38,10 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
   const subUnitSchema = z.object({
     unitType: z.enum(unitType, {
       message: "Plese select a valid unit",
+    }),
+
+    rate: z.number({
+      message: "Rate must be a number",
     }),
 
     quantity: z
@@ -88,9 +91,24 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
       description: "",
       locationId: itemData?.location.id ?? undefined,
       itemUnits: [
-        { unitType: undefined, quantity: undefined, purchasePrice: undefined },
-        { unitType: undefined, quantity: undefined, purchasePrice: undefined },
-        { unitType: undefined, quantity: undefined, purchasePrice: undefined },
+        {
+          unitType: undefined,
+          rate: undefined,
+          quantity: undefined,
+          purchasePrice: undefined,
+        },
+        {
+          unitType: undefined,
+          rate: undefined,
+          quantity: undefined,
+          purchasePrice: undefined,
+        },
+        {
+          unitType: undefined,
+          rate: undefined,
+          quantity: undefined,
+          purchasePrice: undefined,
+        },
       ],
     },
   });
@@ -148,7 +166,7 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const { itemUnits, ...item } = values;
-    console.log(values);
+
     if (mode === "create") {
       addItemMutate({ item, itemUnits });
     } else {
@@ -159,6 +177,7 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
           unitType: newValue?.unitType,
           quantity: newValue?.quantity,
           purchasePrice: newValue?.purchasePrice,
+          rate: newValue?.rate,
         };
       });
 

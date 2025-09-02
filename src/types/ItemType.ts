@@ -13,6 +13,7 @@ type unitType =
 type ItemUnits = {
   id?: number;
   unitType: unitType;
+  rate: number;
   quantity: number;
   purchasePrice: number;
 };
