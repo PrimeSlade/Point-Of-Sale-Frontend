@@ -84,7 +84,7 @@ const items = [
     title: "Settings",
     url: "settings",
     icon: Settings,
-    subject: ["Location", "User"], // same here, default to "all"
+    subject: ["Location", "User", "Role"], // same here, default to "all"
   },
 ];
 
