@@ -88,7 +88,6 @@ const RoleForm = ({ data, permissions, mode }: RoleFormProps) => {
   }, [mode, data]);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
     if (mode === "create") {
       addRoleMutate(values);
     } else {

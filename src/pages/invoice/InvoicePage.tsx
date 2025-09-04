@@ -1,20 +1,18 @@
-import { deleteTreatmentById, getTreatments } from "@/api/treatments";
-import AlertBox from "@/components/alertBox/AlertBox";
+import { deleteInvoiceById, getInvoices } from "@/api/invoice";
 import DialogButton from "@/components/button/DialogButton";
-import TreatmentColumns from "@/components/columns/TreatmentColumns";
 import Header from "@/components/header/Header";
-import { DataTable } from "@/components/table/data-table";
 import { useAuth } from "@/hooks/useAuth";
 import useDebounce from "@/hooks/useDebounce";
 import type { DateRange } from "@/types/TreatmentType";
 import { formatLocalDate } from "@/utils/formatDate";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { PaginationState } from "@tanstack/react-table";
+import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
-const TreatmentPage = () => {
+const InvoicePage = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -64,7 +62,7 @@ const TreatmentPage = () => {
     error: fetchTreatmentError,
   } = useQuery({
     queryFn: () =>
-      getTreatments(
+      getInvoices(
         paginationState.pageIndex + 1,
         paginationState.pageSize,
         debouncedSearch,
@@ -72,7 +70,7 @@ const TreatmentPage = () => {
         date.endDate ? formatLocalDate(date.endDate) : undefined
       ),
     queryKey: [
-      "treatments",
+      "invoices",
       paginationState.pageIndex,
       debouncedSearch,
       date.startDate,
@@ -80,10 +78,10 @@ const TreatmentPage = () => {
     ],
   });
 
-  const { mutate: deleteTreatmentMutate, isPending: isDeleting } = useMutation({
-    mutationFn: deleteTreatmentById,
+  const { mutate: deleteInvoiceMutate, isPending: isDeleting } = useMutation({
+    mutationFn: deleteInvoiceById,
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["treatments"] });
+      queryClient.invalidateQueries({ queryKey: ["invoices"] });
       toast.success(data?.message);
     },
     onError: (error: any) => {
@@ -97,56 +95,26 @@ const TreatmentPage = () => {
     }
   }, [fetchTreatmentError]);
 
-  const columns = TreatmentColumns({
-    onDelete: deleteTreatmentMutate,
-    isDeleting,
-    page: paginationState.pageIndex,
-  });
-
   return (
     <div>
       <Header
-        header="Treatment Management"
-        subHeader="All your treatment records, one place"
+        header="Invoice"
         className="text-3xl"
+        subHeader="Manage invoices and items"
         action={
           <div className="flex gap-2">
-            {can("create", "Treatment") && (
+            {can("create", "Invoice") && (
               <DialogButton
-                name="Register New Treatment"
-                openFrom={() => navigate("/dashboard/treatments/add")}
+                name="Generate Invoice"
+                icon={<Plus />}
+                openFrom={() => navigate("/dashboard/invoices/add")}
               />
             )}
           </div>
         }
       />
-      <DataTable
-        columns={columns}
-        data={data?.data ?? []}
-        prompt="Search by patient names, age or doctor names"
-        totalPages={data?.meta.totalPages ?? 0}
-        paginationState={paginationState}
-        setPaginationState={setPaginationState}
-        pagination
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
-        serverSideSearch
-        navigateTo="/dashboard/treatments"
-        filterByDate
-        date={date}
-        setDate={setDate}
-      />
-      {fetchTreatmentError && (
-        <AlertBox
-          open={errorOpen}
-          onClose={() => setErrorOpen(false)}
-          title="Error"
-          description={fetchTreatmentError.message}
-          mode={"error"}
-        />
-      )}
     </div>
   );
 };
 
-export default TreatmentPage;
+export default InvoicePage;
