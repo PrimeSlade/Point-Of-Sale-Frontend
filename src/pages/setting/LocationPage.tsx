@@ -1,4 +1,5 @@
-import { deleteLocation, getLocations } from "@/api/locations";
+import { deleteLocation } from "@/api/locations";
+import { useLocations } from "@/hooks/useLocations";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import LocationForm from "@/components/forms/wrapper/LocationForm";
@@ -6,7 +7,7 @@ import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import LocationColumns from "@/components/columns/LocationColumns";
 import { DataTable } from "@/components/table/data-table";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -29,10 +30,7 @@ const LocationPage = () => {
     data,
     isLoading,
     error: fetchError,
-  } = useQuery({
-    queryFn: getLocations,
-    queryKey: ["locations"],
-  });
+  } = useLocations();
 
   useEffect(() => {
     if (fetchError) {

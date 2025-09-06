@@ -1,6 +1,7 @@
 import { getMe } from "@/api/users";
 import { useQuery } from "@tanstack/react-query";
 
+//The old one
 const useUser = () => {
   return useQuery({
     queryKey: ["me"],

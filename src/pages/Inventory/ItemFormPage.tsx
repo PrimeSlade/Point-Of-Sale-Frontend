@@ -1,10 +1,9 @@
-import { getItemById } from "@/api/inventories";
-import { getLocations } from "@/api/locations";
 import DialogButton from "@/components/button/DialogButton";
 import ItemForm from "@/components/forms/wrapper/ItemForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
-import { useQuery } from "@tanstack/react-query";
+import { useItem } from "@/hooks/useItems";
+import { useLocations } from "@/hooks/useLocations";
 import { useNavigate, useParams } from "react-router-dom";
 
 //used for both create and edit
@@ -15,20 +14,12 @@ const ItemFormPage = () => {
   const isEdit = Boolean(id);
 
   //tenstack
-  const { data: itemData, isLoading: item } = useQuery({
-    queryKey: ["item", id],
-    queryFn: () => getItemById(Number(id)),
-    enabled: Boolean(id),
-  });
-
+  const { data: itemData, isLoading: item } = useItem(id);
   const {
     data: locationData,
     isLoading: location,
     error: fetchError,
-  } = useQuery({
-    queryFn: getLocations,
-    queryKey: ["locations"],
-  });
+  } = useLocations();
 
   const isLoading = item || location;
 

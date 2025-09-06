@@ -1,5 +1,4 @@
-import { getPatientById } from "@/api/patients";
-import { useQuery } from "@tanstack/react-query";
+import { usePatient } from "@/hooks/usePatients";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import Loading from "@/components/loading/Loading";
@@ -17,11 +16,7 @@ const PatientDetailsPage = () => {
     data: patient,
     isLoading: isFetchingPatient,
     error: fetchPatientError,
-  } = useQuery({
-    queryKey: ["patient", id],
-    queryFn: () => getPatientById(Number(id)),
-    enabled: Boolean(id),
-  });
+  } = usePatient(id);
 
   if (isFetchingPatient)
     return <Loading className="flex justify-center h-screen items-center" />;

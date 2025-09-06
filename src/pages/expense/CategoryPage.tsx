@@ -1,5 +1,6 @@
-import { deleteCategoryById, getCategories } from "@/api/categories";
-import { getLocations } from "@/api/locations";
+import { deleteCategoryById } from "@/api/categories";
+import { useCategories } from "@/hooks/useCategories";
+import { useLocations } from "@/hooks/useLocations";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import CategoryColumns from "@/components/columns/CategoryColumns";
@@ -8,7 +9,7 @@ import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import { DataTable } from "@/components/table/data-table";
 import { useAuth } from "@/hooks/useAuth";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -35,19 +36,13 @@ const CategoryPage = () => {
     data: categories,
     isLoading: isFetchingCategories,
     error: fetchCategoriesError,
-  } = useQuery({
-    queryFn: getCategories,
-    queryKey: ["categories"],
-  });
+  } = useCategories();
 
   const {
     data: locations,
     isLoading: isFetchingLocations,
     error: fetchLocationsError,
-  } = useQuery({
-    queryFn: getLocations,
-    queryKey: ["locations"],
-  });
+  } = useLocations();
 
   const { mutate: deleteCategoryMutate, isPending: isDeleting } = useMutation({
     mutationFn: deleteCategoryById,

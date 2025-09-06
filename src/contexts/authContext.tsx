@@ -1,8 +1,8 @@
-import useUser from "@/hooks/useUser";
 import { createContext, type ReactNode } from "react";
 import { AbilityBuilder, PureAbility } from "@casl/ability";
 import type { Permission } from "@/types/RoleType";
 import type { User } from "@/types/UserType";
+import { useMe } from "@/hooks/useUsers";
 
 type AuthContextType = {
   user: User | null;
@@ -17,7 +17,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 );
 
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
-  const { data: user, isLoading, error } = useUser();
+  const { data: user, isLoading, error } = useMe();
 
   const ability = new PureAbility(
     user?.role.permissions?.map((p: Permission) => ({

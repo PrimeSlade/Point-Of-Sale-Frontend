@@ -1,5 +1,6 @@
-import { getLocations } from "@/api/locations";
-import { deletePatientById, getPatients } from "@/api/patients";
+import { deletePatientById } from "@/api/patients";
+import { useLocations } from "@/hooks/useLocations";
+import { usePatients } from "@/hooks/usePatients";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import PatientColumns from "@/components/columns/PatientColumns";
@@ -8,7 +9,7 @@ import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import { DataTable } from "@/components/table/data-table";
 import { useAuth } from "@/hooks/useAuth";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
 import { useState } from "react";
@@ -35,19 +36,13 @@ const PatientPage = () => {
     data: patients,
     isLoading: isFetchingPatients,
     error: fetchPatientError,
-  } = useQuery({
-    queryFn: getPatients,
-    queryKey: ["patients"],
-  });
+  } = usePatients();
 
   const {
     data: locations,
     isLoading: isFetchingLocations,
     error: fetchLocationError,
-  } = useQuery({
-    queryFn: getLocations,
-    queryKey: ["locations"],
-  });
+  } = useLocations();
 
   const { mutate: deletePatientMutate, isPending: isDeleting } = useMutation({
     mutationFn: deletePatientById,

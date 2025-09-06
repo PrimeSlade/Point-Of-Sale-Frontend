@@ -1,21 +1,16 @@
-import { getDoctors } from "@/api/doctors";
-import { getPatients } from "@/api/patients";
-import { getTreatmentById } from "@/api/treatments";
 import TreatmentForm from "@/components/forms/wrapper/TreatmentForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
-import { useQuery } from "@tanstack/react-query";
+import { useDoctors } from "@/hooks/useDoctors";
+import { usePatients } from "@/hooks/usePatients";
+import { useTreatment } from "@/hooks/useTreatments";
 import { useParams } from "react-router-dom";
 
 const TreatmentFormPage = () => {
   const { id } = useParams();
   const isEdit = Boolean(id);
 
-  const { data: treatmentData, isLoading: isFetchingItem } = useQuery({
-    queryKey: ["treatment", id],
-    queryFn: () => getTreatmentById(Number(id)),
-    enabled: Boolean(id),
-  });
+  const { data: treatmentData, isLoading: isFetchingItem } = useTreatment(id);
 
   console.log("Fetching");
   console.log(treatmentData?.data.treatment);
@@ -24,19 +19,13 @@ const TreatmentFormPage = () => {
     data: patients,
     isLoading: isFetchingPatients,
     error: fetchPatientError,
-  } = useQuery({
-    queryFn: getPatients,
-    queryKey: ["patients"],
-  });
+  } = usePatients();
 
   const {
     data: doctors,
     isLoading: isFetchingDoctors,
     error: fetchDoctorError,
-  } = useQuery({
-    queryFn: getDoctors,
-    queryKey: ["doctors"],
-  });
+  } = useDoctors();
 
   const isLoading = isFetchingPatients || isFetchingDoctors || isFetchingItem;
 

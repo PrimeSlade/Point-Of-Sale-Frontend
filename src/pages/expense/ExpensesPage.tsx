@@ -1,6 +1,7 @@
-import { getCategories } from "@/api/categories";
-import { deleteExpenseById, getExpenses } from "@/api/expenses";
-import { getLocations } from "@/api/locations";
+import { deleteExpenseById } from "@/api/expenses";
+import { useCategories } from "@/hooks/useCategories";
+import { useExpenses } from "@/hooks/useExpenses";
+import { useLocations } from "@/hooks/useLocations";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import ExpensesColumns from "@/components/columns/ExpenseColumns";
@@ -9,7 +10,7 @@ import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import { DataTable } from "@/components/table/data-table";
 import { useAuth } from "@/hooks/useAuth";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -37,30 +38,21 @@ const ExpensesPage = () => {
     data: expenses,
     isLoading: isFetchingExpenses,
     error: fetchExpensesError,
-  } = useQuery({
-    queryFn: getExpenses,
-    queryKey: ["expenses"],
-  });
+  } = useExpenses();
 
   //location
   const {
     data: locations,
     isLoading: isFetchingLocations,
     error: fetchLocationsError,
-  } = useQuery({
-    queryFn: getLocations,
-    queryKey: ["locations"],
-  });
+  } = useLocations();
 
   //category
   const {
     data: categories,
     isLoading: isFetchingCategories,
     error: fetchCategoriesError,
-  } = useQuery({
-    queryFn: getCategories,
-    queryKey: ["categories"],
-  });
+  } = useCategories();
 
   const { mutate: deleteExpenseMutate, isPending: isDeleting } = useMutation({
     mutationFn: deleteExpenseById,

@@ -1,4 +1,5 @@
-import { deleteServiceById, getServices } from "@/api/services";
+import { deleteServiceById } from "@/api/services";
+import { useServices } from "@/hooks/useServices";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import ServiceColumns from "@/components/columns/ServiceColumns";
@@ -7,7 +8,7 @@ import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import { DataTable } from "@/components/table/data-table";
 import { useAuth } from "@/hooks/useAuth";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
 import { useState } from "react";
@@ -34,10 +35,7 @@ const ServicePage = () => {
     data: services,
     isLoading,
     error: fetchServiceError,
-  } = useQuery({
-    queryFn: getServices,
-    queryKey: ["services"],
-  });
+  } = useServices();
 
   const { mutate: deleteServiceMutate, isPending: isDeleting } = useMutation({
     mutationFn: deleteServiceById,
