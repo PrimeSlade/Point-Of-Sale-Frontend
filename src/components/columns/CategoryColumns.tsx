@@ -37,7 +37,6 @@ const CategoryColumn = ({
     id: "location",
     accessorFn: (row) => row.location?.name ?? "",
     header: () => <div className="font-bold">Location</div>,
-    enableGlobalFilter: true,
     cell: ({ row }) => {
       return row.original.location?.name;
     },

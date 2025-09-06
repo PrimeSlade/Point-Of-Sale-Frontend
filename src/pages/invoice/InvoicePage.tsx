@@ -1,6 +1,11 @@
 import { deleteInvoiceById, getInvoices } from "@/api/invoice";
+import { deletePatientById } from "@/api/patients";
+import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
+import InvoiceColumns from "@/components/columns/InvoiceColumns";
+import PatientColumns from "@/components/columns/PatientColumns";
 import Header from "@/components/header/Header";
+import { DataTable } from "@/components/table/data-table";
 import { useAuth } from "@/hooks/useAuth";
 import useDebounce from "@/hooks/useDebounce";
 import type { DateRange } from "@/types/TreatmentType";
@@ -95,6 +100,12 @@ const InvoicePage = () => {
     }
   }, [fetchTreatmentError]);
 
+  const columns = InvoiceColumns({
+    onDelete: deletePatientById,
+    isDeleting,
+    page: paginationState.pageIndex,
+  });
+
   return (
     <div>
       <Header
@@ -113,6 +124,28 @@ const InvoicePage = () => {
           </div>
         }
       />
+      <DataTable
+        columns={columns}
+        data={data?.data ?? []}
+        prompt="Search by patient names"
+        totalPages={data?.meta.totalPages ?? 0}
+        paginationState={paginationState}
+        setPaginationState={setPaginationState}
+        pagination
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+        serverSideSearch
+        navigateTo="/dashboard/invoices"
+      />
+      {fetchTreatmentError && (
+        <AlertBox
+          open={errorOpen}
+          onClose={() => setErrorOpen(false)}
+          title="Error"
+          description={fetchTreatmentError.message}
+          mode={"error"}
+        />
+      )}
     </div>
   );
 };

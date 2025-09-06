@@ -23,6 +23,8 @@ import ExpenseMainPage from "./pages/expense/ExpenseMainPage";
 import CategoryPage from "./pages/expense/CategoryPage";
 import RolePage from "./pages/setting/RolePage";
 import RoleFormPage from "./pages/setting/RoleFormPage";
+import InventoryItemForm from "./components/forms/form/InventoryItemForm";
+import InvoiceFormPage from "./pages/invoice/InvoiceFormPage";
 
 function App() {
   return (
@@ -44,7 +46,11 @@ function App() {
             <Route path="add" element={<TreatmentFormPage />} />
             <Route path="edit/:id" element={<TreatmentFormPage />} />
           </Route>
-          <Route path="invoices" element={<InvoicePage />} />
+          <Route path="invoices" element={<NestedLayout />}>
+            <Route index element={<InvoicePage />} />
+            <Route path="add" element={<InvoiceFormPage />} />
+            <Route path="edit/:id" element={<InvoiceFormPage />} />
+          </Route>
           <Route path="expenses" element={<ExpenseMainPage />}>
             <Route path="" element={<ExpensesPage />} />
             <Route path="category" element={<CategoryPage />} />

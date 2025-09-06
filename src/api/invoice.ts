@@ -29,7 +29,7 @@ const getInvoices = async (
   }
 };
 
-const getInvoiceById = async (id: string) => {
+const getInvoiceById = async (id: number) => {
   try {
     const { data } = await axiosInstance.get(`/invoices/${id}`);
     return data;
@@ -38,7 +38,7 @@ const getInvoiceById = async (id: string) => {
   }
 };
 
-const deleteInvoiceById = async (id: string) => {
+const deleteInvoiceById = async (id: number) => {
   try {
     const { data } = await axiosInstance.delete(`/invoices/${id}`);
     return data;

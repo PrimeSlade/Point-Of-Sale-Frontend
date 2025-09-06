@@ -1,3 +1,8 @@
+import type { LocationType } from "./LocationType";
+import type { TreatmentData } from "./TreatmentType";
+
+type PaymentMethod = "kpay" | "wave" | "cash" | "others";
+
 type InvoiceItem = {
   itemId: number;
   itemName: string;
@@ -8,20 +13,22 @@ type InvoiceItem = {
 };
 
 type Invoice = {
-  id: string;
+  id: number;
   locationId: number;
   treatmentId: number;
   totalAmount: number;
   discountAmount: number;
-  paymentMethod: string;
+  paymentMethod: PaymentMethod;
   paymentDescription?: string;
   note?: string;
   invoiceItems: InvoiceItem[];
   createdAt: string;
+  location: LocationType;
+  treatment: TreatmentData;
 };
 
 type InvoiceForm = {
-  id?: string;
+  id?: number;
   locationId: number;
   treatmentId: number;
   totalAmount: number;
@@ -32,4 +39,4 @@ type InvoiceForm = {
   invoiceItems: InvoiceItem[];
 };
 
-export type { Invoice, InvoiceForm, InvoiceItem };
+export type { Invoice, InvoiceForm, InvoiceItem, PaymentMethod };

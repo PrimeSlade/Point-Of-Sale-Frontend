@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 import type { Invoice } from "@/types/InvoiceType";
 import { formatDate } from "@/utils/formatDate";
 import { useAuth } from "@/hooks/useAuth";
+import { generateInvoiceId } from "@/utils/formatText";
 
 type InvoiceColumsProps = {
-  onDelete: (id: string) => void;
+  onDelete: (id: number) => void;
   isDeleting: boolean;
   page: number;
 };
@@ -24,35 +25,35 @@ const InvoiceColumns = ({
     cell: ({ row }) => (
       <div className="text-center">{page * 15 + row.index + 1}</div>
     ),
-    enableGlobalFilter: false,
   },
   {
-    id: "treatmentId",
-    header: () => <div className="font-bold">Treatment ID</div>,
+    id: "invoiceId",
+    header: () => <div className="font-bold">Invoice ID</div>,
     cell: ({ row }) => {
-      return row.original.treatmentId;
+      return generateInvoiceId(row.original.id, row.original.location.name);
     },
   },
   {
-    id: "totalAmount",
+    id: "patientName",
+    header: () => <div className="font-bold">Patient Name</div>,
+    cell: ({ row }) => {
+      return row.original?.treatment?.patient!.name ?? "Walk-in customer";
+    },
+  },
+  {
+    id: "location",
+    header: () => <div className="font-bold">Location</div>,
+    cell: ({ row }) => {
+      return row.original.location.name;
+    },
+  },
+  {
+    accessorKey: "totalAmount",
     header: () => <div className="font-bold">Total Amount</div>,
-    cell: ({ row }) => {
-      return `$${row.original.totalAmount.toFixed(2)}`;
-    },
   },
   {
-    id: "paymentMethod",
+    accessorKey: "paymentMethod",
     header: () => <div className="font-bold">Payment Method</div>,
-    cell: ({ row }) => {
-      return row.original.paymentMethod;
-    },
-  },
-  {
-    id: "discountAmount",
-    header: () => <div className="font-bold">Discount</div>,
-    cell: ({ row }) => {
-      return `$${row.original.discountAmount.toFixed(2)}`;
-    },
   },
   {
     accessorKey: "createdAt",
