@@ -1,10 +1,9 @@
-import { getInvoiceById } from "@/api/invoice";
-import { getLocations } from "@/api/locations";
 import DialogButton from "@/components/button/DialogButton";
 import InvoiceForm from "@/components/forms/wrapper/InvoiceForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
-import { useQuery } from "@tanstack/react-query";
+import { useInvoice } from "@/hooks/useInvoices";
+import { useLocations } from "@/hooks/useLocations";
 import { useNavigate, useParams } from "react-router-dom";
 
 //used for both create and edit
@@ -15,20 +14,12 @@ const InvoiceFormPage = () => {
   const isEdit = Boolean(id);
 
   //tenstack
-  const { data: invoiceData, isLoading: isFetchingInvoice } = useQuery({
-    queryKey: ["invoice", id],
-    queryFn: () => getInvoiceById(Number(id)),
-    enabled: Boolean(id),
-  });
-
+  const { data: invoiceData, isLoading: isFetchingInvoice } = useInvoice(id);
   const {
     data: locationData,
     isLoading: location,
     error: fetchError,
-  } = useQuery({
-    queryFn: getLocations,
-    queryKey: ["locations"],
-  });
+  } = useLocations();
 
   const isLoading = isFetchingInvoice || location;
 

@@ -1,11 +1,9 @@
-import { getPermissions } from "@/api/permissions";
-import { getRoleById } from "@/api/roles";
+import { usePermissions, useRole } from "@/hooks/useRoles";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import RoleForm from "@/components/forms/wrapper/RoleForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -22,20 +20,13 @@ const RoleFormPage = () => {
     data: role,
     isLoading: isFetchingRole,
     error: fetchRoleError,
-  } = useQuery({
-    queryKey: ["role", id],
-    queryFn: () => getRoleById(Number(id)),
-    enabled: isEdit,
-  });
+  } = useRole(id);
 
   const {
     data: permissions,
     isLoading: isFetchingPermissions,
     error: fetchPermissionError,
-  } = useQuery({
-    queryKey: ["permissions"],
-    queryFn: getPermissions,
-  });
+  } = usePermissions();
 
   const fetchError = fetchPermissionError || fetchRoleError;
   const isLoading = isFetchingPermissions || isFetchingRole;

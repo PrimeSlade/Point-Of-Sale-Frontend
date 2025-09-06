@@ -1,11 +1,12 @@
-import { deleteItemById, getItems } from "@/api/inventories";
-import { getLocations } from "@/api/locations";
+import { deleteItemById } from "@/api/inventories";
+import { useItems } from "@/hooks/useItems";
+import { useLocations } from "@/hooks/useLocations";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import ItemColumns from "@/components/columns/ItemColumns";
 import Header from "@/components/header/Header";
 import { DataTable } from "@/components/table/data-table";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -57,31 +58,19 @@ const ItemServicePage = () => {
 
   //TenStack
   //locations
-  const { data: locations, error: fetchLocationError } = useQuery({
-    queryFn: getLocations,
-    queryKey: ["locations"],
-  });
+  const { data: locations, error: fetchLocationError } = useLocations();
 
   //items
   const {
     data,
     isLoading,
     error: fetchItemError,
-  } = useQuery({
-    queryFn: () =>
-      getItems(
-        paginationState.pageIndex + 1,
-        paginationState.pageSize,
-        debouncedSearch,
-        columnFilters
-      ),
-    queryKey: [
-      "items",
-      paginationState.pageIndex,
-      debouncedSearch,
-      columnFilters,
-    ],
-  });
+  } = useItems(
+    paginationState.pageIndex + 1,
+    paginationState.pageSize,
+    debouncedSearch,
+    columnFilters
+  );
 
   const { mutate: deleteItemMutate, isPending: isDeleting } = useMutation({
     mutationFn: deleteItemById,

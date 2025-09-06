@@ -1,4 +1,5 @@
-import { deleteRoleById, getRoles } from "@/api/roles";
+import { deleteRoleById } from "@/api/roles";
+import { useRoles } from "@/hooks/useRoles";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import RoleColumns from "@/components/columns/RoleColumns";
@@ -6,7 +7,7 @@ import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import { DataTable } from "@/components/table/data-table";
 import { useAuth } from "@/hooks/useAuth";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,10 +32,7 @@ const RolePage = () => {
     data: roles,
     isLoading: isFetchingRoles,
     error: fetchRoleError,
-  } = useQuery({
-    queryFn: getRoles,
-    queryKey: ["roles"],
-  });
+  } = useRoles();
 
   const { mutate: deleteRoleMutate, isPending: isDeleting } = useMutation({
     mutationFn: deleteRoleById,

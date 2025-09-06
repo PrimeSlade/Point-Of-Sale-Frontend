@@ -1,4 +1,5 @@
-import { deleteInvoiceById, getInvoices } from "@/api/invoice";
+import { deleteInvoiceById } from "@/api/invoice";
+import { useInvoices } from "@/hooks/useInvoices";
 import { deletePatientById } from "@/api/patients";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
@@ -10,7 +11,7 @@ import { useAuth } from "@/hooks/useAuth";
 import useDebounce from "@/hooks/useDebounce";
 import type { DateRange } from "@/types/TreatmentType";
 import { formatLocalDate } from "@/utils/formatDate";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -60,28 +61,18 @@ const InvoicePage = () => {
     }));
   }, []);
 
-  //treatments
+  //invoices
   const {
     data,
     isLoading,
-    error: fetchTreatmentError,
-  } = useQuery({
-    queryFn: () =>
-      getInvoices(
-        paginationState.pageIndex + 1,
-        paginationState.pageSize,
-        debouncedSearch,
-        date.startDate ? formatLocalDate(date.startDate) : undefined,
-        date.endDate ? formatLocalDate(date.endDate) : undefined
-      ),
-    queryKey: [
-      "invoices",
-      paginationState.pageIndex,
-      debouncedSearch,
-      date.startDate,
-      date.endDate,
-    ],
-  });
+    error: fetchInvoiceError,
+  } = useInvoices(
+    paginationState.pageIndex + 1,
+    paginationState.pageSize,
+    debouncedSearch,
+    date.startDate ? formatLocalDate(date.startDate) : undefined,
+    date.endDate ? formatLocalDate(date.endDate) : undefined
+  );
 
   const { mutate: deleteInvoiceMutate, isPending: isDeleting } = useMutation({
     mutationFn: deleteInvoiceById,
@@ -95,10 +86,10 @@ const InvoicePage = () => {
   });
 
   useEffect(() => {
-    if (fetchTreatmentError) {
+    if (fetchInvoiceError) {
       setErrorOpen(true);
     }
-  }, [fetchTreatmentError]);
+  }, [fetchInvoiceError]);
 
   const columns = InvoiceColumns({
     onDelete: deletePatientById,
@@ -136,13 +127,16 @@ const InvoicePage = () => {
         setGlobalFilter={setGlobalFilter}
         serverSideSearch
         navigateTo="/dashboard/invoices"
+        filterByDate
+        date={date}
+        setDate={setDate}
       />
-      {fetchTreatmentError && (
+      {fetchInvoiceError && (
         <AlertBox
           open={errorOpen}
           onClose={() => setErrorOpen(false)}
           title="Error"
-          description={fetchTreatmentError.message}
+          description={fetchInvoiceError.message}
           mode={"error"}
         />
       )}

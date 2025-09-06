@@ -1,4 +1,5 @@
-import { deleteTreatmentById, getTreatments } from "@/api/treatments";
+import { deleteTreatmentById } from "@/api/treatments";
+import { useTreatments } from "@/hooks/useTreatments";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import TreatmentColumns from "@/components/columns/TreatmentColumns";
@@ -8,7 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import useDebounce from "@/hooks/useDebounce";
 import type { DateRange } from "@/types/TreatmentType";
 import { formatLocalDate } from "@/utils/formatDate";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { PaginationState } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -62,23 +63,13 @@ const TreatmentPage = () => {
     data,
     isLoading,
     error: fetchTreatmentError,
-  } = useQuery({
-    queryFn: () =>
-      getTreatments(
-        paginationState.pageIndex + 1,
-        paginationState.pageSize,
-        debouncedSearch,
-        date.startDate ? formatLocalDate(date.startDate) : undefined,
-        date.endDate ? formatLocalDate(date.endDate) : undefined
-      ),
-    queryKey: [
-      "treatments",
-      paginationState.pageIndex,
-      debouncedSearch,
-      date.startDate,
-      date.endDate,
-    ],
-  });
+  } = useTreatments(
+    paginationState.pageIndex + 1,
+    paginationState.pageSize,
+    debouncedSearch,
+    date.startDate ? formatLocalDate(date.startDate) : undefined,
+    date.endDate ? formatLocalDate(date.endDate) : undefined
+  );
 
   const { mutate: deleteTreatmentMutate, isPending: isDeleting } = useMutation({
     mutationFn: deleteTreatmentById,

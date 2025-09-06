@@ -1,6 +1,7 @@
-import { getLocations } from "@/api/locations";
-import { getRoles } from "@/api/roles";
-import { deleteUserById, getUsers } from "@/api/users";
+import { deleteUserById } from "@/api/users";
+import { useLocations } from "@/hooks/useLocations";
+import { useRoles } from "@/hooks/useRoles";
+import { useUsers } from "@/hooks/useUsers";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import UserColumns from "@/components/columns/UserColumns";
@@ -10,7 +11,7 @@ import Loading from "@/components/loading/Loading";
 import { DataTable } from "@/components/table/data-table";
 import { useAuth } from "@/hooks/useAuth";
 import useLogout from "@/hooks/useLogout";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -37,30 +38,21 @@ const UserPage = () => {
     data: users,
     isLoading: isFetchingUsers,
     error: fetchUserError,
-  } = useQuery({
-    queryFn: getUsers,
-    queryKey: ["users"],
-  });
+  } = useUsers();
 
   //locations
   const {
     data: locations,
     isLoading: isFetchingLocations,
     error: fetchLocationError,
-  } = useQuery({
-    queryFn: getLocations,
-    queryKey: ["locations"],
-  });
+  } = useLocations();
 
   //roles
   const {
     data: roles,
     isLoading: isFetchingRoles,
     error: fetchRoleError,
-  } = useQuery({
-    queryFn: getRoles,
-    queryKey: ["roles"],
-  });
+  } = useRoles();
 
   const { mutate: deleteUserMutate, isPending: isDeleting } = useMutation({
     mutationFn: deleteUserById,
