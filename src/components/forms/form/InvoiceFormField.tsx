@@ -1,3 +1,4 @@
+import TreatmentBox from "@/components/invocie/InvoieTreatmentBox";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import type { ServiceData } from "@/types/ServiceType";
@@ -24,7 +25,7 @@ const InvoiceFormField = <T,>({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <div className="mt-3">
+        <div className="mt-3 flex flex-col gap-10">
           <RadioGroup
             value={isTreatment ? "treatment" : "walk-in"}
             onValueChange={(value) =>
@@ -38,7 +39,9 @@ const InvoiceFormField = <T,>({
                 id="r1"
                 className=" data-[state=checked]:border-[var(--primary-color)]"
               />
-              <Label htmlFor="r1">Treatment</Label>
+              <Label htmlFor="r1" className="font-bold">
+                Treatment
+              </Label>
             </div>
             <div className="flex items-center gap-3">
               <RadioGroupItem
@@ -46,9 +49,16 @@ const InvoiceFormField = <T,>({
                 id="r2"
                 className="data-[state=checked]:border-[var(--primary-color)]"
               />
-              <Label htmlFor="r2">Walk-In</Label>
+              <Label htmlFor="r2" className="font-bold">
+                Walk-In
+              </Label>
             </div>
           </RadioGroup>
+          {isTreatment && (
+            <div className="animate-in slide-in-from-top-2 fade-in duration-300 ease-out">
+              <TreatmentBox />
+            </div>
+          )}
         </div>
       </form>
     </Form>

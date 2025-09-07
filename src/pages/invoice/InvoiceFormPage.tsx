@@ -15,13 +15,8 @@ const InvoiceFormPage = () => {
 
   //tenstack
   const { data: invoiceData, isLoading: isFetchingInvoice } = useInvoice(id);
-  const {
-    data: locationData,
-    isLoading: location,
-    error: fetchError,
-  } = useLocations();
 
-  const isLoading = isFetchingInvoice || location;
+  const isLoading = isFetchingInvoice;
 
   if (isLoading)
     return <Loading className="flex justify-center h-screen items-center" />;
@@ -42,7 +37,6 @@ const InvoiceFormPage = () => {
       <InvoiceForm
         mode={isEdit ? "edit" : "create"}
         invoiceData={invoiceData}
-        locationData={locationData}
       />
     </div>
   );

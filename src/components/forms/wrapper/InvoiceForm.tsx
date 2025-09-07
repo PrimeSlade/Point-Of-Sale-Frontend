@@ -13,7 +13,6 @@ import InvoiceFormField from "../form/InvoiceFormField";
 
 type InvoiceFormProps = {
   invoiceData?: Invoice;
-  locationData?: any;
   mode: "create" | "edit";
 };
 
@@ -32,7 +31,7 @@ const unitType = [
 
 const paymentMethod = ["kpay", "wave", "cash", "others"] as const;
 
-const InvoiceForm = ({ invoiceData, locationData, mode }: InvoiceFormProps) => {
+const InvoiceForm = ({ invoiceData, mode }: InvoiceFormProps) => {
   //TenStack
   const queryClient = useQueryClient();
   const navigate = useNavigate();
