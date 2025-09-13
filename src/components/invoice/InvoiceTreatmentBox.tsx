@@ -128,7 +128,6 @@ const InvoiceTreatmentBox = ({
               <div className="text-lg font-medium mb-2">
                 No treatments found
               </div>
-              <p className="text-sm">Try adjusting your search filters</p>
             </div>
           </div>
         ) : (
