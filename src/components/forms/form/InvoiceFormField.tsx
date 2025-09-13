@@ -104,6 +104,8 @@ const InvoiceFormField = <T,>({
                         (service: ServiceData) => service.name === name
                       )
                     );
+
+                    console.log(selectedObjects);
                     field.onChange(selectedObjects);
                   }}
                   defaultValue={

@@ -62,11 +62,16 @@ const InvoiceTreatmentBox = ({
   );
 
   useEffect(() => {
-    if (patientNameDebounce || doctorNameDebounce) {
+    if (patientNameDebounce || doctorNameDebounce || selectedItems.location) {
       refetch();
       onTreatmentSelect(null);
     }
-  }, [patientNameDebounce, doctorNameDebounce, refetch]);
+  }, [
+    patientNameDebounce,
+    doctorNameDebounce,
+    refetch,
+    selectedItems.location,
+  ]);
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
