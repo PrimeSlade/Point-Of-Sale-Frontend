@@ -31,6 +31,26 @@ const getTreatments = async (
   }
 };
 
+const getTreatmentByCursor = async (
+  cursor: string | null,
+  limit: number,
+  patientName: string,
+  doctorName: string,
+  location: string
+) => {
+  try {
+    const { data } = await axiosInstance.get(
+      `/treatments/infinite?cursor=${cursor}&limit=${limit}&patientName=${patientName}&doctorName=${doctorName}&location=${
+        location === "__all" ? "" : location
+      }`
+    );
+
+    return data;
+  } catch (error: any) {
+    throw new Error(error.response?.data.error.message);
+  }
+};
+
 const getTreatmentById = async (id: number) => {
   try {
     const { data } = await axiosInstance.get(`/treatments/${id}`);
@@ -66,4 +86,5 @@ export {
   getTreatmentById,
   editTreatmentById,
   deleteTreatmentById,
+  getTreatmentByCursor,
 };

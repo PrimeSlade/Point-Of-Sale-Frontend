@@ -69,7 +69,7 @@ const AutocompleteInput = ({
       ...pd,
       [objectName]: input.name,
     }));
-    setSelectedItems((prev) => ({ ...prev, [objectName]: input }));
+    setSelectedItems((prev) => ({ ...prev, [objectName]: input.name }));
     setShowSuggestions((prev) => ({ ...prev, [objectName]: false }));
   };
 

@@ -31,7 +31,7 @@ const unitType = [
 
 const paymentMethod = ["kpay", "wave", "cash", "others"] as const;
 
-const InvoiceForm = ({ invoiceData, mode }: InvoiceFormProps) => {
+const InvoiceForm = ({ mode }: InvoiceFormProps) => {
   //TenStack
   const queryClient = useQueryClient();
   const navigate = useNavigate();
