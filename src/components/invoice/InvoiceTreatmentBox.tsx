@@ -13,8 +13,8 @@ import { useInView } from "react-intersection-observer";
 import TreatmentCardSkeleton from "./TreatmentCardSkeleton";
 
 type InvoiceTreatmentBoxProps = {
-  selectedTreatment?: TreatmentData | null;
-  onTreatmentSelect?: (treatment: TreatmentData | null) => void;
+  selectedTreatment: TreatmentData | null;
+  onTreatmentSelect: (treatment: TreatmentData | null) => void;
 };
 
 export type SelectedItems = {
@@ -64,6 +64,7 @@ const InvoiceTreatmentBox = ({
   useEffect(() => {
     if (patientNameDebounce || doctorNameDebounce) {
       refetch();
+      onTreatmentSelect(null);
     }
   }, [patientNameDebounce, doctorNameDebounce, refetch]);
 

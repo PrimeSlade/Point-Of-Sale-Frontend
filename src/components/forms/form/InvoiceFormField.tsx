@@ -13,7 +13,6 @@ import { useServices } from "@/hooks/useServices";
 import { toUpperCase } from "@/utils/formatText";
 
 type InvoiceFormFieldProps<T> = {
-  services: ServiceData[] | any;
   form: UseFormReturn<any>;
   onSubmit: (values: T) => void;
   mode?: "create" | "edit";
@@ -23,7 +22,6 @@ type InvoiceFormFieldProps<T> = {
 };
 
 const InvoiceFormField = <T,>({
-  services,
   form,
   onSubmit,
   mode,
@@ -92,7 +90,6 @@ const InvoiceFormField = <T,>({
               <TreatmentDiagnosisBox data={selectedTreatment} />
             </div>
           )}
-
           <div className="flex flex-col gap-3">
             <label className="font-bold text-xl">Services</label>
             <Controller

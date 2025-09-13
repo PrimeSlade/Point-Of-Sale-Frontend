@@ -38,9 +38,8 @@ const InvoiceForm = ({ mode, invoiceData }: InvoiceFormProps) => {
   const navigate = useNavigate();
 
   //Treatment Selection State
-  const [selectedTreatment, setSelectedTreatment] = useState<TreatmentData | null>(
-    invoiceData?.treatment || null
-  );
+  const [selectedTreatment, setSelectedTreatment] =
+    useState<TreatmentData | null>(invoiceData?.treatment || null);
 
   //Form
   const itemUnitSchema = z.object({
@@ -70,7 +69,7 @@ const InvoiceForm = ({ mode, invoiceData }: InvoiceFormProps) => {
   });
 
   const formSchema = z.object({
-    treatmentId: z.number({}).optional(),
+    treatmentId: z.number().optional(),
 
     locationId: z.number({
       message: "Please select a valid location.",
@@ -142,7 +141,6 @@ const InvoiceForm = ({ mode, invoiceData }: InvoiceFormProps) => {
 
   return (
     <InvoiceFormField
-      services={[]}
       form={form}
       mode={mode}
       isPending={false}
