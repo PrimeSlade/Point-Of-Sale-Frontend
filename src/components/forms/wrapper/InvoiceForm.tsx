@@ -7,8 +7,9 @@ import { useFieldArray } from "react-hook-form";
 import { addItem, editItemById } from "@/api/inventories";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { Invoice, PaymentMethod } from "@/types/InvoiceType";
+import type { TreatmentData } from "@/types/TreatmentType";
 import InvoiceFormField from "../form/InvoiceFormField";
 
 type InvoiceFormProps = {
@@ -31,10 +32,15 @@ const unitType = [
 
 const paymentMethod = ["kpay", "wave", "cash", "others"] as const;
 
-const InvoiceForm = ({ mode }: InvoiceFormProps) => {
+const InvoiceForm = ({ mode, invoiceData }: InvoiceFormProps) => {
   //TenStack
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+
+  //Treatment Selection State
+  const [selectedTreatment, setSelectedTreatment] = useState<TreatmentData | null>(
+    invoiceData?.treatment || null
+  );
 
   //Form
   const itemUnitSchema = z.object({
@@ -121,6 +127,15 @@ const InvoiceForm = ({ mode }: InvoiceFormProps) => {
     },
   });
 
+  // Update form when treatment is selected
+  useEffect(() => {
+    if (selectedTreatment) {
+      form.setValue("treatmentId", selectedTreatment.id);
+    } else {
+      form.setValue("treatmentId", undefined);
+    }
+  }, [selectedTreatment, form]);
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log(values);
   };
@@ -132,6 +147,8 @@ const InvoiceForm = ({ mode }: InvoiceFormProps) => {
       mode={mode}
       isPending={false}
       onSubmit={onSubmit}
+      selectedTreatment={selectedTreatment}
+      onTreatmentSelect={setSelectedTreatment}
     />
   );
 };

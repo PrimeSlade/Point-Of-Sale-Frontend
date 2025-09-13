@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 type PatientCardProps = {
   data: PatientData;
+  mode: "patient" | "invoice";
 };
 
-const PatientCard = ({ data }: PatientCardProps) => {
+const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {
   const navigate = useNavigate();
 
   const dob = new Date(data?.dateOfBirth);
@@ -24,7 +25,22 @@ const PatientCard = ({ data }: PatientCardProps) => {
     <div className="border p-5 rounded-lg h-full shadow">
       <h1 className="font-bold text-xl">Patient Infomation</h1>
 
-      <div className="flex flex-col gap-3 mt-5">
+      <div
+        className={`${
+          mode === "invoice" ? "grid grid-cols-3" : "flex flex-col"
+        }  gap-3 mt-5`}
+      >
+        {mode === "invoice" && (
+          <div>
+            <label htmlFor="phone" className="text-[var(--text-secondary)]">
+              Name
+            </label>
+            <div id="phone" className="font-bold">
+              {data?.name}
+            </div>
+          </div>
+        )}
+
         <div>
           <label htmlFor="phone" className="text-[var(--text-secondary)]">
             Phone
@@ -126,40 +142,44 @@ const PatientCard = ({ data }: PatientCardProps) => {
             </div>
           </div>
         </div>
-        <hr className="h-[1px] bg-[var(--text-secondary)] border-0 mt-5" />
-        <div className="flex justify-between">
-          <div>
-            <label
-              htmlFor="totalTreatments"
-              className="text-[var(--text-secondary)]"
-            >
-              Total Treatments
-            </label>
-            <div
-              id="totalTreatments"
-              className="font-bold text-[var(--primary-color)]"
-            >
-              {treatments.length}
+        {mode === "patient" && (
+          <>
+            <hr className="h-[1px] bg-[var(--text-secondary)] border-0 mt-5" />
+            <div className="flex justify-between">
+              <div>
+                <label
+                  htmlFor="totalTreatments"
+                  className="text-[var(--text-secondary)]"
+                >
+                  Total Treatments
+                </label>
+                <div
+                  id="totalTreatments"
+                  className="font-bold text-[var(--primary-color)]"
+                >
+                  {treatments.length}
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="totalTreatments"
+                  className="text-[var(--text-secondary)]"
+                >
+                  Last Visit
+                </label>
+                <div id="totalTreatments" className="font-bold ">
+                  {lastVisit}
+                </div>
+              </div>
             </div>
-          </div>
-          <div>
-            <label
-              htmlFor="totalTreatments"
-              className="text-[var(--text-secondary)]"
+            <Button
+              className="bg-[var(--success-color)] hover:bg-[var(--success-color-hover)] mt-2"
+              onClick={() => navigate("/dashboard/treatments/add")}
             >
-              Last Visit
-            </label>
-            <div id="totalTreatments" className="font-bold ">
-              {lastVisit}
-            </div>
-          </div>
-        </div>
-        <Button
-          className="bg-[var(--success-color)] hover:bg-[var(--success-color-hover)] mt-2"
-          onClick={() => navigate("/dashboard/treatments/add")}
-        >
-          New Treatment
-        </Button>
+              New Treatment
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );
