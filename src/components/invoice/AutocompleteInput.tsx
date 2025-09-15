@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Card, CardContent } from "../ui/card";
 import type { PatientData } from "@/types/PatientType";
 import type { DoctorData } from "@/types/DoctorType";
-import type { SelectedItems } from "./InvoieTreatmentBox";
 import { Input } from "../ui/input";
 import { formatText } from "@/utils/formatDate";
+import type { SelectedItems } from "./InvoiceTreatmentBox";
 
 type AutocompleteInputProps = {
   data: PatientData[] | DoctorData[];

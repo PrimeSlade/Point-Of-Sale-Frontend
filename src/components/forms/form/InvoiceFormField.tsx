@@ -11,6 +11,22 @@ import { MultiSelect } from "@/components/ui/multi-select";
 import { Controller } from "react-hook-form";
 import { useServices } from "@/hooks/useServices";
 import { toUpperCase } from "@/utils/formatText";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import type { LocationType } from "@/types/LocationType";
+import { useLocations } from "@/hooks/useLocations";
 
 type InvoiceFormFieldProps<T> = {
   form: UseFormReturn<any>;
@@ -30,19 +46,22 @@ const InvoiceFormField = <T,>({
   onTreatmentSelect,
 }: InvoiceFormFieldProps<T>) => {
   const [isTreatment, setIsTreatment] = useState(true);
-  const { data: serviceData } = useServices();
-
-  const serviceOptions =
-    serviceData?.data.map((data: ServiceData) => ({
-      value: data.name,
-      label: `${toUpperCase(data.name)} (${data.retailPrice})`,
-    })) || [];
+  const { data: serviceData, isLoading: isFetchingService } = useServices();
+  const { data: locationData, isLoading: isFetchingLocation } = useLocations();
 
   useEffect(() => {
     if (!isTreatment) {
       onTreatmentSelect(null);
     }
   }, [isTreatment, onTreatmentSelect]);
+
+  if (isFetchingLocation || isFetchingService) return null;
+
+  const serviceOptions =
+    serviceData?.data.map((data: ServiceData) => ({
+      value: data.name,
+      label: `${toUpperCase(data.name)} (${data.retailPrice})`,
+    })) || [];
 
   return (
     <Form {...form}>
@@ -105,7 +124,6 @@ const InvoiceFormField = <T,>({
                       )
                     );
 
-                    console.log(selectedObjects);
                     field.onChange(selectedObjects);
                   }}
                   defaultValue={
