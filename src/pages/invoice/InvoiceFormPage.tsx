@@ -4,6 +4,7 @@ import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import { useInvoice } from "@/hooks/useInvoices";
 import { useLocations } from "@/hooks/useLocations";
+import { useServices } from "@/hooks/useServices";
 import { useNavigate, useParams } from "react-router-dom";
 
 //used for both create and edit
@@ -15,8 +16,11 @@ const InvoiceFormPage = () => {
 
   //tenstack
   const { data: invoiceData, isLoading: isFetchingInvoice } = useInvoice(id);
+  const { data: serviceData, isLoading: isFetchingService } = useServices();
+  const { data: locationData, isLoading: isFetchingLocation } = useLocations();
 
-  const isLoading = isFetchingInvoice;
+  const isLoading =
+    isFetchingInvoice || isFetchingService || isFetchingLocation;
 
   if (isLoading)
     return <Loading className="flex justify-center h-screen items-center" />;
@@ -36,7 +40,9 @@ const InvoiceFormPage = () => {
       />
       <InvoiceForm
         mode={isEdit ? "edit" : "create"}
-        invoiceData={invoiceData}
+        invoiceData={invoiceData?.data}
+        serviceData={serviceData.data}
+        locationData={locationData}
       />
     </div>
   );

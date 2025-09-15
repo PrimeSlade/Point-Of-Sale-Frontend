@@ -11,10 +11,19 @@ import { useEffect, useState } from "react";
 import type { Invoice, PaymentMethod } from "@/types/InvoiceType";
 import type { TreatmentData } from "@/types/TreatmentType";
 import InvoiceFormField from "../form/InvoiceFormField";
+import InvoiceTreatmentBox from "@/components/invoice/InvoiceTreatmentBox";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import PatientCard from "@/components/patient/PatientCard";
+import TreatmentDiagnosisBox from "@/components/treatment/TreatmentDiagnosisBox";
+import type { ServiceData } from "@/types/ServiceType";
+import type { LocationType } from "@/types/LocationType";
 
 type InvoiceFormProps = {
   invoiceData?: Invoice;
   mode: "create" | "edit";
+  serviceData?: ServiceData[];
+  locationData?: LocationType[];
 };
 
 const unitType = [
@@ -32,7 +41,12 @@ const unitType = [
 
 const paymentMethod = ["kpay", "wave", "cash", "others"] as const;
 
-const InvoiceForm = ({ mode, invoiceData }: InvoiceFormProps) => {
+const InvoiceForm = ({
+  mode,
+  invoiceData,
+  serviceData,
+  locationData,
+}: InvoiceFormProps) => {
   //TenStack
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -40,6 +54,7 @@ const InvoiceForm = ({ mode, invoiceData }: InvoiceFormProps) => {
   //Treatment Selection State
   const [selectedTreatment, setSelectedTreatment] =
     useState<TreatmentData | null>(invoiceData?.treatment || null);
+  const [isTreatment, setIsTreatment] = useState(true);
 
   //Form
   const itemUnitSchema = z.object({
@@ -135,19 +150,78 @@ const InvoiceForm = ({ mode, invoiceData }: InvoiceFormProps) => {
     }
   }, [selectedTreatment, form]);
 
+  // Clear treatment selection when switching to walk-in
+  useEffect(() => {
+    if (!isTreatment) {
+      setSelectedTreatment(null);
+    }
+  }, [isTreatment]);
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log(values);
   };
 
+  //for units
+  const { fields } = useFieldArray({
+    control: form.control,
+    name: "invoiceItems",
+  });
+
   return (
-    <InvoiceFormField
-      form={form}
-      mode={mode}
-      isPending={false}
-      onSubmit={onSubmit}
-      selectedTreatment={selectedTreatment}
-      onTreatmentSelect={setSelectedTreatment}
-    />
+    <div className="space-y-10">
+      <RadioGroup
+        value={isTreatment ? "treatment" : "walk-in"}
+        onValueChange={(value) =>
+          setIsTreatment(value === "treatment" ? true : false)
+        }
+        className="flex gap-10"
+      >
+        <div className="flex items-center gap-3">
+          <RadioGroupItem
+            value="treatment"
+            id="r1"
+            className=" data-[state=checked]:border-[var(--primary-color)]"
+          />
+          <Label htmlFor="r1" className="font-bold">
+            Treatment
+          </Label>
+        </div>
+        <div className="flex items-center gap-3">
+          <RadioGroupItem
+            value="walk-in"
+            id="r2"
+            className="data-[state=checked]:border-[var(--primary-color)]"
+          />
+          <Label htmlFor="r2" className="font-bold">
+            Walk-In
+          </Label>
+        </div>
+      </RadioGroup>
+      {isTreatment && (
+        <div className="animate-in slide-in-from-top-2 fade-in duration-300 ease-out">
+          <InvoiceTreatmentBox
+            selectedTreatment={selectedTreatment}
+            onTreatmentSelect={setSelectedTreatment}
+          />
+        </div>
+      )}
+      {selectedTreatment && (
+        <div className="animate-in slide-in-from-top-2 fade-in duration-300 ease-out space-y-4">
+          <PatientCard data={selectedTreatment.patient!} mode="invoice" />
+          <TreatmentDiagnosisBox data={selectedTreatment} />
+        </div>
+      )}
+
+      <InvoiceFormField
+        form={form}
+        mode={mode}
+        isPending={false}
+        onSubmit={onSubmit}
+        serviceData={serviceData}
+        locationData={locationData}
+        fields={fields}
+      />
+    </div>
   );
 };
 

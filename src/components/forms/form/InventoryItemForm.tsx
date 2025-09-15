@@ -31,7 +31,8 @@ import type {
   UseFormReturn,
 } from "react-hook-form";
 import { formatDate } from "@/utils/formatDate";
-const unitType = [
+
+export const unitType = [
   "pkg",
   "box",
   "strip",
