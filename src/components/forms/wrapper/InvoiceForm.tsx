@@ -162,10 +162,24 @@ const InvoiceForm = ({
   };
 
   //for units
-  const { fields } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "invoiceItems",
   });
+
+  const handleAddField = () => {
+    append({
+      itemName: "",
+      quantity: undefined,
+      purchasePrice: undefined,
+      discountPrice: undefined,
+      unitType: undefined,
+    });
+  };
+
+  const handleRemoveField = (index: number) => {
+    remove(index);
+  };
 
   return (
     <div className="space-y-10">
@@ -220,6 +234,8 @@ const InvoiceForm = ({
         serviceData={serviceData}
         locationData={locationData}
         fields={fields}
+        onAddField={handleAddField}
+        onRemoveField={handleRemoveField}
       />
     </div>
   );
