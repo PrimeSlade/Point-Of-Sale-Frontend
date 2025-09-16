@@ -32,14 +32,12 @@ const InvoiceItemRow = ({
 }: InvoiceItemRowProps) => {
   const [selectedItem, setSelectedItem] = useState<ItemType | null>(null);
 
-  // When an item is selected from autocomplete, update the form with item details
   const handleItemSelect = (item: ItemType | null) => {
     setSelectedItem(item);
 
-    // Update form values with selected item data
-    form.setValue(`invoiceItems.${index}.itemName`, item?.name);
+    //might not be needed
+    // form.setValue(`invoiceItems.${index}.itemName`, item?.name);
 
-    // Notify parent component about item selection
     if (onItemSelect) {
       onItemSelect(index, item);
     }
@@ -96,10 +94,17 @@ const InvoiceItemRow = ({
               <Select
                 value={field.value}
                 onValueChange={(value) => handleUnitSelect(value, field)}
+                disabled={!selectedItem?.itemUnits}
               >
                 <FormControl>
                   <SelectTrigger className="shadow-none p-3 w-full">
-                    <SelectValue placeholder="Select a Type" />
+                    <SelectValue
+                      placeholder={`${
+                        selectedItem?.itemUnits
+                          ? "Select a Type"
+                          : "No Unit Type Found!"
+                      }`}
+                    />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>

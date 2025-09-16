@@ -2,9 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { ItemType, ItemUnits } from "@/types/ItemType";
 import { useFieldArray } from "react-hook-form";
-import { addItem, editItemById } from "@/api/inventories";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
@@ -58,9 +56,7 @@ const InvoiceForm = ({
 
   //Form
   const itemUnitSchema = z.object({
-    itemName: z
-      .string()
-      .min(2, { message: "Item name must be at least 2 characters." }),
+    itemName: z.string().min(2, { message: "Please select an item." }),
 
     quantity: z
       .number({

@@ -28,10 +28,11 @@ const ItemAutocomplete = ({
   const [isOpen, setIsOpen] = useState(false);
   const debouncedSearch = useDebounce(inputValue, 300);
 
-  useEffect(() => {
-    setInputValue(value);
-    setIsOpen(false);
-  }, [value]);
+  //TODO: should check it later
+  // useEffect(() => {
+  //   setInputValue(value);
+  //   setIsOpen(false);
+  // }, [value]);
 
   //might cause error
   const { data: itemsData, isLoading } = useItems(
@@ -43,25 +44,17 @@ const ItemAutocomplete = ({
 
   const suggestions = itemsData?.data || [];
 
-  useEffect(() => {
-    //to prevent from suggestion box
-    const isExactMatch = suggestions.some(
-      (item: ItemType) => item.name === inputValue
-    );
-
-    if (debouncedSearch.length >= 2 && !isExactMatch) {
-      setIsOpen(true);
-    } else {
-      setIsOpen(false);
-    }
-  }, [debouncedSearch, suggestions, inputValue]);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setInputValue(newValue);
+
+    setIsOpen(newValue.length > 0);
+
+    //Input onchange
     onChange(newValue);
 
     if (newValue === "") {
+      //Selected Item object
       onItemSelect(null);
     }
   };
@@ -70,26 +63,31 @@ const ItemAutocomplete = ({
     //for input
     setInputValue(item.name);
 
+    //Input onchange
     onChange(item.name);
+
     setIsOpen(false);
 
+    //Selected Item object
     onItemSelect(item);
   };
 
   return (
-    <div className="relative">
-      <FormControl>
-        <Input
-          {...field}
-          value={inputValue}
-          onChange={handleInputChange}
-          placeholder={placeholder}
-          className={className}
-        />
-      </FormControl>
+    <>
+      <div className="relative">
+        <FormControl>
+          <Input
+            {...field}
+            value={inputValue}
+            onChange={handleInputChange}
+            placeholder={placeholder}
+            className={className}
+          />
+        </FormControl>
+      </div>
 
       {isOpen && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-[var(--border-color)] rounded-md shadow-lg max-h-60 overflow-auto">
+        <div className="absolute z-50 w-50 h-40 mt-10 bg-white border border-[var(--border-color)] rounded-md shadow-lg max-h-60 overflow-auto">
           {isLoading ? (
             <div className="p-3 text-sm text-center text-gray-500">
               Loading...
@@ -114,7 +112,7 @@ const ItemAutocomplete = ({
           )}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

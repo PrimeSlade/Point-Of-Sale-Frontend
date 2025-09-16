@@ -56,32 +56,32 @@ const InvoiceFormField = <T extends FieldValues>({
       label: `${toUpperCase(data.name)} (${data.retailPrice})`,
     })) || [];
 
-  const [itemValues, setItemValues] = useState<(ItemType | null)[]>([]);
+  // const [itemValues, setItemValues] = useState<(ItemType | null)[]>([]);
 
-  // Initialize itemValues array when fields change
-  useEffect(() => {
-    setItemValues((prev) => {
-      const newArray = [...prev];
-      // Ensure array length matches fields length
-      while (newArray.length < fields.length) {
-        newArray.push(null);
-      }
-      // Remove excess items if fields were removed
-      if (newArray.length > fields.length) {
-        newArray.splice(fields.length);
-      }
-      return newArray;
-    });
-  }, [fields.length]);
+  // // Initialize itemValues array when fields change
+  // useEffect(() => {
+  //   setItemValues((prev) => {
+  //     const newArray = [...prev];
+  //     // Ensure array length matches fields length
+  //     while (newArray.length < fields.length) {
+  //       newArray.push(null);
+  //     }
+  //     // Remove excess items if fields were removed
+  //     if (newArray.length > fields.length) {
+  //       newArray.splice(fields.length);
+  //     }
+  //     return newArray;
+  //   });
+  // }, [fields.length]);
 
-  // Handle item selection from individual rows
-  const handleItemSelect = (index: number, item: ItemType | null) => {
-    setItemValues((prev) => {
-      const newArray = [...prev];
-      newArray[index] = item;
-      return newArray;
-    });
-  };
+  // // Handle item selection from individual rows
+  // const handleItemSelect = (index: number, item: ItemType | null) => {
+  //   setItemValues((prev) => {
+  //     const newArray = [...prev];
+  //     newArray[index] = item;
+  //     return newArray;
+  //   });
+  // };
 
   useEffect(() => {
     const currentFormItems = form.getValues("invoiceItems") || [];
@@ -194,7 +194,6 @@ const InvoiceFormField = <T extends FieldValues>({
               form={form}
               index={index}
               fieldId={unitField.id}
-              onItemSelect={handleItemSelect}
             />
           ))}
 
