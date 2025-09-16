@@ -86,9 +86,9 @@ const InvoiceForm = ({
       message: "Please select a valid location.",
     }),
 
-    totalAmount: z
-      .number({ message: "Total amount required." })
-      .min(0, { message: "Total amount cannot be negative." }),
+    // totalAmount: z
+    //   .number({ message: "Total amount required." })
+    //   .min(0, { message: "Total amount cannot be negative." }),
 
     discountAmount: z
       .number()
@@ -119,7 +119,6 @@ const InvoiceForm = ({
     defaultValues: {
       treatmentId: undefined,
       locationId: undefined,
-      totalAmount: undefined,
       discountAmount: undefined,
       paymentMethod: "" as PaymentMethod,
       paymentDescription: "",

@@ -17,6 +17,7 @@ import {
 import ItemAutocomplete from "./ItemAutocomplete";
 import type { ItemType } from "@/types/ItemType";
 import { useAuth } from "@/hooks/useAuth";
+import { calculatePriceWithIncrease } from "@/utils/calcPrice";
 
 type InvoiceItemRowProps = {
   form: UseFormReturn<any>;
@@ -36,10 +37,6 @@ const InvoiceItemRow = ({ form, index, fieldId }: InvoiceItemRowProps) => {
     // form.setValue(`invoiceItems.${index}.itemName`, item?.name);
   };
 
-  const calculatePriceWithIncrease = (price: number, pricePercent: number) => {
-    return price + price * (pricePercent / 100);
-  };
-
   const handleUnitSelect = (selectedUnitType: string, field: any) => {
     field.onChange(selectedUnitType);
 
@@ -51,10 +48,7 @@ const InvoiceItemRow = ({ form, index, fieldId }: InvoiceItemRowProps) => {
       form.setValue(`invoiceItems.${index}.quantity`, selectedUnit.quantity);
       form.setValue(
         `invoiceItems.${index}.purchasePrice`,
-        calculatePriceWithIncrease(
-          selectedUnit.purchasePrice,
-          user!.pricePercent
-        )
+        selectedUnit.purchasePrice
       );
     }
   };
@@ -157,6 +151,10 @@ const InvoiceItemRow = ({ form, index, fieldId }: InvoiceItemRowProps) => {
                   type="number"
                   className="no-spinner shadow-none p-3"
                   {...field}
+                  value={calculatePriceWithIncrease(
+                    field.value,
+                    user!.pricePercent
+                  )}
                   onChange={(e) =>
                     field.onChange(
                       e.target.value === "" ? "" : Number(e.target.value)

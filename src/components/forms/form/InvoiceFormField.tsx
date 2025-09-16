@@ -25,6 +25,7 @@ import {
 import type { LocationType } from "@/types/LocationType";
 import InvoiceItemRow from "@/components/invoice/InvoiceItemRow";
 import { useEffect } from "react";
+import PaymentCard from "@/components/invoice/PaymentCard";
 
 type InvoiceFormFieldProps<T extends FieldValues> = {
   form: UseFormReturn<any>;
@@ -188,6 +189,8 @@ const InvoiceFormField = <T extends FieldValues>({
           </div>
         </div>
       </div>
+
+      <PaymentCard form={form} />
       <div className="flex justify-end gap-3 mb-5">
         <Button
           type="button"
