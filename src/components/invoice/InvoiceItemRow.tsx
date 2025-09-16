@@ -16,31 +16,28 @@ import {
 } from "@/components/ui/form";
 import ItemAutocomplete from "./ItemAutocomplete";
 import type { ItemType } from "@/types/ItemType";
+import { useAuth } from "@/hooks/useAuth";
 
 type InvoiceItemRowProps = {
   form: UseFormReturn<any>;
   index: number;
   fieldId: string;
-  onItemSelect?: (index: number, item: ItemType | null) => void;
 };
 
-const InvoiceItemRow = ({
-  form,
-  index,
-  fieldId,
-  onItemSelect,
-}: InvoiceItemRowProps) => {
+const InvoiceItemRow = ({ form, index, fieldId }: InvoiceItemRowProps) => {
   const [selectedItem, setSelectedItem] = useState<ItemType | null>(null);
+
+  const { user } = useAuth();
 
   const handleItemSelect = (item: ItemType | null) => {
     setSelectedItem(item);
 
     //might not be needed
     // form.setValue(`invoiceItems.${index}.itemName`, item?.name);
+  };
 
-    if (onItemSelect) {
-      onItemSelect(index, item);
-    }
+  const calculatePriceWithIncrease = (price: number, pricePercent: number) => {
+    return price + price * (pricePercent / 100);
   };
 
   const handleUnitSelect = (selectedUnitType: string, field: any) => {
@@ -54,7 +51,10 @@ const InvoiceItemRow = ({
       form.setValue(`invoiceItems.${index}.quantity`, selectedUnit.quantity);
       form.setValue(
         `invoiceItems.${index}.purchasePrice`,
-        selectedUnit.purchasePrice
+        calculatePriceWithIncrease(
+          selectedUnit.purchasePrice,
+          user!.pricePercent
+        )
       );
     }
   };

@@ -34,12 +34,12 @@ const ItemAutocomplete = ({
   //   setIsOpen(false);
   // }, [value]);
 
-  //might cause error
   const { data: itemsData, isLoading } = useItems(
     1,
-    999999,
+    50,
     debouncedSearch.length >= 2 ? debouncedSearch : "",
-    "__all"
+    "__all",
+    debouncedSearch.length >= 2
   );
 
   const suggestions = itemsData?.data || [];
@@ -87,7 +87,7 @@ const ItemAutocomplete = ({
       </div>
 
       {isOpen && (
-        <div className="absolute z-50 w-50 h-40 mt-10 bg-white border border-[var(--border-color)] rounded-md shadow-lg max-h-60 overflow-auto">
+        <div className="absolute z-50 w-50 min-h-10 mt-10 bg-white border border-[var(--border-color)] rounded-md shadow-lg max-h-60 overflow-auto">
           {isLoading ? (
             <div className="p-3 text-sm text-center text-gray-500">
               Loading...

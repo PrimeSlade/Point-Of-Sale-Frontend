@@ -24,8 +24,7 @@ import {
 } from "@/components/ui/select";
 import type { LocationType } from "@/types/LocationType";
 import InvoiceItemRow from "@/components/invoice/InvoiceItemRow";
-import { useState, useEffect } from "react";
-import type { ItemType } from "@/types/ItemType";
+import { useEffect } from "react";
 
 type InvoiceFormFieldProps<T extends FieldValues> = {
   form: UseFormReturn<any>;
@@ -55,33 +54,6 @@ const InvoiceFormField = <T extends FieldValues>({
       value: data.name,
       label: `${toUpperCase(data.name)} (${data.retailPrice})`,
     })) || [];
-
-  // const [itemValues, setItemValues] = useState<(ItemType | null)[]>([]);
-
-  // // Initialize itemValues array when fields change
-  // useEffect(() => {
-  //   setItemValues((prev) => {
-  //     const newArray = [...prev];
-  //     // Ensure array length matches fields length
-  //     while (newArray.length < fields.length) {
-  //       newArray.push(null);
-  //     }
-  //     // Remove excess items if fields were removed
-  //     if (newArray.length > fields.length) {
-  //       newArray.splice(fields.length);
-  //     }
-  //     return newArray;
-  //   });
-  // }, [fields.length]);
-
-  // // Handle item selection from individual rows
-  // const handleItemSelect = (index: number, item: ItemType | null) => {
-  //   setItemValues((prev) => {
-  //     const newArray = [...prev];
-  //     newArray[index] = item;
-  //     return newArray;
-  //   });
-  // };
 
   useEffect(() => {
     const currentFormItems = form.getValues("invoiceItems") || [];
@@ -170,7 +142,6 @@ const InvoiceFormField = <T extends FieldValues>({
         </div>
 
         <div className="border border-[var(--border-color)] rounded-lg overflow-hidden shadow">
-          {/* Table Header */}
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-0 bg-[var(--primary-color)] border-b border-[var(--border-color)]">
             <div className="p-3 font-semibold text-white border-r border-[var(--border-color)]">
               Name
@@ -187,7 +158,6 @@ const InvoiceFormField = <T extends FieldValues>({
             <div className="p-3 font-semibold text-white">Discount Price</div>
           </div>
 
-          {/* Table Rows */}
           {fields.map((unitField, index) => (
             <InvoiceItemRow
               key={unitField.id}
@@ -197,7 +167,6 @@ const InvoiceFormField = <T extends FieldValues>({
             />
           ))}
 
-          {/* Table Footer with Add/Remove Buttons */}
           <div className="p-3 bg-[var(--background-color)] flex justify-end gap-3">
             <Button
               type="button"

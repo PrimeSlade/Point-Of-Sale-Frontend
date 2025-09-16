@@ -5,11 +5,13 @@ export const useItems = (
   pageIndex: number = 0,
   pageSize: number = 15,
   search: string = "",
-  filter: string = "__all"
+  filter: string = "__all",
+  shouldFetch: boolean = true
 ) => {
   return useQuery({
     queryKey: ["items", pageIndex, pageSize, search, filter],
     queryFn: () => getItems(pageIndex, pageSize, search, filter),
+    enabled: shouldFetch,
   });
 };
 

@@ -60,9 +60,9 @@ const InvoiceForm = ({
 
     quantity: z
       .number({
-        message: "Quantity must be a number",
+        message: "Quantity must be a number.",
       })
-      .int({ message: "Quantity must be a whole number" })
+      .int({ message: "Quantity must be a whole number." })
       .min(1, { message: "Quantity must be at least 1." }),
 
     purchasePrice: z
@@ -75,7 +75,7 @@ const InvoiceForm = ({
       .optional(),
 
     unitType: z.enum(unitType, {
-      message: "Please select a valid unit type",
+      message: "Please select a valid unit type.",
     }),
   });
 
