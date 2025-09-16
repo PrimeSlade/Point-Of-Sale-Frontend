@@ -133,7 +133,7 @@ const InvoiceForm = ({
           itemName: "",
           quantity: undefined,
           purchasePrice: undefined,
-          discountPrice: undefined,
+          discountPrice: 0,
           unitType: undefined,
         },
       ],
@@ -170,10 +170,10 @@ const InvoiceForm = ({
   const handleAddField = () => {
     append({
       itemName: "",
-      quantity: undefined,
-      purchasePrice: undefined,
-      discountPrice: undefined,
-      unitType: undefined,
+      quantity: undefined as any,
+      purchasePrice: undefined as any,
+      discountPrice: 0,
+      unitType: undefined as any,
     });
   };
 

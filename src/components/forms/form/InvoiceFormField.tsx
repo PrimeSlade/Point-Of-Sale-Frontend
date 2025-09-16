@@ -4,7 +4,6 @@ import {
   type FieldArrayWithId,
   type FieldValues,
   type UseFormReturn,
-  type UseFieldArrayReturn,
 } from "react-hook-form";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { Controller } from "react-hook-form";
@@ -20,6 +19,9 @@ import {
 import type { LocationType } from "@/types/LocationType";
 import { Input } from "@/components/ui/input";
 import { unitType } from "./InventoryItemForm";
+import ItemAutocomplete from "@/components/invoice/ItemAutocomplete";
+import { useState } from "react";
+import type { ItemType } from "@/types/ItemType";
 
 type InvoiceFormFieldProps<T extends FieldValues> = {
   form: UseFormReturn<any>;
@@ -49,6 +51,8 @@ const InvoiceFormField = <T extends FieldValues>({
       value: data.name,
       label: `${toUpperCase(data.name)} (${data.retailPrice})`,
     })) || [];
+
+  const [items, setItems] = useState<ItemType[]>([]);
 
   return (
     <Form {...form}>
@@ -80,6 +84,7 @@ const InvoiceFormField = <T extends FieldValues>({
                           ? "border-[var(--danger-color)] focus:border-[var(--danger-color)] focus:ring-[var(--danger-color)]"
                           : ""
                       }`}
+                      size="md"
                     >
                       <SelectValue placeholder="Select a Location" />
                     </SelectTrigger>
@@ -159,11 +164,17 @@ const InvoiceFormField = <T extends FieldValues>({
                 <Controller
                   control={form.control}
                   name={`invoiceItems.${index}.itemName`}
-                  render={({ field }) => (
-                    <Input
-                      placeholder="Item Name"
-                      {...field}
-                      className="border-0 shadow-none p-3"
+                  render={({ field, fieldState }) => (
+                    <ItemAutocomplete
+                      value={field.value || ""}
+                      onChange={field.onChange}
+                      setItems={setItems}
+                      placeholder="Search items..."
+                      className={`shadow-none p-3 ${
+                        fieldState.error
+                          ? "border-destructive focus-visible:border-destructive focus-visible:ring-destructive/20 focus-visible:ring-[3px]"
+                          : "border-0"
+                      }`}
                     />
                   )}
                 />
@@ -172,9 +183,15 @@ const InvoiceFormField = <T extends FieldValues>({
                 <Controller
                   control={form.control}
                   name={`invoiceItems.${index}.unitType`}
-                  render={({ field }) => (
+                  render={({ field, fieldState }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="border-0 shadow-none p-3 w-full">
+                      <SelectTrigger
+                        className={`shadow-none p-3 w-full ${
+                          fieldState.error
+                            ? "border-destructive focus-visible:border-destructive focus-visible:ring-destructive/20 focus-visible:ring-[3px]"
+                            : "border-0"
+                        }`}
+                      >
                         <SelectValue placeholder="Select a Type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -192,11 +209,15 @@ const InvoiceFormField = <T extends FieldValues>({
                 <Controller
                   control={form.control}
                   name={`invoiceItems.${index}.quantity`}
-                  render={({ field }) => (
+                  render={({ field, fieldState }) => (
                     <Input
                       placeholder="Quantity"
                       type="number"
-                      className="no-spinner border-0 shadow-none p-3"
+                      className={`no-spinner shadow-none p-3 ${
+                        fieldState.error
+                          ? "border-destructive focus-visible:border-destructive focus-visible:ring-destructive/20 focus-visible:ring-[3px]"
+                          : "border-0"
+                      }`}
                       {...field}
                       onChange={(e) =>
                         field.onChange(
@@ -211,11 +232,15 @@ const InvoiceFormField = <T extends FieldValues>({
                 <Controller
                   control={form.control}
                   name={`invoiceItems.${index}.purchasePrice`}
-                  render={({ field }) => (
+                  render={({ field, fieldState }) => (
                     <Input
                       placeholder="Purchase Price"
                       type="number"
-                      className="no-spinner border-0 shadow-none p-3"
+                      className={`no-spinner shadow-none p-3 ${
+                        fieldState.error
+                          ? "border-destructive focus-visible:border-destructive focus-visible:ring-destructive/20 focus-visible:ring-[3px]"
+                          : "border-0"
+                      }`}
                       {...field}
                       onChange={(e) =>
                         field.onChange(
@@ -230,11 +255,15 @@ const InvoiceFormField = <T extends FieldValues>({
                 <Controller
                   control={form.control}
                   name={`invoiceItems.${index}.discountPrice`}
-                  render={({ field }) => (
+                  render={({ field, fieldState }) => (
                     <Input
                       placeholder="Discount Price"
                       type="number"
-                      className="no-spinner border-0 shadow-none p-3"
+                      className={`no-spinner shadow-none p-3 ${
+                        fieldState.error
+                          ? "border-destructive focus-visible:border-destructive focus-visible:ring-destructive/20 focus-visible:ring-[3px]"
+                          : "border-0"
+                      }`}
                       {...field}
                       onChange={(e) =>
                         field.onChange(
