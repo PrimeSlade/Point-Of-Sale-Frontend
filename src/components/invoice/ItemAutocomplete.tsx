@@ -4,13 +4,16 @@ import type { ItemType } from "@/types/ItemType";
 import { formatDate } from "@/utils/formatDate";
 import { useItems } from "@/hooks/useItems";
 import useDebounce from "@/hooks/useDebounce";
+import type { ControllerRenderProps } from "react-hook-form";
+import { FormControl } from "../ui/form";
 
 type ItemAutocompleteProps = {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
   className?: string;
-  setItems: React.Dispatch<React.SetStateAction<ItemType[]>>;
+  onItemSelect: (item: ItemType | null) => void;
+  field: ControllerRenderProps;
 };
 
 const ItemAutocomplete = ({
@@ -18,10 +21,10 @@ const ItemAutocomplete = ({
   onChange,
   placeholder = "Search items...",
   className = "",
-}: //setItems,
-ItemAutocompleteProps) => {
+  onItemSelect,
+  field,
+}: ItemAutocompleteProps) => {
   const [inputValue, setInputValue] = useState(value);
-
   const [isOpen, setIsOpen] = useState(false);
   const debouncedSearch = useDebounce(inputValue, 300);
 
@@ -33,7 +36,7 @@ ItemAutocompleteProps) => {
   //might cause error
   const { data: itemsData, isLoading } = useItems(
     1,
-    9999999,
+    999999,
     debouncedSearch.length >= 2 ? debouncedSearch : "",
     "__all"
   );
@@ -41,17 +44,26 @@ ItemAutocompleteProps) => {
   const suggestions = itemsData?.data || [];
 
   useEffect(() => {
-    if (debouncedSearch.length >= 2) {
+    //to prevent from suggestion box
+    const isExactMatch = suggestions.some(
+      (item: ItemType) => item.name === inputValue
+    );
+
+    if (debouncedSearch.length >= 2 && !isExactMatch) {
       setIsOpen(true);
     } else {
       setIsOpen(false);
     }
-  }, [debouncedSearch, suggestions]);
+  }, [debouncedSearch, suggestions, inputValue]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setInputValue(newValue);
     onChange(newValue);
+
+    if (newValue === "") {
+      onItemSelect(null);
+    }
   };
 
   const handleSuggestionClick = (item: ItemType) => {
@@ -60,16 +72,21 @@ ItemAutocompleteProps) => {
 
     onChange(item.name);
     setIsOpen(false);
+
+    onItemSelect(item);
   };
 
   return (
     <div className="relative">
-      <Input
-        value={inputValue}
-        onChange={handleInputChange}
-        placeholder={placeholder}
-        className={className}
-      />
+      <FormControl>
+        <Input
+          {...field}
+          value={inputValue}
+          onChange={handleInputChange}
+          placeholder={placeholder}
+          className={className}
+        />
+      </FormControl>
 
       {isOpen && (
         <div className="absolute z-50 w-full mt-1 bg-white border border-[var(--border-color)] rounded-md shadow-lg max-h-60 overflow-auto">

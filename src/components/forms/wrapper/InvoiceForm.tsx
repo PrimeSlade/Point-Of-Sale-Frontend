@@ -70,7 +70,7 @@ const InvoiceForm = ({
       .min(1, { message: "Quantity must be at least 1." }),
 
     purchasePrice: z
-      .number()
+      .number({ message: "Purchase price required." })
       .min(0, { message: "Purchase price cannot be negative." }),
 
     discountPrice: z
@@ -91,7 +91,7 @@ const InvoiceForm = ({
     }),
 
     totalAmount: z
-      .number()
+      .number({ message: "Total amount required." })
       .min(0, { message: "Total amount cannot be negative." }),
 
     discountAmount: z
