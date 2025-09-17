@@ -17,7 +17,7 @@ type TreatmentTextareaProps = {
   optional?: boolean;
 };
 
-const TreatmentTextarea = ({
+const CustomTextarea = ({
   title,
   placeholder,
   form,
@@ -50,4 +50,4 @@ const TreatmentTextarea = ({
   );
 };
 
-export default TreatmentTextarea;
+export default CustomTextarea;

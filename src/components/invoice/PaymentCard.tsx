@@ -3,15 +3,34 @@ import type { ItemUnits } from "@/types/ItemType";
 import type { ServiceData } from "@/types/ServiceType";
 import { calculatePriceWithIncrease } from "@/utils/calcPrice";
 import type { UseFormReturn } from "react-hook-form";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
+import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { toUpperCase } from "@/utils/formatText";
+import CustomTextarea from "../textarea/TreatmentTextarea";
 
 type PaymentCardProps = {
   form: UseFormReturn<any>;
 };
 
+const paymentMethod = ["kpay", "wave", "cash", "others"];
+
 const PaymentCard = ({ form }: PaymentCardProps) => {
   const watchedItems = form.watch("invoiceItems") || [];
   const watchedServices = form.watch("invoiceService") || [];
+  const discountAmount = form.watch("discountAmount") || 0;
 
   const { user } = useAuth();
 
@@ -46,7 +65,11 @@ const PaymentCard = ({ form }: PaymentCardProps) => {
     return {
       subtotal: itemsTotals.subTotal + servicesTotal,
       itemDiscount: itemsTotals.discount,
-      total: itemsTotals.subTotal + servicesTotal - itemsTotals.discount,
+      total:
+        itemsTotals.subTotal +
+        servicesTotal -
+        itemsTotals.discount -
+        discountAmount,
     };
   };
 
@@ -54,12 +77,65 @@ const PaymentCard = ({ form }: PaymentCardProps) => {
 
   return (
     <div className="space-y-4">
-      <Card className="border border-[var(--border-color)] shadow-sm">
-        <CardHeader className="bg-[var(--background-color)] border-b border-[var(--border-color)]">
-          <CardTitle className="text-lg font-semibold text-[var(--text-primary)] flex flex-col justify-center"></CardTitle>
-        </CardHeader>
-        <CardContent className="p-4 space-y-4">
-          {/* Calculation Summary */}
+      <div className="border border-[var(--border-color)] shadow-sm rounded-lg">
+        <div className="bg-[var(--background-color)] border-b border-[var(--border-color)] p-4 rounded-t-lg">
+          <div className="text-lg font-semibold text-[var(--text-primary)] flex flex-row gap-5 items-center">
+            <FormField
+              control={form.control}
+              name="discountAmount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Discount Amount</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Discount Amount"
+                      type="number"
+                      className="no-spinner"
+                      {...field}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value === "" ? "" : Number(e.target.value)
+                        )
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name={"paymentMethod"}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    <span>
+                      Payment Method
+                      <span className="text-[var(--danger-color)]">*</span>
+                    </span>
+                  </FormLabel>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <FormControl>
+                      <SelectTrigger className="w-50">
+                        <SelectValue placeholder="Payment Method" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {paymentMethod.map((opt) => (
+                        <SelectItem key={opt} value={opt}>
+                          {toUpperCase(opt)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+        <div className="p-4 space-y-4">
           <div className="space-y-3">
             <h2 className="font-bold text-xl">Payment Summary</h2>
             <div className="flex justify-between items-center">
@@ -87,31 +163,26 @@ const PaymentCard = ({ form }: PaymentCardProps) => {
             </div>
           </div>
 
-          {/* Spacer for future payment inputs */}
-          <div className="pt-4 space-y-3">
-            {/* Payment Method Section - Space reserved */}
-            <div className="min-h-[60px] border-2 border-dashed border-[var(--border-color)] rounded-md flex items-center justify-center">
-              <span className="text-[var(--text-secondary)] text-sm">
-                Payment Method Section
-              </span>
-            </div>
-
-            {/* Additional Payment Details Section - Space reserved */}
-            <div className="min-h-[40px] border-2 border-dashed border-[var(--border-color)] rounded-md flex items-center justify-center">
-              <span className="text-[var(--text-secondary)] text-sm">
-                Payment Details Section
-              </span>
-            </div>
-
-            {/* Notes Section - Space reserved */}
-            <div className="min-h-[60px] border-2 border-dashed border-[var(--border-color)] rounded-md flex items-center justify-center">
-              <span className="text-[var(--text-secondary)] text-sm">
-                Notes Section
-              </span>
-            </div>
+          <div className="pt-7 space-y-3">
+            <CustomTextarea
+              label="note"
+              placeholder="Type your note here"
+              title="Note"
+              form={form}
+              name="note"
+              optional
+            />
+            <CustomTextarea
+              label="paymentDescription"
+              placeholder="Type your Payment Description here"
+              title="Payment Description"
+              form={form}
+              name="Payment Description"
+              optional
+            />
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };
