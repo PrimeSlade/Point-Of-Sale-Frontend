@@ -1,7 +1,7 @@
 import { addTreatment, editTreatmentById } from "@/api/treatments";
+import CustomTextarea from "@/components/textarea/TreatmentTextarea";
 import PatientDoctorForm from "@/components/treatment/PatientDoctorForm";
 import PatientInfo from "@/components/treatment/PatientInfo";
-import TreatmentTextarea from "@/components/treatment/TreatmentTextarea";
 import { Button } from "@/components/ui/button";
 import type { DoctorData } from "@/types/DoctorType";
 import type { PatientData } from "@/types/PatientType";
@@ -159,7 +159,7 @@ const TreatmentForm = ({
             onSubmit={form.handleSubmit(onSubmit)}
             className="border rounded-xl shadow p-5 flex flex-col gap-3"
           >
-            <TreatmentTextarea
+            <CustomTextarea
               label="diagnosis"
               placeholder="Type your diagnosis here"
               title="Diagnosis"
@@ -167,7 +167,7 @@ const TreatmentForm = ({
               name="diagnosis"
               optional
             />
-            <TreatmentTextarea
+            <CustomTextarea
               label="treatment"
               placeholder="Type your treatment here"
               title="Treatment"

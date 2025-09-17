@@ -86,10 +86,6 @@ const InvoiceForm = ({
       message: "Please select a valid location.",
     }),
 
-    // totalAmount: z
-    //   .number({ message: "Total amount required." })
-    //   .min(0, { message: "Total amount cannot be negative." }),
-
     discountAmount: z
       .number()
       .min(0, { message: "Discount amount cannot be negative." })
