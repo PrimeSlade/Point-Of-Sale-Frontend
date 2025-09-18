@@ -63,7 +63,7 @@ const PaymentCard = ({ form }: PaymentCardProps) => {
     );
 
     return {
-      subtotal: itemsTotals.subTotal + servicesTotal,
+      subTotal: itemsTotals.subTotal + servicesTotal,
       itemDiscount: itemsTotals.discount,
       total:
         itemsTotals.subTotal +
@@ -73,7 +73,7 @@ const PaymentCard = ({ form }: PaymentCardProps) => {
     };
   };
 
-  const { subtotal, itemDiscount, total } = calculateTotal();
+  const { subTotal, itemDiscount, total } = calculateTotal();
 
   return (
     <div className="space-y-4">
@@ -141,7 +141,7 @@ const PaymentCard = ({ form }: PaymentCardProps) => {
             <div className="flex justify-between items-center">
               <span className="text-[var(--text-secondary)]">Subtotal</span>
               <span className="font-medium text-[var(--text-primary)]">
-                {subtotal.toFixed(2)}
+                {subTotal.toFixed(2)}
               </span>
             </div>
             <div className="flex justify-between items-center">
