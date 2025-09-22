@@ -111,7 +111,7 @@ const InvoiceFormField = <T extends FieldValues>({
           <div className="flex flex-col gap-1 w-1/2">
             <FormField
               control={form.control}
-              name="invoiceService"
+              name="invoiceServices"
               render={({ field }) => (
                 <FormItem>
                   <label className="text-md font-semibold">Services</label>

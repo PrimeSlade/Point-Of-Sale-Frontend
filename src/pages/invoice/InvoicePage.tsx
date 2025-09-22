@@ -4,7 +4,6 @@ import { deletePatientById } from "@/api/patients";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import InvoiceColumns from "@/components/columns/InvoiceColumns";
-import PatientColumns from "@/components/columns/PatientColumns";
 import Header from "@/components/header/Header";
 import { DataTable } from "@/components/table/data-table";
 import { useAuth } from "@/hooks/useAuth";

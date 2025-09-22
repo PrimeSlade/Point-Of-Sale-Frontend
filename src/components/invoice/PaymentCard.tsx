@@ -29,7 +29,7 @@ const paymentMethod = ["kpay", "wave", "cash", "others"];
 
 const PaymentCard = ({ form }: PaymentCardProps) => {
   const watchedItems = form.watch("invoiceItems") || [];
-  const watchedServices = form.watch("invoiceService") || [];
+  const watchedServices = form.watch("invoiceServices") || [];
   const discountAmount = form.watch("discountAmount") || 0;
 
   const { user } = useAuth();

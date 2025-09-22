@@ -44,7 +44,8 @@ const InvoiceItemRow = ({ form, index, fieldId }: InvoiceItemRowProps) => {
       (unit) => unit.unitType === selectedUnitType
     );
 
-    if (selectedUnit) {
+    if (selectedUnit && selectedItem) {
+      form.setValue(`invoiceItems.${index}.id`, selectedItem!.id);
       form.setValue(`invoiceItems.${index}.quantity`, selectedUnit.quantity);
       form.setValue(
         `invoiceItems.${index}.purchasePrice`,

@@ -28,7 +28,6 @@ import { Button } from "../ui/button";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
 import useLogout from "@/hooks/useLogout";
-import useUser from "@/hooks/useUser";
 
 // Menu items.
 const items = [

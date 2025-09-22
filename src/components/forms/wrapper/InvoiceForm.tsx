@@ -16,6 +16,7 @@ import PatientCard from "@/components/patient/PatientCard";
 import TreatmentDiagnosisBox from "@/components/treatment/TreatmentDiagnosisBox";
 import type { ServiceData } from "@/types/ServiceType";
 import type { LocationType } from "@/types/LocationType";
+import { addInvoice } from "@/api/invoice";
 
 type InvoiceFormProps = {
   invoiceData?: Invoice;
@@ -56,6 +57,8 @@ const InvoiceForm = ({
 
   //Form
   const itemUnitSchema = z.object({
+    id: z.number(),
+
     itemName: z.string().min(2, { message: "Please select an item." }),
 
     quantity: z
@@ -103,7 +106,7 @@ const InvoiceForm = ({
       message: "You must provide at least 1 item.",
     }),
 
-    invoiceService: z
+    invoiceServices: z
       .array(
         z.object({ id: z.number(), name: z.string(), retailPrice: z.number() })
       )
@@ -115,12 +118,13 @@ const InvoiceForm = ({
     defaultValues: {
       treatmentId: undefined,
       locationId: undefined,
-      discountAmount: undefined,
+      discountAmount: 0,
       paymentMethod: "" as PaymentMethod,
       paymentDescription: "",
       note: "",
       invoiceItems: [
         {
+          id: undefined,
           itemName: "",
           quantity: undefined,
           purchasePrice: undefined,
@@ -128,7 +132,7 @@ const InvoiceForm = ({
           unitType: undefined,
         },
       ],
-      invoiceService: undefined,
+      invoiceServices: [],
     },
   });
 
@@ -148,8 +152,22 @@ const InvoiceForm = ({
     }
   }, [isTreatment]);
 
+  //Tenstack
+  const { mutate: addInvoiceMutate, isPending: isCreating } = useMutation({
+    mutationFn: addInvoice,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["invoices"] });
+      toast.success(data?.message);
+      form.reset();
+      navigate("/dashboard/invoices");
+    },
+    onError: (error: any) => {
+      toast.error(error.message);
+    },
+  });
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    addInvoiceMutate(values);
   };
 
   //for units
@@ -160,6 +178,7 @@ const InvoiceForm = ({
 
   const handleAddField = () => {
     append({
+      id: undefined as any,
       itemName: "",
       quantity: undefined as any,
       purchasePrice: undefined as any,
@@ -220,7 +239,7 @@ const InvoiceForm = ({
       <InvoiceFormField
         form={form}
         mode={mode}
-        isPending={false}
+        isPending={isCreating}
         onSubmit={onSubmit}
         serviceData={serviceData}
         locationData={locationData}
