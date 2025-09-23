@@ -47,9 +47,6 @@ interface DataTableProps<TData, TValue> {
   filterByDate?: boolean;
   date?: DateRange;
   setDate?: React.Dispatch<React.SetStateAction<DateRange>>;
-  setSearchParams?: (
-    value: URLSearchParams | ((prev: URLSearchParams) => URLSearchParams)
-  ) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -70,7 +67,6 @@ export function DataTable<TData, TValue>({
   filterByDate,
   date,
   setDate,
-  setSearchParams,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -93,13 +89,6 @@ export function DataTable<TData, TValue>({
               ? updater(table.getState().pagination)
               : updater;
           setPaginationState?.(newState);
-
-          //For pagination
-          setSearchParams?.((prev) => {
-            const newParams = new URLSearchParams(prev);
-            newParams.set("page", String(newState.pageIndex + 1));
-            return newParams;
-          });
         }
       : setPaginationState,
   });
@@ -127,8 +116,6 @@ export function DataTable<TData, TValue>({
             serverSideSearch
             setColumnFilters={setColumnFilters}
             columnFilters={columnFilters}
-            setSearchParams={setSearchParams}
-            setPaginationState={setPaginationState}
           />
         )}
         {filterByDate && date && setDate && (

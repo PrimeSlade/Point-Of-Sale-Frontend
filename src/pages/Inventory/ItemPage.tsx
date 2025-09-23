@@ -28,7 +28,7 @@ const ItemServicePage = () => {
   );
   const [errorOpen, setErrorOpen] = useState(false);
   const [paginationState, setPaginationState] = useState<PaginationState>({
-    pageIndex: 0,
+    pageIndex: Number(page) - 1 || 0,
     pageSize: 15,
   });
   const [columnFilters, setColumnFilters] = useState(
@@ -41,7 +41,7 @@ const ItemServicePage = () => {
   //useAuth
   const { can } = useAuth();
 
-  //sync search changes to URL params
+  //sync pagination changes to URL params
   useEffect(() => {
     setSearchParams((prev) => {
       const newParams = new URLSearchParams(prev);
@@ -51,18 +51,16 @@ const ItemServicePage = () => {
       } else {
         newParams.delete("search");
       }
+      if (columnFilters && columnFilters !== "__all") {
+        newParams.set("filter", columnFilters);
+      } else {
+        newParams.delete("filter");
+      }
 
+      newParams.set("page", String(paginationState.pageIndex + 1));
       return newParams;
     });
-  }, [debouncedSearch]);
-
-  //sync page from URL to pagination state
-  useEffect(() => {
-    setPaginationState((prev) => ({
-      ...prev,
-      pageIndex: Number(page) - 1,
-    }));
-  }, []);
+  }, [paginationState.pageIndex, debouncedSearch, columnFilters]);
 
   //TenStack
   //locations

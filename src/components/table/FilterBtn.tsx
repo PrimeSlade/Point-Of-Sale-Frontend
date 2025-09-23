@@ -14,15 +14,6 @@ type Props<TData> = {
   serverSideSearch?: boolean;
   locations?: LocationType[];
   columnFilters?: string;
-  setSearchParams?: (
-    value: URLSearchParams | ((prev: URLSearchParams) => URLSearchParams)
-  ) => void;
-  setPaginationState?: React.Dispatch<
-    React.SetStateAction<{
-      pageIndex: number;
-      pageSize: number;
-    }>
-  >;
 };
 
 const FilterBtn = <TData,>({
@@ -31,8 +22,6 @@ const FilterBtn = <TData,>({
   serverSideSearch,
   locations,
   columnFilters,
-  setSearchParams,
-  setPaginationState,
 }: Props<TData>) => {
   return (
     <Select
@@ -44,26 +33,7 @@ const FilterBtn = <TData,>({
       onValueChange={(value) => {
         if (serverSideSearch) {
           setColumnFilters?.(value);
-
-          //Reset pagination to first page
-          setPaginationState?.((prev) => ({
-            ...prev,
-            pageIndex: 0,
-          }));
-
-          // table.setPageIndex(0);
-
-          // Update URL params directly
-          setSearchParams?.((prev) => {
-            const newParams = new URLSearchParams(prev);
-            if (value && value !== "__all") {
-              newParams.set("filter", value);
-            } else {
-              newParams.delete("filter");
-            }
-            newParams.set("page", "1");
-            return newParams;
-          });
+          table.setPageIndex(0);
         }
 
         //set input lv value
