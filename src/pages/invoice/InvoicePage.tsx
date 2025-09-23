@@ -91,7 +91,7 @@ const InvoicePage = () => {
   }, [fetchInvoiceError]);
 
   const columns = InvoiceColumns({
-    onDelete: deletePatientById,
+    onDelete: deleteInvoiceMutate,
     isDeleting,
     page: paginationState.pageIndex,
   });

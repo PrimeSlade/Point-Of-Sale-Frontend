@@ -76,7 +76,7 @@ const InvoiceColumns = ({
       return (
         <>
           <div className="flex gap-5 items-center">
-            {can("update", "Invoice") && (
+            {/* {can("update", "Invoice") && (
               <button
                 onClick={() =>
                   navigate(`/dashboard/invoices/edit/${invoice.id}`)
@@ -87,7 +87,7 @@ const InvoiceColumns = ({
                   className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
                 />
               </button>
-            )}
+            )} */}
             {can("delete", "Invoice") && (
               <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
                 <Trash2

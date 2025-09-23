@@ -29,7 +29,14 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const can = (action: string, subject: string | string[]) => {
     //if ararys, check with some
     if (Array.isArray(subject)) {
-      return subject.some((s) => ability.can(action, s));
+      return subject.some((s) => {
+        if (s.includes("-")) {
+          const parts = s.split("-");
+          // User needs permission for ALL parts of a compound subject
+          return parts.every((part) => ability.can(action, part));
+        }
+        return ability.can(action, s);
+      });
     }
     return ability.can(action, subject);
   };

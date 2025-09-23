@@ -14,7 +14,7 @@ import InvoiceFormPage from "./pages/invoice/InvoiceFormPage";
 import InvoicePage from "./pages/invoice/InvoicePage";
 import PatientDetailsPage from "./pages/patient/PatientDetailsPage";
 import PatientPage from "./pages/patient/PatientPage";
-import ReportPage from "./pages/ReportPage";
+import ReportPage from "./pages/report/ReportPage";
 import ServicePage from "./pages/service/ServicePage";
 import GeneralPage from "./pages/setting/GeneralPage";
 import LocationPage from "./pages/setting/LocationPage";
@@ -24,6 +24,8 @@ import SettingPage from "./pages/setting/SettingPage";
 import UserPage from "./pages/setting/UserPage";
 import TreatmentFormPage from "./pages/treatment/TreatmentFormPage";
 import TreatmentPage from "./pages/treatment/TreatmentPage";
+import InvoiceReportPage from "./pages/report/InvoiceReportPage";
+import ExpenseReportPage from "./pages/report/ExpenseReportPage";
 
 function App() {
   return (
@@ -54,8 +56,12 @@ function App() {
             <Route path="" element={<ExpensesPage />} />
             <Route path="category" element={<CategoryPage />} />
           </Route>
-          <Route path="report" element={<ReportPage />} />
+          <Route path="reports" element={<ReportPage />}>
+            <Route path="invoices" element={<InvoiceReportPage />} />
+            <Route path="expenses" element={<ExpenseReportPage />} />
+          </Route>
           <Route path="settings" element={<SettingPage />}>
+            {/* Need to handle this */}
             <Route index element={<Navigate to="locations" replace />} />
             <Route path="locations" element={<LocationPage />} />
             <Route path="users" element={<UserPage />} />

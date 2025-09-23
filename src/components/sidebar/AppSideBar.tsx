@@ -74,10 +74,10 @@ const items = [
     subject: ["Expense", "Category"],
   },
   {
-    title: "Report",
-    url: "report",
+    title: "Reports",
+    url: "reports",
     icon: ChartNoAxesCombined,
-    subject: "all", // no dedicated "Report" subject in your type
+    subject: ["Report-Expense", "Report-Invoice"],
   },
   {
     title: "Settings",
