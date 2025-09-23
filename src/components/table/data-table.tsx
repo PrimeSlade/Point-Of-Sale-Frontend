@@ -16,9 +16,7 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import type { LocationType } from "@/types/LocationType";
-import Loading from "../loading/Loading";
 import PaginationBtn from "./PaginationBtn";
-import { useNavigate } from "react-router-dom";
 import FilterBtn from "./FilterBtn";
 import type { DateRange } from "@/types/TreatmentType";
 import FilterByDate from "./FilterByDate";
@@ -46,10 +44,12 @@ interface DataTableProps<TData, TValue> {
   serverSideSearch?: boolean;
   columnFilters?: string;
   setColumnFilters?: React.Dispatch<React.SetStateAction<string>>;
-  navigateTo?: string;
   filterByDate?: boolean;
   date?: DateRange;
   setDate?: React.Dispatch<React.SetStateAction<DateRange>>;
+  setSearchParams?: (
+    value: URLSearchParams | ((prev: URLSearchParams) => URLSearchParams)
+  ) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -65,14 +65,13 @@ export function DataTable<TData, TValue>({
   serverSideSearch = false,
   globalFilter,
   setGlobalFilter,
+  columnFilters,
   setColumnFilters,
-  navigateTo,
   filterByDate,
   date,
   setDate,
+  setSearchParams,
 }: DataTableProps<TData, TValue>) {
-  const navigate = useNavigate();
-
   const table = useReactTable({
     data,
     columns,
@@ -95,7 +94,12 @@ export function DataTable<TData, TValue>({
               : updater;
           setPaginationState?.(newState);
 
-          navigate(`${navigateTo}?page=${newState.pageIndex + 1}`);
+          //For pagination
+          setSearchParams?.((prev) => {
+            const newParams = new URLSearchParams(prev);
+            newParams.set("page", String(newState.pageIndex + 1));
+            return newParams;
+          });
         }
       : setPaginationState,
   });
@@ -106,7 +110,13 @@ export function DataTable<TData, TValue>({
         <Input
           placeholder={prompt}
           value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.target.value)}
+          onChange={(e) => {
+            setGlobalFilter(e.target.value);
+            if (serverSideSearch) {
+              // Reset to first page when search changes
+              table.setPageIndex(0);
+            }
+          }}
           className="max-w-sm"
         />
         {/* undefined for no filtering */}
@@ -116,6 +126,9 @@ export function DataTable<TData, TValue>({
             locations={locations}
             serverSideSearch
             setColumnFilters={setColumnFilters}
+            columnFilters={columnFilters}
+            setSearchParams={setSearchParams}
+            setPaginationState={setPaginationState}
           />
         )}
         {filterByDate && date && setDate && (
