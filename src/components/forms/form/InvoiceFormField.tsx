@@ -154,7 +154,7 @@ const InvoiceFormField = <T extends FieldValues>({
               Quantity
             </div>
             <div className="p-3 font-semibold text-white border-r border-[var(--border-color)]">
-              Purchase Price
+              Retail Price
             </div>
             <div className="p-3 font-semibold text-white">Discount Price</div>
           </div>

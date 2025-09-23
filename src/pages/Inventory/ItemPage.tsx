@@ -138,7 +138,6 @@ const ItemServicePage = () => {
         columnFilters={columnFilters}
         setColumnFilters={setColumnFilters}
         serverSideSearch
-        setSearchParams={setSearchParams}
       />
       {error && (
         <AlertBox
