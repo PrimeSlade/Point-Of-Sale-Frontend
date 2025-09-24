@@ -32,10 +32,19 @@ const CustomAccordion = ({ data }: CustomAccordionProps) => {
               </div>
             </AccordionTrigger>
             <AccordionContent className="flex flex-col gap-3 border p-5 rounded-xl mb-5">
-              <div className="flex flex-col gap-2">
-                <h1 className="font-bold">Disgnosis</h1>
-                <div>{tre.diagnosis}</div>
-              </div>
+              {tre.investigation && (
+                <div className="flex flex-col gap-2">
+                  <h1 className="font-bold">Investigation</h1>
+                  <div>{tre.investigation}</div>
+                </div>
+              )}
+              {tre.diagnosis && (
+                <div className="flex flex-col gap-2">
+                  <h1 className="font-bold">Disgnosis</h1>
+                  <div>{tre.diagnosis}</div>
+                </div>
+              )}
+
               <div className="flex flex-col gap-2">
                 <h1 className="font-bold">Treatment</h1>
                 <div>{tre.treatment}</div>

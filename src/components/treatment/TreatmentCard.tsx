@@ -42,6 +42,17 @@ const TreatmentCard = ({ data }: TreatmentCardProps) => {
               <div className="px-3 py-2">{formatted}</div>
             </div>
 
+            {data.investigation && (
+              <>
+                <h1 className="font-bold text-[var(--text-secondary)] col-span-3">
+                  Investigation
+                </h1>
+                <div className="px-3 py-2 border rounded-md bg-[var(--background-color)] col-span-3">
+                  {data.investigation}
+                </div>
+              </>
+            )}
+
             {data.diagnosis && (
               <>
                 <h1 className="font-bold text-[var(--text-secondary)] col-span-3">

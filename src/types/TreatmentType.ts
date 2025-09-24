@@ -6,6 +6,7 @@ type TreatmentData = {
   createdAt: string; // ISO date string
   doctorId: string; // UUID string
   patientId: number;
+  investigation?: string;
   diagnosis?: string;
   treatment: string;
   doctor?: DoctorData;
@@ -17,6 +18,7 @@ type TreatmentForm = {
   doctorId: string;
   patientId: number;
   diagnosis?: string;
+  investigation?: string;
   treatment: string;
 };
 

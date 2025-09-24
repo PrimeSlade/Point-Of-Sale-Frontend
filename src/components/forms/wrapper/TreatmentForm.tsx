@@ -37,6 +37,7 @@ const TreatmentForm = ({
 
   //zod
   const formSchema = z.object({
+    investigation: z.string().optional(),
     diagnosis: z.string().optional(),
     treatment: z
       .string()
@@ -88,6 +89,7 @@ const TreatmentForm = ({
     defaultValues: {
       diagnosis: "",
       treatment: "",
+      investigation: "",
     },
   });
 
@@ -100,6 +102,7 @@ const TreatmentForm = ({
       form.reset({
         diagnosis: treatmentData.diagnosis,
         treatment: treatmentData.treatment,
+        investigation: treatmentData.investigation || "",
       });
     }
   }, [treatmentData]);
@@ -159,6 +162,14 @@ const TreatmentForm = ({
             onSubmit={form.handleSubmit(onSubmit)}
             className="border rounded-xl shadow p-5 flex flex-col gap-3"
           >
+            <CustomTextarea
+              label="investigation"
+              placeholder="Type your investigation here"
+              title="Investigation"
+              form={form}
+              name="investigation"
+              optional
+            />
             <CustomTextarea
               label="diagnosis"
               placeholder="Type your diagnosis here"

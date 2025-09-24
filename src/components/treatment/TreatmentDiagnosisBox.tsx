@@ -25,15 +25,14 @@ const TreatmentDiagnosisBox = ({ data }: TreatmentDiagnosisBoxProps) => {
         <div className="space-y-3">
           <div>
             <label className="text-[var(--text-secondary)] text-sm font-medium">
-              Treatment Description
+              Investigation
             </label>
             <div className="mt-1 p-3 bg-gray-100 border border-gray-300 rounded-md min-h-[60px]">
               <p className="text-sm break-words">
-                {data.treatment || "No treatment description provided"}
+                {data.investigation || "No investigation provided"}
               </p>
             </div>
           </div>
-
           <div>
             <label className="text-[var(--text-secondary)] text-sm font-medium">
               Diagnosis
@@ -41,6 +40,16 @@ const TreatmentDiagnosisBox = ({ data }: TreatmentDiagnosisBoxProps) => {
             <div className="mt-1 p-3 bg-gray-100 rounded-md min-h-[60px] border border-gray-300">
               <p className="text-sm break-words">
                 {data.diagnosis || "No diagnosis provided"}
+              </p>
+            </div>
+          </div>
+          <div>
+            <label className="text-[var(--text-secondary)] text-sm font-medium">
+              Treatment Description
+            </label>
+            <div className="mt-1 p-3 bg-gray-100 border border-gray-300 rounded-md min-h-[60px]">
+              <p className="text-sm break-words">
+                {data.treatment || "No treatment description provided"}
               </p>
             </div>
           </div>
