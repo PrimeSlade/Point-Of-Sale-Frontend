@@ -7,13 +7,14 @@ import DialogButton from "@/components/button/DialogButton";
 import ExpensesColumns from "@/components/columns/ExpenseColumns";
 import ExpenseForm from "@/components/forms/wrapper/ExpenseForm";
 import Header from "@/components/header/Header";
-import Loading from "@/components/loading/Loading";
 import { DataTable } from "@/components/table/data-table";
 import { useAuth } from "@/hooks/useAuth";
+import useDebounce from "@/hooks/useDebounce";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const ExpensesPage = () => {
@@ -21,15 +22,38 @@ const ExpensesPage = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
 
-  //client side filtering
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = searchParams.get("page") || 1;
+
+  const [globalFilter, setGlobalFilter] = useState(
+    searchParams.get("search") || ""
+  );
   const [paginationState, setPaginationState] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
+    pageIndex: Number(page) - 1 || 0,
+    pageSize: 15,
   });
+
+  //delay the search input in order to prevent server traffic
+  const debouncedSearch = useDebounce(globalFilter);
 
   //useAuth
   const { can } = useAuth();
+
+  //sync pagination and search changes to URL params
+  useEffect(() => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+
+      if (debouncedSearch) {
+        newParams.set("search", debouncedSearch);
+      } else {
+        newParams.delete("search");
+      }
+
+      newParams.set("page", String(paginationState.pageIndex + 1));
+      return newParams;
+    });
+  }, [paginationState.pageIndex, debouncedSearch]);
 
   //tenstack
 
@@ -38,7 +62,11 @@ const ExpensesPage = () => {
     data: expenses,
     isLoading: isFetchingExpenses,
     error: fetchExpensesError,
-  } = useExpenses();
+  } = useExpenses(
+    Number(searchParams.get("page") || 1),
+    paginationState.pageSize,
+    searchParams.get("search") || ""
+  );
 
   //location
   const {
@@ -65,8 +93,6 @@ const ExpensesPage = () => {
     },
   });
 
-  const isLoading =
-    isFetchingExpenses || isFetchingLocations || isFetchingCategories;
   const fetchError =
     fetchExpensesError || fetchLocationsError || fetchCategoriesError;
 
@@ -75,8 +101,6 @@ const ExpensesPage = () => {
       setErrorOpen(true);
     }
   }, [fetchError]);
-
-  if (isLoading) return <Loading className="h-150" />;
 
   const columns = ExpensesColumns({
     onDelete: deleteExpenseMutate,
@@ -104,13 +128,15 @@ const ExpensesPage = () => {
       />
       <DataTable
         columns={columns}
-        data={expenses.data ?? []}
+        data={expenses?.data ?? []}
         prompt="Search by names"
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
-        pagination
+        totalPages={expenses?.meta.totalPages ?? 0}
         paginationState={paginationState}
         setPaginationState={setPaginationState}
+        pagination
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+        serverSideSearch
       />
       {fetchError && (
         <AlertBox

@@ -16,9 +16,7 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import type { LocationType } from "@/types/LocationType";
-import Loading from "../loading/Loading";
 import PaginationBtn from "./PaginationBtn";
-import { useNavigate } from "react-router-dom";
 import FilterBtn from "./FilterBtn";
 import type { DateRange } from "@/types/TreatmentType";
 import FilterByDate from "./FilterByDate";
@@ -46,7 +44,6 @@ interface DataTableProps<TData, TValue> {
   serverSideSearch?: boolean;
   columnFilters?: string;
   setColumnFilters?: React.Dispatch<React.SetStateAction<string>>;
-  navigateTo?: string;
   filterByDate?: boolean;
   date?: DateRange;
   setDate?: React.Dispatch<React.SetStateAction<DateRange>>;
@@ -65,14 +62,12 @@ export function DataTable<TData, TValue>({
   serverSideSearch = false,
   globalFilter,
   setGlobalFilter,
+  columnFilters,
   setColumnFilters,
-  navigateTo,
   filterByDate,
   date,
   setDate,
 }: DataTableProps<TData, TValue>) {
-  const navigate = useNavigate();
-
   const table = useReactTable({
     data,
     columns,
@@ -94,8 +89,6 @@ export function DataTable<TData, TValue>({
               ? updater(table.getState().pagination)
               : updater;
           setPaginationState?.(newState);
-
-          navigate(`${navigateTo}?page=${newState.pageIndex + 1}`);
         }
       : setPaginationState,
   });
@@ -106,7 +99,13 @@ export function DataTable<TData, TValue>({
         <Input
           placeholder={prompt}
           value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.target.value)}
+          onChange={(e) => {
+            setGlobalFilter(e.target.value);
+            if (serverSideSearch) {
+              // Reset to first page when search changes
+              table.setPageIndex(0);
+            }
+          }}
           className="max-w-sm"
         />
         {/* undefined for no filtering */}
@@ -116,10 +115,11 @@ export function DataTable<TData, TValue>({
             locations={locations}
             serverSideSearch
             setColumnFilters={setColumnFilters}
+            columnFilters={columnFilters}
           />
         )}
         {filterByDate && date && setDate && (
-          <FilterByDate date={date} setDate={setDate} />
+          <FilterByDate date={date} setDate={setDate} table={table} />
         )}
       </div>
 

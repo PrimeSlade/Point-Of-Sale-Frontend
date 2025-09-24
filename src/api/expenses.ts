@@ -1,9 +1,19 @@
 import axiosInstance from "@/axiosInstance";
 import type { ExpenseForm } from "@/types/ExpenseType";
 
-const getExpenses = async () => {
+const getExpenses = async (
+  pageIndex: number,
+  pageSize: number,
+  search: string,
+  startDate?: Date,
+  endDate?: Date
+) => {
   try {
-    const { data } = await axiosInstance.get("/expenses");
+    const { data } = await axiosInstance.get(
+      `/expenses?page=${pageIndex}&limit=${pageSize}&search=${search}${
+        startDate && endDate ? `&startDate=${startDate}&endDate=${endDate}` : ""
+      }`
+    );
 
     return data;
   } catch (error: any) {

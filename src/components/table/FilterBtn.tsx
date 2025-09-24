@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Select,
   SelectContent,
@@ -14,6 +13,7 @@ type Props<TData> = {
   setColumnFilters?: React.Dispatch<React.SetStateAction<string>>;
   serverSideSearch?: boolean;
   locations?: LocationType[];
+  columnFilters?: string;
 };
 
 const FilterBtn = <TData,>({
@@ -21,16 +21,22 @@ const FilterBtn = <TData,>({
   setColumnFilters,
   serverSideSearch,
   locations,
+  columnFilters,
 }: Props<TData>) => {
   return (
     <Select
       value={
-        (table.getColumn("location")?.getFilterValue() as string) || "__all"
+        serverSideSearch
+          ? columnFilters || "__all"
+          : (table.getColumn("location")?.getFilterValue() as string) || "__all"
       }
       onValueChange={(value) => {
         if (serverSideSearch) {
           setColumnFilters?.(value);
+          table.setPageIndex(0);
         }
+
+        //set input lv value
         table
           .getColumn("location")
           ?.setFilterValue(value === "__all" ? undefined : value);

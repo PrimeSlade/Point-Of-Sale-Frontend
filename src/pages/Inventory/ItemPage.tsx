@@ -23,13 +23,17 @@ const ItemServicePage = () => {
   const page = searchParams.get("page") || 1;
 
   //serverside pagination, searching and filtering
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [globalFilter, setGlobalFilter] = useState(
+    searchParams.get("search") || ""
+  );
   const [errorOpen, setErrorOpen] = useState(false);
   const [paginationState, setPaginationState] = useState<PaginationState>({
-    pageIndex: 0,
+    pageIndex: Number(page) - 1 || 0,
     pageSize: 15,
   });
-  const [columnFilters, setColumnFilters] = useState("");
+  const [columnFilters, setColumnFilters] = useState(
+    searchParams.get("filter") || ""
+  );
 
   //delay the serach input in order to prevent server traffic
   const debouncedSearch = useDebounce(globalFilter);
@@ -37,24 +41,26 @@ const ItemServicePage = () => {
   //useAuth
   const { can } = useAuth();
 
-  //reset the page when the search result is displayed
+  //sync pagination changes to URL params
   useEffect(() => {
-    setPaginationState((prev) => ({
-      ...prev,
-      pageIndex: 0, // reset to first page
-    }));
-    if (debouncedSearch || columnFilters) {
-      setSearchParams({ page: "1" });
-    }
-  }, [debouncedSearch, columnFilters]);
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
 
-  //saved the page for reloading
-  useEffect(() => {
-    setPaginationState((prev) => ({
-      ...prev,
-      pageIndex: Number(page) - 1,
-    }));
-  }, []);
+      if (debouncedSearch) {
+        newParams.set("search", debouncedSearch);
+      } else {
+        newParams.delete("search");
+      }
+      if (columnFilters && columnFilters !== "__all") {
+        newParams.set("filter", columnFilters);
+      } else {
+        newParams.delete("filter");
+      }
+
+      newParams.set("page", String(paginationState.pageIndex + 1));
+      return newParams;
+    });
+  }, [paginationState.pageIndex, debouncedSearch, columnFilters]);
 
   //TenStack
   //locations
@@ -68,8 +74,8 @@ const ItemServicePage = () => {
   } = useItems(
     paginationState.pageIndex + 1,
     paginationState.pageSize,
-    debouncedSearch,
-    columnFilters
+    searchParams.get("search") || "",
+    searchParams.get("filter") || ""
   );
 
   const { mutate: deleteItemMutate, isPending: isDeleting } = useMutation({
@@ -129,9 +135,9 @@ const ItemServicePage = () => {
         pagination
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
+        columnFilters={columnFilters}
         setColumnFilters={setColumnFilters}
         serverSideSearch
-        navigateTo="/dashboard/items"
       />
       {error && (
         <AlertBox

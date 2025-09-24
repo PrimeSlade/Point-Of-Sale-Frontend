@@ -1,6 +1,5 @@
 import { deleteInvoiceById } from "@/api/invoice";
 import { useInvoices } from "@/hooks/useInvoices";
-import { deletePatientById } from "@/api/patients";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import InvoiceColumns from "@/components/columns/InvoiceColumns";
@@ -9,7 +8,7 @@ import { DataTable } from "@/components/table/data-table";
 import { useAuth } from "@/hooks/useAuth";
 import useDebounce from "@/hooks/useDebounce";
 import type { DateRange } from "@/types/TreatmentType";
-import { formatLocalDate } from "@/utils/formatDate";
+import { formatDateForURL, parseDateFromURL } from "@/utils/formatDate";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
@@ -21,19 +20,21 @@ const InvoicePage = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = searchParams.get("page") || 1;
+
+  const [globalFilter, setGlobalFilter] = useState(
+    searchParams.get("search") || ""
+  );
   const [errorOpen, setErrorOpen] = useState(false);
   const [paginationState, setPaginationState] = useState<PaginationState>({
-    pageIndex: 0,
+    pageIndex: Number(page) - 1 || 0,
     pageSize: 15,
   });
   const [date, setDate] = useState<DateRange>({
-    startDate: undefined,
-    endDate: undefined,
+    startDate: parseDateFromURL(searchParams.get("startDate")),
+    endDate: parseDateFromURL(searchParams.get("endDate")),
   });
-
-  const [searchParams, setSearchParams] = useSearchParams();
-  const page = searchParams.get("page") || 1;
 
   //delay the serach input in order to prevent server traffic
   const debouncedSearch = useDebounce(globalFilter);
@@ -41,24 +42,29 @@ const InvoicePage = () => {
   //useAuth
   const { can } = useAuth();
 
-  //reset the page when the search result is displayed
+  //sync pagination, search, and date changes to URL params
   useEffect(() => {
-    setPaginationState((prev) => ({
-      ...prev,
-      pageIndex: 0, // reset to first page
-    }));
-    if (debouncedSearch || (data?.startDate && data?.endDate)) {
-      setSearchParams({ page: "1" });
-    }
-  }, [debouncedSearch, date.startDate && date.endDate]);
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
 
-  //saved the page for reloading
-  useEffect(() => {
-    setPaginationState((prev) => ({
-      ...prev,
-      pageIndex: Number(page) - 1,
-    }));
-  }, []);
+      if (debouncedSearch) {
+        newParams.set("search", debouncedSearch);
+      } else {
+        newParams.delete("search");
+      }
+
+      if (date.startDate && date.endDate) {
+        newParams.set("startDate", formatDateForURL(date.startDate));
+        newParams.set("endDate", formatDateForURL(date.endDate));
+      } else {
+        newParams.delete("startDate");
+        newParams.delete("endDate");
+      }
+
+      newParams.set("page", String(paginationState.pageIndex + 1));
+      return newParams;
+    });
+  }, [paginationState.pageIndex, debouncedSearch, date]);
 
   //invoices
   const {
@@ -66,11 +72,11 @@ const InvoicePage = () => {
     isLoading,
     error: fetchInvoiceError,
   } = useInvoices(
-    paginationState.pageIndex + 1,
+    Number(searchParams.get("page") || 1),
     paginationState.pageSize,
-    debouncedSearch,
-    date.startDate ? formatLocalDate(date.startDate) : undefined,
-    date.endDate ? formatLocalDate(date.endDate) : undefined
+    searchParams.get("search") || "",
+    parseDateFromURL(searchParams.get("startDate")),
+    parseDateFromURL(searchParams.get("endDate"))
   );
 
   const { mutate: deleteInvoiceMutate, isPending: isDeleting } = useMutation({
@@ -125,7 +131,6 @@ const InvoicePage = () => {
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
         serverSideSearch
-        navigateTo="/dashboard/invoices"
         filterByDate
         date={date}
         setDate={setDate}
