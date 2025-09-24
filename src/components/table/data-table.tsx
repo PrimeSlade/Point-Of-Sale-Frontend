@@ -119,7 +119,7 @@ export function DataTable<TData, TValue>({
           />
         )}
         {filterByDate && date && setDate && (
-          <FilterByDate date={date} setDate={setDate} />
+          <FilterByDate date={date} setDate={setDate} table={table} />
         )}
       </div>
 

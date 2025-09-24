@@ -5,13 +5,19 @@ import { Calendar } from "../ui/calendar";
 import { formatDate } from "@/utils/formatDate";
 import { CalendarIcon } from "lucide-react";
 import type { DateRange } from "@/types/TreatmentType";
+import type { Table } from "@tanstack/react-table";
 
-type FilterByDateProps = {
+type FilterByDateProps<TData> = {
   date: DateRange;
   setDate: React.Dispatch<React.SetStateAction<DateRange>>;
+  table: Table<TData>;
 };
 
-const FilterByDate = ({ date, setDate }: FilterByDateProps) => {
+const FilterByDate = <TData,>({
+  table,
+  date,
+  setDate,
+}: FilterByDateProps<TData>) => {
   return (
     <div className="flex gap-3 ml-auto">
       <Popover>
@@ -35,12 +41,18 @@ const FilterByDate = ({ date, setDate }: FilterByDateProps) => {
           <Calendar
             mode="single"
             selected={date?.startDate}
-            onSelect={(selectedDate) =>
-              setDate((prev) => ({
-                ...prev,
-                startDate: selectedDate,
-              }))
-            }
+            onSelect={(selectedDate) => {
+              setDate((prev) => {
+                const newState = {
+                  ...prev,
+                  startDate: selectedDate,
+                };
+                if (newState.startDate && newState.endDate) {
+                  table.setPageIndex(0);
+                }
+                return newState;
+              });
+            }}
             disabled={(d) => d > new Date() || d < new Date("1900-01-01")}
             captionLayout="dropdown"
           />
@@ -65,10 +77,16 @@ const FilterByDate = ({ date, setDate }: FilterByDateProps) => {
             mode="single"
             selected={date?.endDate}
             onSelect={(selectedDate) =>
-              setDate((prev) => ({
-                ...prev,
-                endDate: selectedDate,
-              }))
+              setDate((prev) => {
+                const newState = {
+                  ...prev,
+                  endDate: selectedDate,
+                };
+                if (newState.startDate && newState.endDate) {
+                  table.setPageIndex(0);
+                }
+                return newState;
+              })
             }
             disabled={(d) => d > new Date() || d < new Date("1900-01-01")}
             captionLayout="dropdown"
