@@ -6,7 +6,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import type { ItemType } from "@/types/ItemType";
+import type { ItemType, ItemUnits } from "@/types/ItemType";
 import { formatDate } from "@/utils/formatDate";
 import { Eye } from "lucide-react";
 
@@ -16,6 +16,20 @@ type ItemCardProps = {
 
 const ItemCard = ({ data }: ItemCardProps) => {
   const formatted = formatDate(data.expiryDate);
+
+  const convertIntoUnit = (itemUnits: ItemUnits[]) => {
+    return itemUnits.reduce((res, unit, i) => {
+      if (unit.quantity === 0) return res;
+
+      if (i === 0) {
+        return `${res}  ${unit.quantity}${unit.unitType}`;
+      }
+
+      const rem = unit.quantity % itemUnits[i - 1].rate;
+
+      return rem !== 0 ? `${res} ${rem}${unit.unitType}` : res;
+    }, "");
+  };
 
   return (
     <Dialog>
@@ -71,6 +85,14 @@ const ItemCard = ({ data }: ItemCardProps) => {
               </div>
             ))}
 
+            <div className="col-span-4 flex flex-col gap-3">
+              <h1 className="font-bold text-[var(--text-secondary)]">
+                Total Quantity
+              </h1>
+              <div className="px-3 py-1 border rounded-md bg-[var(--background-color)] font-bold text-[var(--primary-color)]">
+                {convertIntoUnit(data.itemUnits)}
+              </div>
+            </div>
             {data.description && (
               <div className="col-span-4 flex flex-col gap-3">
                 <h1 className="font-bold text-[var(--text-secondary)]">

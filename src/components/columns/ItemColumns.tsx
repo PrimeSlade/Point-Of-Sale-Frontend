@@ -60,6 +60,27 @@ const ItemColumns = ({
     },
   },
   {
+    id: "inStock",
+    header: () => <div className="font-bold">In Stock</div>,
+    cell: ({ row }) => {
+      const itemUnits = row.original.itemUnits;
+
+      const inStock = itemUnits.every((unit) => unit.quantity !== 0);
+
+      return (
+        <span
+          className={`${
+            inStock
+              ? "text-[var(--success-color-hover)]"
+              : "text-[var(--danger-color)]"
+          } font-bold`}
+        >
+          {inStock ? "Yes" : "No"}
+        </span>
+      );
+    },
+  },
+  {
     accessorKey: "unit",
     header: () => <div className="font-bold">Unit</div>,
     cell: ({ row }) => {
@@ -81,6 +102,7 @@ const ItemColumns = ({
       return <span>{unit!.purchasePrice}</span>;
     },
   },
+
   {
     accessorKey: "action",
     header: () => <div className="font-bold">Actions</div>,
