@@ -9,8 +9,8 @@ export const useTreatments = (
   pageIndex: number = 0,
   pageSize: number = 15,
   search: string = "",
-  startDate?: string,
-  endDate?: string
+  startDate?: Date,
+  endDate?: Date
 ) => {
   return useQuery({
     queryKey: ["treatments", pageIndex, pageSize, search, startDate, endDate],

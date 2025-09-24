@@ -15,8 +15,8 @@ const getTreatments = async (
   pageIndex: number,
   pageSize: number,
   search: string,
-  startDate?: string,
-  endDate?: string
+  startDate?: Date,
+  endDate?: Date
 ) => {
   try {
     const { data } = await axiosInstance.get(

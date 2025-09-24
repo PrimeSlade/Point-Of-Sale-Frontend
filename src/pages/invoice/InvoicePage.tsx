@@ -8,11 +8,7 @@ import { DataTable } from "@/components/table/data-table";
 import { useAuth } from "@/hooks/useAuth";
 import useDebounce from "@/hooks/useDebounce";
 import type { DateRange } from "@/types/TreatmentType";
-import {
-  formatDateForURL,
-  parseDateFromURL,
-  formatLocalDate,
-} from "@/utils/formatDate";
+import { formatDateForURL, parseDateFromURL } from "@/utils/formatDate";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
@@ -76,11 +72,11 @@ const InvoicePage = () => {
     isLoading,
     error: fetchInvoiceError,
   } = useInvoices(
-    paginationState.pageIndex + 1,
+    Number(searchParams.get("page") || 1),
     paginationState.pageSize,
     searchParams.get("search") || "",
-    date.startDate ? formatLocalDate(date.startDate) : undefined,
-    date.endDate ? formatLocalDate(date.endDate) : undefined
+    parseDateFromURL(searchParams.get("startDate")),
+    parseDateFromURL(searchParams.get("endDate"))
   );
 
   const { mutate: deleteInvoiceMutate, isPending: isDeleting } = useMutation({
