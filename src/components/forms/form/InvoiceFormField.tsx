@@ -37,6 +37,7 @@ type InvoiceFormFieldProps<T extends FieldValues> = {
   locationData?: LocationType[];
   onAddField: () => void;
   onRemoveField: (index: number) => void;
+  isTreatment: boolean;
 };
 
 const InvoiceFormField = <T extends FieldValues>({
@@ -49,6 +50,7 @@ const InvoiceFormField = <T extends FieldValues>({
   fields,
   onAddField,
   onRemoveField,
+  isTreatment,
 }: InvoiceFormFieldProps<T>) => {
   const serviceOptions =
     serviceData?.map((data: ServiceData) => ({
@@ -109,36 +111,38 @@ const InvoiceFormField = <T extends FieldValues>({
             />
           </div>
           <div className="flex flex-col gap-1 w-1/2">
-            <FormField
-              control={form.control}
-              name="invoiceServices"
-              render={({ field }) => (
-                <FormItem>
-                  <label className="text-md font-semibold">Services</label>
-                  <FormControl>
-                    <MultiSelect
-                      options={serviceOptions}
-                      onValueChange={(selectedNames) => {
-                        const selectedObjects = selectedNames.map((name) =>
-                          serviceData?.find(
-                            (service: ServiceData) => service.name === name
-                          )
-                        );
-                        field.onChange(selectedObjects);
-                      }}
-                      defaultValue={
-                        field.value?.map(
-                          (service: ServiceData) => service.name
-                        ) || []
-                      }
-                      responsive={true}
-                      placeholder="Select services..."
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {isTreatment && (
+              <FormField
+                control={form.control}
+                name="invoiceServices"
+                render={({ field }) => (
+                  <FormItem>
+                    <label className="text-md font-semibold">Services</label>
+                    <FormControl>
+                      <MultiSelect
+                        options={serviceOptions}
+                        onValueChange={(selectedNames) => {
+                          const selectedObjects = selectedNames.map((name) =>
+                            serviceData?.find(
+                              (service: ServiceData) => service.name === name
+                            )
+                          );
+                          field.onChange(selectedObjects);
+                        }}
+                        defaultValue={
+                          field.value?.map(
+                            (service: ServiceData) => service.name
+                          ) || []
+                        }
+                        responsive={true}
+                        placeholder="Select services..."
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
           </div>
         </div>
 

@@ -17,6 +17,7 @@ import TreatmentDiagnosisBox from "@/components/treatment/TreatmentDiagnosisBox"
 import type { ServiceData } from "@/types/ServiceType";
 import type { LocationType } from "@/types/LocationType";
 import { addInvoice } from "@/api/invoice";
+import { useAuth } from "@/hooks/useAuth";
 
 type InvoiceFormProps = {
   invoiceData?: Invoice;
@@ -54,6 +55,9 @@ const InvoiceForm = ({
   const [selectedTreatment, setSelectedTreatment] =
     useState<TreatmentData | null>(invoiceData?.treatment || null);
   const [isTreatment, setIsTreatment] = useState(true);
+
+  //user
+  const { user } = useAuth();
 
   //Form
   const itemUnitSchema = z.object({
@@ -117,7 +121,7 @@ const InvoiceForm = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       treatmentId: undefined,
-      locationId: undefined,
+      locationId: user?.locationId,
       discountAmount: 0,
       paymentMethod: "" as PaymentMethod,
       paymentDescription: "",
@@ -239,6 +243,7 @@ const InvoiceForm = ({
       <InvoiceFormField
         form={form}
         mode={mode}
+        isTreatment={isTreatment}
         isPending={isCreating}
         onSubmit={onSubmit}
         serviceData={serviceData}
