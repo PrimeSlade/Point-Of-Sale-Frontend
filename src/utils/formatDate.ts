@@ -4,6 +4,20 @@ const formatDate = (date: Date) => {
   return format(date, "dd/MM/yyyy");
 };
 
+const formatDateForURL = (date: Date) => {
+  return format(date, "dd-MM-yyyy");
+};
+
+const parseDateFromURL = (dateString: string | null) => {
+  if (!dateString) return undefined;
+  const [day, month, year] = dateString.split("-");
+  return new Date(
+    parseInt(year),
+    parseInt(month) - 1,
+    parseInt(day)
+  );
+};
+
 const formatText = (input: string): string => {
   return input
     .split("_")
@@ -28,4 +42,11 @@ const formatLocalDate = (date?: Date) => {
   return format(date, "yyyy-MM-dd'T'HH:mm:ss");
 };
 
-export { formatDate, calcAge, formatText, formatLocalDate };
+export {
+  formatDate,
+  formatDateForURL,
+  parseDateFromURL,
+  calcAge,
+  formatText,
+  formatLocalDate,
+};

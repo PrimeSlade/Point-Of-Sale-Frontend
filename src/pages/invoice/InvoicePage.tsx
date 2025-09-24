@@ -1,6 +1,5 @@
 import { deleteInvoiceById } from "@/api/invoice";
 import { useInvoices } from "@/hooks/useInvoices";
-import { deletePatientById } from "@/api/patients";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
 import InvoiceColumns from "@/components/columns/InvoiceColumns";
