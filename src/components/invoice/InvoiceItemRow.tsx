@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { type UseFormReturn } from "react-hook-form";
+import {
+  type FieldArrayWithId,
+  type FieldValues,
+  type UseFormReturn,
+} from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -18,14 +22,23 @@ import ItemAutocomplete from "./ItemAutocomplete";
 import type { ItemType } from "@/types/ItemType";
 import { useAuth } from "@/hooks/useAuth";
 import { calculatePriceWithIncrease } from "@/utils/calcPrice";
+import { Button } from "../ui/button";
 
-type InvoiceItemRowProps = {
+type InvoiceItemRowProps<T extends FieldValues> = {
   form: UseFormReturn<any>;
   index: number;
   fieldId: string;
+  fields: FieldArrayWithId<T>[];
+  onRemoveField: (index: number) => void;
 };
 
-const InvoiceItemRow = ({ form, index, fieldId }: InvoiceItemRowProps) => {
+const InvoiceItemRow = <T extends FieldValues>({
+  form,
+  index,
+  fieldId,
+  onRemoveField,
+  fields,
+}: InvoiceItemRowProps<T>) => {
   const [selectedItem, setSelectedItem] = useState<ItemType | null>(null);
 
   const { user } = useAuth();
@@ -56,7 +69,7 @@ const InvoiceItemRow = ({ form, index, fieldId }: InvoiceItemRowProps) => {
 
   return (
     <div
-      className="grid grid-cols-1 lg:grid-cols-5 gap-0 border-b border-[var(--border-color)] last:border-b-0"
+      className="grid grid-cols-1 lg:grid-cols-6 gap-0 border-b border-[var(--border-color)] last:border-b-0"
       key={fieldId}
     >
       <div className="p-3 border-r border-[var(--border-color)]">
@@ -97,7 +110,7 @@ const InvoiceItemRow = ({ form, index, fieldId }: InvoiceItemRowProps) => {
                       placeholder={`${
                         selectedItem?.itemUnits
                           ? "Select a Type"
-                          : "No Unit Type Found!"
+                          : "No Unit Type"
                       }`}
                     />
                   </SelectTrigger>
@@ -168,7 +181,7 @@ const InvoiceItemRow = ({ form, index, fieldId }: InvoiceItemRowProps) => {
           )}
         />
       </div>
-      <div className="p-3">
+      <div className="p-3 border-r border-[var(--border-color)]">
         <FormField
           control={form.control}
           name={`invoiceItems.${index}.discountPrice`}
@@ -191,6 +204,17 @@ const InvoiceItemRow = ({ form, index, fieldId }: InvoiceItemRowProps) => {
             </FormItem>
           )}
         />
+      </div>
+      <div className="p-3 flex justify-center items-center">
+        <Button
+          type="button"
+          onClick={() => onRemoveField(index)}
+          disabled={fields.length <= 1}
+          className="bg-[var(--danger-color)] hover:bg-[var(--danger-color-hover)] text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed w-full max-w-[120px]"
+          size="sm"
+        >
+          Remove
+        </Button>
       </div>
     </div>
   );

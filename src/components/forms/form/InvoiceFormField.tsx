@@ -24,7 +24,6 @@ import {
 } from "@/components/ui/select";
 import type { LocationType } from "@/types/LocationType";
 import InvoiceItemRow from "@/components/invoice/InvoiceItemRow";
-import { useEffect } from "react";
 import PaymentCard from "@/components/invoice/PaymentCard";
 
 type InvoiceFormFieldProps<T extends FieldValues> = {
@@ -57,16 +56,6 @@ const InvoiceFormField = <T extends FieldValues>({
       value: data.name,
       label: `${toUpperCase(data.name)} (${data.retailPrice})`,
     })) || [];
-
-  useEffect(() => {
-    const currentFormItems = form.getValues("invoiceItems") || [];
-    //to prevent data inconsistency clena up after each row operation
-    if (currentFormItems.length > fields.length) {
-      // Items were removed, update form to match current fields
-      const updatedItems = currentFormItems.slice(0, fields.length);
-      form.setValue("invoiceItems", updatedItems);
-    }
-  }, [fields.length, form]);
 
   return (
     <Form {...form}>
@@ -147,7 +136,7 @@ const InvoiceFormField = <T extends FieldValues>({
         </div>
 
         <div className="border border-[var(--border-color)] rounded-lg overflow-hidden shadow">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-0 bg-[var(--primary-color)] border-b border-[var(--border-color)]">
+          <div className="grid grid-cols-1 lg:grid-cols-6 gap-0 bg-[var(--primary-color)] border-b border-[var(--border-color)]">
             <div className="p-3 font-semibold text-white border-r border-[var(--border-color)]">
               Name
             </div>
@@ -160,7 +149,12 @@ const InvoiceFormField = <T extends FieldValues>({
             <div className="p-3 font-semibold text-white border-r border-[var(--border-color)]">
               Retail Price
             </div>
-            <div className="p-3 font-semibold text-white">Discount Price</div>
+            <div className="p-3 font-semibold text-white border-r border-[var(--border-color)]">
+              Discount Price
+            </div>
+            <div className="p-3 font-semibold text-white text-center">
+              Action
+            </div>
           </div>
 
           {fields.map((unitField, index) => (
@@ -169,6 +163,8 @@ const InvoiceFormField = <T extends FieldValues>({
               form={form}
               index={index}
               fieldId={unitField.id}
+              onRemoveField={onRemoveField}
+              fields={fields}
             />
           ))}
 
@@ -176,19 +172,10 @@ const InvoiceFormField = <T extends FieldValues>({
             <Button
               type="button"
               onClick={onAddField}
-              className="bg-[var(--primary-color)] hover:bg-[var(--primary-color-hover)] text-white cursor-pointer"
+              className="bg-[var(--primary-color)] hover:bg-[var(--primary-color-hover)] text-white cursor-pointer min-w-20"
               size="sm"
             >
               Add
-            </Button>
-            <Button
-              type="button"
-              onClick={() => onRemoveField(fields.length - 1)}
-              disabled={fields.length <= 1}
-              className="bg-[var(--danger-color)] hover:bg-[var(--danger-color-hover)] text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-              size="sm"
-            >
-              Remove
             </Button>
           </div>
         </div>
