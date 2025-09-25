@@ -61,7 +61,7 @@ const InvoiceForm = ({
 
   //Form
   const itemUnitSchema = z.object({
-    id: z.number(),
+    itemId: z.number(),
 
     itemName: z.string().min(2, { message: "Please select an item." }),
 
@@ -128,7 +128,7 @@ const InvoiceForm = ({
       note: "",
       invoiceItems: [
         {
-          id: undefined,
+          itemId: undefined,
           itemName: "",
           quantity: undefined,
           purchasePrice: undefined,
@@ -182,7 +182,7 @@ const InvoiceForm = ({
 
   const handleAddField = () => {
     append({
-      id: undefined as any,
+      itemId: undefined as any,
       itemName: "",
       quantity: undefined as any,
       purchasePrice: undefined as any,

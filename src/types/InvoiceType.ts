@@ -5,7 +5,7 @@ import type { TreatmentData } from "./TreatmentType";
 type PaymentMethod = "kpay" | "wave" | "cash" | "others";
 
 type InvoiceItem = {
-  id: number;
+  itemId: number;
   itemName: string;
   quantity: number;
   purchasePrice: number;
