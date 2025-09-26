@@ -65,7 +65,7 @@ const ItemColumns = ({
     cell: ({ row }) => {
       const itemUnits = row.original.itemUnits;
 
-      const inStock = itemUnits.every((unit) => unit.quantity !== 0);
+      const inStock = itemUnits.some((unit) => unit.quantity !== 0);
 
       return (
         <span

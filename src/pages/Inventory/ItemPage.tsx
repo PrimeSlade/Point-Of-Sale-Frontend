@@ -22,15 +22,16 @@ const ItemServicePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get("page") || 1;
 
-  //serverside pagination, searching and filtering
-  const [globalFilter, setGlobalFilter] = useState(
-    searchParams.get("search") || ""
-  );
   const [errorOpen, setErrorOpen] = useState(false);
   const [paginationState, setPaginationState] = useState<PaginationState>({
     pageIndex: Number(page) - 1 || 0,
     pageSize: 15,
   });
+
+  //serverside pagination, searching and filtering
+  const [globalFilter, setGlobalFilter] = useState(
+    searchParams.get("search") || ""
+  );
   const [columnFilters, setColumnFilters] = useState(
     searchParams.get("filter") || ""
   );

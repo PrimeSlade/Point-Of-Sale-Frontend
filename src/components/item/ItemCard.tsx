@@ -85,14 +85,16 @@ const ItemCard = ({ data }: ItemCardProps) => {
               </div>
             ))}
 
-            <div className="col-span-4 flex flex-col gap-3">
-              <h1 className="font-bold text-[var(--text-secondary)]">
-                Total Quantity
-              </h1>
-              <div className="px-3 py-1 border rounded-md bg-[var(--background-color)] font-bold text-[var(--primary-color)]">
-                {convertIntoUnit(data.itemUnits)}
+            {convertIntoUnit(data.itemUnits) !== "" && (
+              <div className="col-span-4 flex flex-col gap-3">
+                <h1 className="font-bold text-[var(--text-secondary)]">
+                  Total Quantity
+                </h1>
+                <div className="px-3 py-1 border rounded-md bg-[var(--background-color)] font-bold text-[var(--primary-color)]">
+                  {convertIntoUnit(data.itemUnits)}
+                </div>
               </div>
-            </div>
+            )}
             {data.description && (
               <div className="col-span-4 flex flex-col gap-3">
                 <h1 className="font-bold text-[var(--text-secondary)]">
