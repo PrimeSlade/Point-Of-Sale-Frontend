@@ -96,28 +96,30 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center py-4">
-        <Input
-          placeholder={prompt}
-          value={globalFilter}
-          onChange={(e) => {
-            setGlobalFilter(e.target.value);
-            if (serverSideSearch) {
-              // Reset to first page when search changes
-              table.setPageIndex(0);
-            }
-          }}
-          className="max-w-sm"
-        />
-        {/* undefined for no filtering */}
-        {filter && (
-          <FilterBtn
-            table={table}
-            locations={locations}
-            serverSideSearch
-            setColumnFilters={setColumnFilters}
-            columnFilters={columnFilters}
+        <div className="w-130 flex gap-3">
+          <Input
+            placeholder={prompt}
+            value={globalFilter}
+            onChange={(e) => {
+              setGlobalFilter(e.target.value);
+              if (serverSideSearch) {
+                // Reset to first page when search changes
+                table.setPageIndex(0);
+              }
+            }}
+            className="max-w-sm"
           />
-        )}
+          {/* undefined for no filtering */}
+          {filter && (
+            <FilterBtn
+              table={table}
+              locations={locations}
+              serverSideSearch
+              setColumnFilters={setColumnFilters}
+              columnFilters={columnFilters}
+            />
+          )}
+        </div>
         {filterByDate && date && setDate && (
           <FilterByDate date={date} setDate={setDate} table={table} />
         )}

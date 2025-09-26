@@ -42,7 +42,7 @@ const FilterBtn = <TData,>({
           ?.setFilterValue(value === "__all" ? undefined : value);
       }}
     >
-      <SelectTrigger className="ml-auto">
+      <SelectTrigger className="ml-auto w-70">
         <SelectValue placeholder="Select location" />
       </SelectTrigger>
       <SelectContent align="end">
