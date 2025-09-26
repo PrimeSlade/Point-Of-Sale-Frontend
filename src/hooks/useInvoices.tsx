@@ -6,11 +6,12 @@ export const useInvoices = (
   pageSize: number = 15,
   search: string = "",
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
+  filter?: string
 ) => {
   return useQuery({
-    queryKey: ["invoices", pageIndex, pageSize, search, startDate, endDate],
-    queryFn: () => getInvoices(pageIndex, pageSize, search, startDate, endDate),
+    queryKey: ["invoices", pageIndex, pageSize, search, startDate, endDate, filter],
+    queryFn: () => getInvoices(pageIndex, pageSize, search, startDate, endDate, filter),
   });
 };
 

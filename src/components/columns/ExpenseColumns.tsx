@@ -9,10 +9,12 @@ import type { LocationType } from "@/types/LocationType";
 import { useAuth } from "@/hooks/useAuth";
 
 type ExpenseColumnsProps = {
-  onDelete: (id: number) => void;
-  isDeleting: boolean;
-  locations: LocationType[];
-  categories: CategoryType[];
+  onDelete?: (id: number) => void;
+  isDeleting?: boolean;
+  locations?: LocationType[];
+  categories?: CategoryType[];
+  page: number;
+  action?: boolean;
 };
 
 const ExpensesColumns = ({
@@ -20,12 +22,15 @@ const ExpensesColumns = ({
   isDeleting,
   locations,
   categories,
+  page,
+  action = true,
 }: ExpenseColumnsProps): ColumnDef<ExpenseType>[] => [
   {
     id: "rowIndex",
     header: () => <div className="font-bold text-center">No</div>,
-    cell: ({ row }) => <div className="text-center">{row.index + 1}</div>,
-    enableGlobalFilter: false,
+    cell: ({ row }) => (
+      <div className="text-center">{page * 15 + row.index + 1}</div>
+    ),
   },
   {
     accessorKey: "name",
@@ -73,40 +78,47 @@ const ExpensesColumns = ({
 
       return (
         <>
-          <div className="flex gap-5 items-center">
-            {can("update", "Expense") && (
-              <button onClick={() => setIsFormOpen(true)}>
-                <PenLine
-                  size={20}
-                  className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
-                />
-              </button>
-            )}
-            {can("delete", "Expense") && (
-              <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
-                <Trash2
-                  size={20}
-                  className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
-                />
-              </button>
-            )}
-          </div>
-          <AlertBox
-            open={alertOpen}
-            title="Confirm Deletion"
-            description="Are you sure you want to delete this?"
-            onClose={() => setAlertOpen(false)}
-            onConfirm={() => onDelete(expense.id!)}
-            mode="confirm"
-          />
-          <ExpenseForm
-            data={expense}
-            locationData={locations}
-            mode="edit"
-            open={isFormOpen}
-            onClose={setIsFormOpen}
-            categoryData={categories}
-          />
+          {action && (
+            <>
+              <div className="flex gap-5 items-center">
+                {can("update", "Expense") && (
+                  <button onClick={() => setIsFormOpen(true)}>
+                    <PenLine
+                      size={20}
+                      className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
+                    />
+                  </button>
+                )}
+                {can("delete", "Expense") && (
+                  <button
+                    onClick={() => setAlertOpen(true)}
+                    disabled={isDeleting}
+                  >
+                    <Trash2
+                      size={20}
+                      className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
+                    />
+                  </button>
+                )}
+              </div>
+              <AlertBox
+                open={alertOpen}
+                title="Confirm Deletion"
+                description="Are you sure you want to delete this?"
+                onClose={() => setAlertOpen(false)}
+                onConfirm={() => onDelete!(expense.id!)}
+                mode="confirm"
+              />
+              <ExpenseForm
+                data={expense}
+                locationData={locations!}
+                mode="edit"
+                open={isFormOpen}
+                onClose={setIsFormOpen}
+                categoryData={categories!}
+              />
+            </>
+          )}
         </>
       );
     },

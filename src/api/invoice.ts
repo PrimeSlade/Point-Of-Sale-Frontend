@@ -15,13 +15,14 @@ const getInvoices = async (
   pageSize: number,
   search: string,
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
+  filter?: string
 ) => {
   try {
     const { data } = await axiosInstance.get(
       `/invoices?page=${pageIndex}&limit=${pageSize}&search=${search}${
         startDate && endDate ? `&startDate=${startDate}&endDate=${endDate}` : ""
-      }`
+      }${filter ? `&filter=${filter}` : ""}`
     );
     return data;
   } catch (error: any) {

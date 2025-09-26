@@ -123,7 +123,7 @@ const InvoicePage = () => {
       <DataTable
         columns={columns}
         data={data?.data ?? []}
-        prompt="Search by patient names"
+        prompt="Search by patient names or item names"
         totalPages={data?.meta.totalPages ?? 0}
         paginationState={paginationState}
         setPaginationState={setPaginationState}

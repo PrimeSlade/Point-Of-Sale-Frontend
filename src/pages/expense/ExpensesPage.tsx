@@ -107,6 +107,7 @@ const ExpensesPage = () => {
     isDeleting,
     locations,
     categories: categories?.data,
+    page: paginationState.pageIndex,
   });
 
   return (
@@ -129,7 +130,7 @@ const ExpensesPage = () => {
       <DataTable
         columns={columns}
         data={expenses?.data ?? []}
-        prompt="Search by names"
+        prompt="Search by names, descriptions or categories"
         totalPages={expenses?.meta.totalPages ?? 0}
         paginationState={paginationState}
         setPaginationState={setPaginationState}
