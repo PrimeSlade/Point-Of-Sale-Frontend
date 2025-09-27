@@ -1,10 +1,32 @@
 import AlertBox from "@/components/alertBox/AlertBox";
 import InvoiceColumns from "@/components/columns/InvoiceColumns";
+import PaymentSummaryBox from "@/components/report/PaymentSummaryBox";
 import ReportDataTable from "@/components/report/ReportDataTable ";
 import { useInvoices } from "@/hooks/useInvoices";
+import type { Invoice } from "@/types/InvoiceType";
 import { parseDateFromURL } from "@/utils/formatDate";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+
+const calcTotalAmount = (data: Invoice[]) => {
+  if (!data) return;
+  return data.reduce(
+    (acc, inv) => {
+      acc.totalAmount += inv.totalAmount;
+
+      if (!acc[inv.paymentMethod]) {
+        acc[inv.paymentMethod] = 0;
+      }
+
+      acc[inv.paymentMethod] += inv.totalAmount;
+
+      return acc;
+    },
+    {
+      totalAmount: 0,
+    } as Record<string, number> & { totalAmount: number }
+  );
+};
 
 const InvoiceReportPage = () => {
   const [errorOpen, setErrorOpen] = useState(false);
@@ -25,6 +47,8 @@ const InvoiceReportPage = () => {
     searchParams.get("filter") || ""
   );
 
+  console.log(calcTotalAmount(data?.data));
+
   useEffect(() => {
     if (fetchExpenseError) {
       setErrorOpen(true);
@@ -43,7 +67,10 @@ const InvoiceReportPage = () => {
         data={data?.data}
         totalPages={data?.meta.totalPages}
         prompt="Search by patient names or item names"
+        showTotalAmount={false}
+        totalAmount={0}
       />
+      <PaymentSummaryBox data={data?.data} calcTotalAmount={calcTotalAmount} />
       {fetchExpenseError && (
         <AlertBox
           open={errorOpen}

@@ -12,6 +12,8 @@ type ReportDataTableProps<TData, TValue> = {
   data: TData[];
   totalPages: number;
   prompt: string;
+  showTotalAmount?: boolean;
+  totalAmount: number;
 };
 
 const ReportDataTable = <TData, TValue>({
@@ -19,6 +21,8 @@ const ReportDataTable = <TData, TValue>({
   data,
   totalPages,
   prompt,
+  showTotalAmount,
+  totalAmount,
 }: ReportDataTableProps<TData, TValue>) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get("page") || 1;
@@ -94,6 +98,8 @@ const ReportDataTable = <TData, TValue>({
         filter
         columnFilters={columnFilters}
         setColumnFilters={setColumnFilters}
+        showTotalAmount={showTotalAmount}
+        totalAmount={totalAmount}
       />
     </div>
   );

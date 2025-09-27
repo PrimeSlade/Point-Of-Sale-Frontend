@@ -19,7 +19,7 @@ type CategoryForm = {
 type ExpenseType = {
   id: number;
   name: string;
-  amount: string;
+  amount: number;
   date: Date;
   description: string;
   locationId: number;

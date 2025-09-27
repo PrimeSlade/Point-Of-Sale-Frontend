@@ -47,6 +47,8 @@ interface DataTableProps<TData, TValue> {
   filterByDate?: boolean;
   date?: DateRange;
   setDate?: React.Dispatch<React.SetStateAction<DateRange>>;
+  showTotalAmount?: boolean;
+  totalAmount?: number;
 }
 
 export function DataTable<TData, TValue>({
@@ -67,6 +69,8 @@ export function DataTable<TData, TValue>({
   filterByDate,
   date,
   setDate,
+  showTotalAmount = false,
+  totalAmount,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -174,6 +178,14 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
+        {showTotalAmount && (
+          <div className="flex border-t">
+            <div className="p-2 px-5 font-bold w-[75%] border-r">
+              Total Amount
+            </div>
+            <div className="p-2 w-[20%] font-bold">{totalAmount ?? 0}</div>
+          </div>
+        )}
       </div>
       {pagination && (
         <div className="flex items-center justify-end space-x-2 py-4">
