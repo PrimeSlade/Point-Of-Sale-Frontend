@@ -20,11 +20,11 @@ const ItemServicePage = () => {
   const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const page = searchParams.get("page") || 1;
+  const page = Number(searchParams.get("page")) || 1;
 
   const [errorOpen, setErrorOpen] = useState(false);
   const [paginationState, setPaginationState] = useState<PaginationState>({
-    pageIndex: Number(page) - 1 || 0,
+    pageIndex: page - 1 || 0,
     pageSize: 15,
   });
 
@@ -103,7 +103,7 @@ const ItemServicePage = () => {
   const columns = ItemColumns({
     onDelete: deleteItemMutate,
     isDeleting,
-    page: paginationState.pageIndex,
+    page: page - 1,
   });
 
   return (
