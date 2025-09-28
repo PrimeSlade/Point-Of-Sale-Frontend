@@ -6,10 +6,11 @@ export const useExpenses = (
   pageSize: number = 15,
   search: string = "",
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
+  filter?: string
 ) => {
   return useQuery({
-    queryKey: ["expenses", pageIndex, pageSize, search, startDate, endDate],
-    queryFn: () => getExpenses(pageIndex, pageSize, search, startDate, endDate),
+    queryKey: ["expenses", pageIndex, pageSize, search, startDate, endDate, filter],
+    queryFn: () => getExpenses(pageIndex, pageSize, search, startDate, endDate, filter),
   });
 };

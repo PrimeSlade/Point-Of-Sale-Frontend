@@ -47,6 +47,8 @@ interface DataTableProps<TData, TValue> {
   filterByDate?: boolean;
   date?: DateRange;
   setDate?: React.Dispatch<React.SetStateAction<DateRange>>;
+  showTotalAmount?: boolean;
+  totalAmount?: number;
 }
 
 export function DataTable<TData, TValue>({
@@ -67,6 +69,8 @@ export function DataTable<TData, TValue>({
   filterByDate,
   date,
   setDate,
+  showTotalAmount = false,
+  totalAmount,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -96,28 +100,30 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center py-4">
-        <Input
-          placeholder={prompt}
-          value={globalFilter}
-          onChange={(e) => {
-            setGlobalFilter(e.target.value);
-            if (serverSideSearch) {
-              // Reset to first page when search changes
-              table.setPageIndex(0);
-            }
-          }}
-          className="max-w-sm"
-        />
-        {/* undefined for no filtering */}
-        {filter && (
-          <FilterBtn
-            table={table}
-            locations={locations}
-            serverSideSearch
-            setColumnFilters={setColumnFilters}
-            columnFilters={columnFilters}
+        <div className="w-130 flex gap-3">
+          <Input
+            placeholder={prompt}
+            value={globalFilter}
+            onChange={(e) => {
+              setGlobalFilter(e.target.value);
+              if (serverSideSearch) {
+                // Reset to first page when search changes
+                table.setPageIndex(0);
+              }
+            }}
+            className="max-w-sm"
           />
-        )}
+          {/* undefined for no filtering */}
+          {filter && (
+            <FilterBtn
+              table={table}
+              locations={locations}
+              serverSideSearch
+              setColumnFilters={setColumnFilters}
+              columnFilters={columnFilters}
+            />
+          )}
+        </div>
         {filterByDate && date && setDate && (
           <FilterByDate date={date} setDate={setDate} table={table} />
         )}
@@ -172,6 +178,14 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
+        {showTotalAmount && (
+          <div className="flex border-t">
+            <div className="p-2 px-5 font-bold w-[75%] border-r">
+              Total Amount
+            </div>
+            <div className="p-2 w-[20%] font-bold">{totalAmount ?? 0}</div>
+          </div>
+        )}
       </div>
       {pagination && (
         <div className="flex items-center justify-end space-x-2 py-4">

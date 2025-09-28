@@ -1,23 +1,24 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { PenLine, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import type { Invoice } from "@/types/InvoiceType";
 import { formatDate } from "@/utils/formatDate";
 import { useAuth } from "@/hooks/useAuth";
 import { generateInvoiceId } from "@/utils/formatText";
 
 type InvoiceColumsProps = {
-  onDelete: (id: number) => void;
-  isDeleting: boolean;
+  onDelete?: (id: number) => void;
+  isDeleting?: boolean;
   page: number;
+  action?: boolean;
 };
 
 const InvoiceColumns = ({
   onDelete,
   isDeleting,
   page,
+  action = true,
 }: InvoiceColumsProps): ColumnDef<Invoice>[] => [
   {
     id: "rowIndex",
@@ -69,42 +70,36 @@ const InvoiceColumns = ({
       const invoice = row.original;
 
       const [alertOpen, setAlertOpen] = useState(false);
-      const navigate = useNavigate();
 
       const { can } = useAuth();
 
       return (
         <>
-          <div className="flex gap-5 items-center">
-            {/* {can("update", "Invoice") && (
-              <button
-                onClick={() =>
-                  navigate(`/dashboard/invoices/edit/${invoice.id}`)
-                }
-              >
-                <PenLine
-                  size={20}
-                  className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
-                />
-              </button>
-            )} */}
-            {can("delete", "Invoice") && (
-              <button onClick={() => setAlertOpen(true)} disabled={isDeleting}>
-                <Trash2
-                  size={20}
-                  className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
-                />
-              </button>
-            )}
-          </div>
-          <AlertBox
-            open={alertOpen}
-            title="Confirm Deletion"
-            description="Are you sure you want to delete this?"
-            onClose={() => setAlertOpen(false)}
-            onConfirm={() => onDelete(invoice.id)}
-            mode="confirm"
-          />
+          {action && (
+            <>
+              <div className="flex gap-5 items-center">
+                {can("delete", "Invoice") && (
+                  <button
+                    onClick={() => setAlertOpen(true)}
+                    disabled={isDeleting}
+                  >
+                    <Trash2
+                      size={20}
+                      className="text-[var(--danger-color)] hover:text-[var(--danger-color-hover)] hover:border hover:border-white"
+                    />
+                  </button>
+                )}
+              </div>
+              <AlertBox
+                open={alertOpen}
+                title="Confirm Deletion"
+                description="Are you sure you want to delete this?"
+                onClose={() => setAlertOpen(false)}
+                onConfirm={() => onDelete!(invoice.id)}
+                mode="confirm"
+              />
+            </>
+          )}
         </>
       );
     },

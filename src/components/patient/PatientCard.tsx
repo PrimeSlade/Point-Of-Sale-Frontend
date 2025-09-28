@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 type PatientCardProps = {
   data: PatientData;
-  mode: "patient" | "invoice";
+  mode?: "patient" | "invoice";
 };
 
 const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {

@@ -27,7 +27,9 @@ const ReportPage = () => {
         subHeader="Manage operational costs and billing efficiently"
       />
       <NavBar navItems={navItems} />
-      <Outlet />
+      <div className="mt-5">
+        <Outlet />
+      </div>
     </div>
   );
 };
