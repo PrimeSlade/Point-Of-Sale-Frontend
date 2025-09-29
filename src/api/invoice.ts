@@ -30,6 +30,18 @@ const getInvoices = async (
   }
 };
 
+const getReportInvoices = async (startDate: Date, endDate: Date) => {
+  try {
+    const { data } = await axiosInstance.get(
+      `/invoices/reports?&startDate=${startDate}&endDate=${endDate}`
+    );
+
+    return data;
+  } catch (error: any) {
+    throw new Error(error.response?.data.error.message);
+  }
+};
+
 const getInvoiceById = async (id: number) => {
   try {
     const { data } = await axiosInstance.get(`/invoices/${id}`);
@@ -48,4 +60,10 @@ const deleteInvoiceById = async (id: number) => {
   }
 };
 
-export { addInvoice, getInvoices, getInvoiceById, deleteInvoiceById };
+export {
+  addInvoice,
+  getInvoices,
+  getReportInvoices,
+  getInvoiceById,
+  deleteInvoiceById,
+};
