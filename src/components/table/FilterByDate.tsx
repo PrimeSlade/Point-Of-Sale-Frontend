@@ -11,12 +11,14 @@ type FilterByDateProps<TData> = {
   date: DateRange;
   setDate: React.Dispatch<React.SetStateAction<DateRange>>;
   table: Table<TData>;
+  serverSideSearch: boolean;
 };
 
 const FilterByDate = <TData,>({
   table,
   date,
   setDate,
+  serverSideSearch,
 }: FilterByDateProps<TData>) => {
   return (
     <div className="flex gap-3 ml-auto">
@@ -47,7 +49,11 @@ const FilterByDate = <TData,>({
                   ...prev,
                   startDate: selectedDate,
                 };
-                if (newState.startDate && newState.endDate) {
+                if (
+                  newState.startDate &&
+                  newState.endDate &&
+                  serverSideSearch
+                ) {
                   table.setPageIndex(0);
                 }
                 return newState;
@@ -82,7 +88,11 @@ const FilterByDate = <TData,>({
                   ...prev,
                   endDate: selectedDate,
                 };
-                if (newState.startDate && newState.endDate) {
+                if (
+                  newState.startDate &&
+                  newState.endDate &&
+                  serverSideSearch
+                ) {
                   table.setPageIndex(0);
                 }
                 return newState;
