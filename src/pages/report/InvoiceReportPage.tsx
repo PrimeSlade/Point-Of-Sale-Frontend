@@ -2,7 +2,7 @@ import AlertBox from "@/components/alertBox/AlertBox";
 import InvoiceColumns from "@/components/columns/InvoiceColumns";
 import PaymentSummaryBox from "@/components/report/PaymentSummaryBox";
 import ReportDataTable from "@/components/report/ReportDataTable ";
-import { useInvoices } from "@/hooks/useInvoices";
+import { useReportInvoices } from "@/hooks/useInvoices";
 import type { Invoice } from "@/types/InvoiceType";
 import { parseDateFromURL } from "@/utils/formatDate";
 import { useEffect, useState } from "react";
@@ -32,22 +32,14 @@ const InvoiceReportPage = () => {
   const [errorOpen, setErrorOpen] = useState(false);
   const [searchParams] = useSearchParams();
 
-  const page = Number(searchParams.get("page")) - 1 || 1;
-
   const {
     data,
     isLoading,
     error: fetchExpenseError,
-  } = useInvoices(
-    Number(searchParams.get("page") || 1),
-    15,
-    searchParams.get("search") || "",
+  } = useReportInvoices(
     parseDateFromURL(searchParams.get("startDate")),
-    parseDateFromURL(searchParams.get("endDate")),
-    searchParams.get("filter") || ""
+    parseDateFromURL(searchParams.get("endDate"))
   );
-
-  console.log(calcTotalAmount(data?.data));
 
   useEffect(() => {
     if (fetchExpenseError) {
@@ -56,7 +48,7 @@ const InvoiceReportPage = () => {
   }, [fetchExpenseError]);
 
   const columns = InvoiceColumns({
-    page: page - 1,
+    serverSide: false,
     action: false,
   });
 
@@ -64,9 +56,8 @@ const InvoiceReportPage = () => {
     <div>
       <ReportDataTable
         columns={columns}
-        data={data?.data}
-        totalPages={data?.meta.totalPages}
-        prompt="Search by patient names or item names"
+        data={data?.data ?? []}
+        prompt="Search by patient names and paymetn method"
         showTotalAmount={false}
         totalAmount={0}
       />

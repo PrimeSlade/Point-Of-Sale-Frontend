@@ -1,7 +1,7 @@
 import AlertBox from "@/components/alertBox/AlertBox";
 import ExpenseColumns from "@/components/columns/ExpenseColumns";
 import ReportDataTable from "@/components/report/ReportDataTable ";
-import { useExpenses } from "@/hooks/useExpenses";
+import { useReportExpenses } from "@/hooks/useExpenses";
 import type { ExpenseType } from "@/types/ExpenseType";
 import { parseDateFromURL } from "@/utils/formatDate";
 import { useEffect, useState } from "react";
@@ -16,19 +16,13 @@ const ExpenseReportPage = () => {
   const [errorOpen, setErrorOpen] = useState(false);
   const [searchParams] = useSearchParams();
 
-  const page = Number(searchParams.get("page")) - 1 || 1;
-
   const {
     data,
     isLoading,
     error: fetchExpenseError,
-  } = useExpenses(
-    Number(searchParams.get("page") || 1),
-    15,
-    searchParams.get("search") || "",
+  } = useReportExpenses(
     parseDateFromURL(searchParams.get("startDate")),
-    parseDateFromURL(searchParams.get("endDate")),
-    searchParams.get("filter") || ""
+    parseDateFromURL(searchParams.get("endDate"))
   );
 
   useEffect(() => {
@@ -38,7 +32,8 @@ const ExpenseReportPage = () => {
   }, [fetchExpenseError]);
 
   const columns = ExpenseColumns({
-    page: page - 1,
+    page: 0,
+    serverSide: false,
     action: false,
   });
 
@@ -46,8 +41,7 @@ const ExpenseReportPage = () => {
     <div>
       <ReportDataTable
         columns={columns}
-        data={data?.data}
-        totalPages={data?.meta.totalPages}
+        data={data?.data ?? []}
         prompt="Search by names, descriptions or categories"
         showTotalAmount={true}
         totalAmount={calcTotalAmount(data?.data)}

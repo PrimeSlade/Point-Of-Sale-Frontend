@@ -42,6 +42,7 @@ interface DataTableProps<TData, TValue> {
   globalFilter: string;
   setGlobalFilter: React.Dispatch<React.SetStateAction<string>>;
   serverSideSearch?: boolean;
+  serverSidePagination?: boolean;
   columnFilters?: string;
   setColumnFilters?: React.Dispatch<React.SetStateAction<string>>;
   filterByDate?: boolean;
@@ -125,7 +126,12 @@ export function DataTable<TData, TValue>({
           )}
         </div>
         {filterByDate && date && setDate && (
-          <FilterByDate date={date} setDate={setDate} table={table} />
+          <FilterByDate
+            date={date}
+            setDate={setDate}
+            table={table}
+            serverSideSearch={serverSideSearch}
+          />
         )}
       </div>
 

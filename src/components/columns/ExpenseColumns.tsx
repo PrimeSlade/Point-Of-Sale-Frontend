@@ -13,7 +13,8 @@ type ExpenseColumnsProps = {
   isDeleting?: boolean;
   locations?: LocationType[];
   categories?: CategoryType[];
-  page: number;
+  page?: number;
+  serverSide?: boolean;
   action?: boolean;
 };
 
@@ -24,28 +25,33 @@ const ExpensesColumns = ({
   categories,
   page,
   action = true,
+  serverSide = true,
 }: ExpenseColumnsProps): ColumnDef<ExpenseType>[] => [
   {
     id: "rowIndex",
     header: () => <div className="font-bold text-center">No</div>,
     cell: ({ row }) => (
-      <div className="text-center">{page * 15 + row.index + 1}</div>
+      <div className="text-center">
+        {serverSide ? page! * 15 + row.index + 1 : row.index + 1}
+      </div>
     ),
   },
   {
     accessorKey: "name",
     header: () => <div className="font-bold">Name</div>,
+    enableGlobalFilter: !serverSide,
   },
   {
     id: "category",
     accessorFn: (row) => row.category.name ?? "",
     header: () => <div className="font-bold">Category</div>,
+    enableGlobalFilter: !serverSide,
   },
   {
     id: "location",
     accessorFn: (row) => row.location?.name ?? "",
     header: () => <div className="font-bold">Location</div>,
-    enableGlobalFilter: true,
+    enableGlobalFilter: !serverSide,
     cell: ({ row }) => {
       return row.original.location?.name;
     },
@@ -53,10 +59,12 @@ const ExpensesColumns = ({
   {
     accessorKey: "description",
     header: () => <div className="font-bold">Description</div>,
+    enableGlobalFilter: !serverSide,
   },
   {
     accessorKey: "amount",
     header: () => <div className="font-bold">Amount</div>,
+    enableGlobalFilter: !serverSide,
   },
   {
     accessorKey: "date",
@@ -64,6 +72,7 @@ const ExpensesColumns = ({
     cell: ({ row }) => {
       return formatDate(new Date(row.original.date));
     },
+    enableGlobalFilter: !serverSide,
   },
   {
     accessorKey: "action",

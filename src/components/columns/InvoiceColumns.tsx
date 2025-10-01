@@ -10,7 +10,8 @@ import { generateInvoiceId } from "@/utils/formatText";
 type InvoiceColumsProps = {
   onDelete?: (id: number) => void;
   isDeleting?: boolean;
-  page: number;
+  page?: number;
+  serverSide?: boolean;
   action?: boolean;
 };
 
@@ -19,12 +20,15 @@ const InvoiceColumns = ({
   isDeleting,
   page,
   action = true,
+  serverSide = true,
 }: InvoiceColumsProps): ColumnDef<Invoice>[] => [
   {
     id: "rowIndex",
     header: () => <div className="font-bold text-center">No</div>,
     cell: ({ row }) => (
-      <div className="text-center">{page * 15 + row.index + 1}</div>
+      <div className="text-center">
+        {serverSide ? page! * 15 + row.index + 1 : row.index + 1}
+      </div>
     ),
   },
   {
@@ -36,25 +40,31 @@ const InvoiceColumns = ({
   },
   {
     id: "patientName",
+    accessorFn: (row) => row.treatment?.patient!.name ?? "",
     header: () => <div className="font-bold">Patient Name</div>,
     cell: ({ row }) => {
       return row.original?.treatment?.patient!.name ?? "Walk-in customer";
     },
+    enableGlobalFilter: !serverSide,
   },
   {
     id: "location",
+    accessorFn: (row) => row.location.name,
     header: () => <div className="font-bold">Location</div>,
     cell: ({ row }) => {
       return row.original.location.name;
     },
+    enableGlobalFilter: !serverSide,
   },
   {
     accessorKey: "totalAmount",
     header: () => <div className="font-bold">Total Amount</div>,
+    enableGlobalFilter: !serverSide,
   },
   {
     accessorKey: "paymentMethod",
     header: () => <div className="font-bold">Payment Method</div>,
+    enableGlobalFilter: !serverSide,
   },
   {
     accessorKey: "createdAt",
@@ -62,6 +72,7 @@ const InvoiceColumns = ({
     cell: ({ row }) => (
       <div>{formatDate(new Date(row.original.createdAt))}</div>
     ),
+    enableGlobalFilter: !serverSide,
   },
   {
     accessorKey: "action",

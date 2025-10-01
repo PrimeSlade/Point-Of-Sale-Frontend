@@ -42,6 +42,18 @@ const editExpenseById = async (input: ExpenseForm) => {
   }
 };
 
+const getReportExpenses = async (startDate: Date, endDate: Date) => {
+  try {
+    const { data } = await axiosInstance.get(
+      `/expenses/reports?&startDate=${startDate}&endDate=${endDate}`
+    );
+
+    return data;
+  } catch (error: any) {
+    throw new Error(error.response?.data.error.message);
+  }
+};
+
 const deleteExpenseById = async (id: number) => {
   try {
     const { data } = await axiosInstance.delete(`/expenses/${id}`);
@@ -52,4 +64,4 @@ const deleteExpenseById = async (id: number) => {
   }
 };
 
-export { addExpense, getExpenses, editExpenseById, deleteExpenseById };
+export { addExpense, getExpenses, getReportExpenses, editExpenseById, deleteExpenseById };
