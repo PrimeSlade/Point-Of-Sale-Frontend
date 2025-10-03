@@ -1,11 +1,12 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { Trash2 } from "lucide-react";
+import { Eye, Trash2 } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
 import type { Invoice } from "@/types/InvoiceType";
 import { formatDate } from "@/utils/formatDate";
 import { useAuth } from "@/hooks/useAuth";
 import { generateInvoiceId } from "@/utils/formatText";
+import { useNavigate } from "react-router-dom";
 
 type InvoiceColumsProps = {
   onDelete?: (id: number) => void;
@@ -80,15 +81,25 @@ const InvoiceColumns = ({
     cell: ({ row }) => {
       const invoice = row.original;
 
+      const navigate = useNavigate();
+
       const [alertOpen, setAlertOpen] = useState(false);
 
       const { can } = useAuth();
 
       return (
         <>
-          {action && (
-            <>
-              <div className="flex gap-5 items-center">
+          <div className="flex gap-5 items-center">
+            <button
+              onClick={() => navigate(`/dashboard/invoices/${invoice.id}`)}
+            >
+              <Eye
+                size={20}
+                className="text-[var(--success-color)] hover:text-[var(--success-color-hover)] hover:border hover:border-white"
+              />
+            </button>
+            {action && (
+              <>
                 {can("delete", "Invoice") && (
                   <button
                     onClick={() => setAlertOpen(true)}
@@ -100,17 +111,17 @@ const InvoiceColumns = ({
                     />
                   </button>
                 )}
-              </div>
-              <AlertBox
-                open={alertOpen}
-                title="Confirm Deletion"
-                description="Are you sure you want to delete this?"
-                onClose={() => setAlertOpen(false)}
-                onConfirm={() => onDelete!(invoice.id)}
-                mode="confirm"
-              />
-            </>
-          )}
+              </>
+            )}
+          </div>
+          <AlertBox
+            open={alertOpen}
+            title="Confirm Deletion"
+            description="Are you sure you want to delete this?"
+            onClose={() => setAlertOpen(false)}
+            onConfirm={() => onDelete!(invoice.id)}
+            mode="confirm"
+          />
         </>
       );
     },
