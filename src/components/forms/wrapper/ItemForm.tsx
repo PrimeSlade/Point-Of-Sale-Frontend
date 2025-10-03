@@ -49,7 +49,7 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
         message: "Quantity must be a number",
       })
       .int({ message: "Quantity must be a whole number" })
-      .min(1, { message: "Quantity must be at least 1." }),
+      .min(0, { message: "Quantity price cannot be negative." }),
 
     purchasePrice: z
       .number()
