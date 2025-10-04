@@ -5,10 +5,15 @@ import { Outlet } from "react-router-dom";
 
 const ExpenseMainPage = () => {
   const navItems = [
-    { name: "Expense", path: "", icon: <DollarSign />, subject: "Expense" },
+    {
+      name: "Expense",
+      path: "expenses",
+      icon: <DollarSign />,
+      subject: "Expense",
+    },
     {
       name: "Category",
-      path: "category",
+      path: "categories",
       icon: <Layers />,
       subject: "Category",
     },
