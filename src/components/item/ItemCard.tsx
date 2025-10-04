@@ -53,8 +53,8 @@ const ItemCard = ({ data }: ItemCardProps) => {
             <h1 className="font-bold text-[var(--text-secondary)]">Location</h1>
 
             <div className="col-span-4 grid grid-cols-4 rounded-md border bg-[var(--background-color)]">
-              <div className="px-3 py-2">{data.name}</div>
-              <div className="px-3 py-2">{data.category}</div>
+              <div className="px-3 py-2 truncate">{data.name}</div>
+              <div className="px-3 py-2 truncate">{data.category}</div>
               <div className="px-3 py-2">{formatted}</div>
               <div className="px-3 py-2">{data.location.name}</div>
             </div>
