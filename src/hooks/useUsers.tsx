@@ -13,6 +13,7 @@ export const useMe = () => {
   return useQuery({
     queryKey: ["me"],
     queryFn: getMe,
+    retry: false,
   });
 };
 

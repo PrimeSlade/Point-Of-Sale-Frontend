@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   col2: { width: "25%" },
   col3: { width: "12%" },
   col4: { width: "10%" },
-  col5: { width: "15%", marginRight: 8 },
+  col5: { width: "15%" },
   col6: { width: "15%" },
   col7: { width: "15%" },
   textRight: {
