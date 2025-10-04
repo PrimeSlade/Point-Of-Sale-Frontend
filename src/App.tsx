@@ -26,6 +26,7 @@ import TreatmentFormPage from "./pages/treatment/TreatmentFormPage";
 import TreatmentPage from "./pages/treatment/TreatmentPage";
 import InvoiceReportPage from "./pages/report/InvoiceReportPage";
 import ExpenseReportPage from "./pages/report/ExpenseReportPage";
+import InvoiceDetailsPage from "./pages/invoice/InvoiceDetailsPage";
 
 function App() {
   return (
@@ -50,7 +51,7 @@ function App() {
           <Route path="invoices" element={<NestedLayout />}>
             <Route index element={<InvoicePage />} />
             <Route path="add" element={<InvoiceFormPage />} />
-            <Route path="edit/:id" element={<InvoiceFormPage />} />
+            <Route path=":id" element={<InvoiceDetailsPage />} />
           </Route>
           <Route path="expenses" element={<ExpenseMainPage />}>
             <Route path="" element={<ExpensesPage />} />
