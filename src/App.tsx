@@ -29,12 +29,20 @@ import ExpenseReportPage from "./pages/report/ExpenseReportPage";
 import InvoiceDetailsPage from "./pages/invoice/InvoiceDetailsPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import NotFoundPage from "./pages/NotFoundPage";
+import PublicRoute from "./routes/PublicRoute";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route
+          path="/"
+          element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
         <Route
           path="/dashboard"
           element={
