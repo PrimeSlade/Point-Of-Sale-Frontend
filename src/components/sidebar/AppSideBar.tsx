@@ -69,7 +69,7 @@ const items = [
   },
   {
     title: "Expenses",
-    url: "expenses",
+    url: "finance",
     icon: NotebookPen,
     subject: ["Expense", "Category"],
   },

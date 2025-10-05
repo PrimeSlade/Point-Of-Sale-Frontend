@@ -27,51 +27,248 @@ import TreatmentPage from "./pages/treatment/TreatmentPage";
 import InvoiceReportPage from "./pages/report/InvoiceReportPage";
 import ExpenseReportPage from "./pages/report/ExpenseReportPage";
 import InvoiceDetailsPage from "./pages/invoice/InvoiceDetailsPage";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import NotFoundPage from "./pages/NotFoundPage";
+import PublicRoute from "./routes/PublicRoute";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/dashboard" element={<Layout />}>
-          <Route path="items" element={<NestedLayout />}>
+        <Route
+          path="/"
+          element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
+          <Route
+            path="items"
+            element={
+              <ProtectedRoute action="read" subject={["Item"]}>
+                <NestedLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<ItemServicePage />} />
-            <Route path="add" element={<ItemFormPage />} />
-            <Route path="edit/:id" element={<ItemFormPage />} />
+            <Route
+              path="add"
+              element={
+                <ProtectedRoute action="create" subject={["Item"]}>
+                  <ItemFormPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="edit/:id"
+              element={
+                <ProtectedRoute action="update" subject={["Item"]}>
+                  <ItemFormPage />
+                </ProtectedRoute>
+              }
+            />
           </Route>
-          <Route path="services" element={<ServicePage />} />
-          <Route path="patients" element={<PatientPage />} />
-          <Route path="patients/:id" element={<PatientDetailsPage />} />
-          <Route path="doctors" element={<DoctorPage />} />
-          <Route path="treatments" element={<NestedLayout />}>
+          <Route
+            path="services"
+            element={
+              <ProtectedRoute action="read" subject={["Service"]}>
+                <ServicePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="patients"
+            element={
+              <ProtectedRoute action="read" subject={["Patient"]}>
+                <PatientPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="patients/:id"
+            element={
+              <ProtectedRoute action="read" subject={["Patient"]}>
+                <PatientDetailsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="doctors"
+            element={
+              <ProtectedRoute action="read" subject={["Doctor"]}>
+                <DoctorPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="treatments"
+            element={
+              <ProtectedRoute action="read" subject={["Treatment"]}>
+                <NestedLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<TreatmentPage />} />
-            <Route path="add" element={<TreatmentFormPage />} />
-            <Route path="edit/:id" element={<TreatmentFormPage />} />
+            <Route
+              path="add"
+              element={
+                <ProtectedRoute action="create" subject={["Treatment"]}>
+                  <TreatmentFormPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="edit/:id"
+              element={
+                <ProtectedRoute action="update" subject={["Treatment"]}>
+                  <TreatmentFormPage />
+                </ProtectedRoute>
+              }
+            />
           </Route>
-          <Route path="invoices" element={<NestedLayout />}>
+          <Route
+            path="invoices"
+            element={
+              <ProtectedRoute action="read" subject={["Invoice"]}>
+                <NestedLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<InvoicePage />} />
-            <Route path="add" element={<InvoiceFormPage />} />
-            <Route path=":id" element={<InvoiceDetailsPage />} />
+            <Route
+              path="add"
+              element={
+                <ProtectedRoute action="create" subject={["Invoice"]}>
+                  <InvoiceFormPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path=":id"
+              element={
+                <ProtectedRoute action="read" subject={["Invoice"]}>
+                  <InvoiceDetailsPage />
+                </ProtectedRoute>
+              }
+            />
           </Route>
-          <Route path="expenses" element={<ExpenseMainPage />}>
-            <Route path="" element={<ExpensesPage />} />
-            <Route path="category" element={<CategoryPage />} />
+          <Route
+            path="finance"
+            element={
+              <ProtectedRoute action="read" subject={["Expense", "Category"]}>
+                <ExpenseMainPage />
+              </ProtectedRoute>
+            }
+          >
+            <Route
+              path="expenses"
+              element={
+                <ProtectedRoute action="read" subject={["Expense"]}>
+                  <ExpensesPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="categories"
+              element={
+                <ProtectedRoute action="read" subject={["Category"]}>
+                  <CategoryPage />
+                </ProtectedRoute>
+              }
+            />
           </Route>
-          <Route path="reports" element={<ReportPage />}>
-            <Route path="invoices" element={<InvoiceReportPage />} />
-            <Route path="expenses" element={<ExpenseReportPage />} />
+          <Route
+            path="reports"
+            element={
+              <ProtectedRoute
+                action="read"
+                subject={["Report-Expense", "Report-Invoice"]}
+              >
+                <ReportPage />
+              </ProtectedRoute>
+            }
+          >
+            <Route
+              path="invoices"
+              element={
+                <ProtectedRoute action="read" subject={["Report-Invoice"]}>
+                  <InvoiceReportPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="expenses"
+              element={
+                <ProtectedRoute action="read" subject={["Report-Expense"]}>
+                  <ExpenseReportPage />
+                </ProtectedRoute>
+              }
+            />
           </Route>
-          <Route path="settings" element={<SettingPage />}>
-            {/* Need to handle this */}
-            <Route index element={<Navigate to="locations" replace />} />
-            <Route path="locations" element={<LocationPage />} />
-            <Route path="users" element={<UserPage />} />
-            <Route path="roles" element={<RolePage />} />
-            <Route path="roles/add" element={<RoleFormPage />} />
-            <Route path="roles/edit/:id" element={<RoleFormPage />} />
+          <Route
+            path="settings"
+            element={
+              <ProtectedRoute
+                action="read"
+                subject={["Location", "User", "Role"]}
+              >
+                <SettingPage />
+              </ProtectedRoute>
+            }
+          >
+            <Route
+              path="locations"
+              element={
+                <ProtectedRoute action="read" subject={["Location"]}>
+                  <LocationPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="users"
+              element={
+                <ProtectedRoute action="read" subject={["User"]}>
+                  <UserPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="roles"
+              element={
+                <ProtectedRoute action="read" subject={["Role"]}>
+                  <RolePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="roles/add"
+              element={
+                <ProtectedRoute action="create" subject={["Role"]}>
+                  <RoleFormPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="roles/edit/:id"
+              element={
+                <ProtectedRoute action="update" subject={["Role"]}>
+                  <RoleFormPage />
+                </ProtectedRoute>
+              }
+            />
             <Route path="general" element={<GeneralPage />} />
           </Route>
         </Route>
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Toaster richColors />
     </>
