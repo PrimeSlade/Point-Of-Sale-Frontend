@@ -6,7 +6,7 @@ type PaymentMethod = "kpay" | "wave" | "cash" | "others";
 
 type InvoiceItem = {
   id: number;
-  itemId: number;
+  barcode: string;
   itemName: string;
   quantity: number;
   retailPrice: number;

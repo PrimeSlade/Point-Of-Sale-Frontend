@@ -7,7 +7,7 @@ const PublicRoute = ({ children }: { children: ReactNode }) => {
   const { user, error, isLoading } = useAuth();
 
   if (isLoading) {
-    return <Loading className="h-screen" />;
+    return <Loading className="h-screen w-screen flex justify-center" />;
   }
 
   if (user) {

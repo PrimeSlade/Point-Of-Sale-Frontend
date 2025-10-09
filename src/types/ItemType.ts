@@ -42,6 +42,7 @@ type Location = {
 
 type ItemType = {
   id: number;
+  barcode: string;
   name: string;
   category: string;
   expiryDate: Date;
