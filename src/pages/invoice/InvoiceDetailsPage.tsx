@@ -48,19 +48,29 @@ const InvoiceDetailsPage = () => {
   if (isFetchingInvoice)
     return <Loading className="flex justify-center h-screen items-center" />;
 
-  if (instance.loading) return <div>Loading PDF...</div>;
+  if (instance.loading)
+    return (
+      <div className="flex justify-center h-screen items-center">
+        Loading PDF...
+      </div>
+    );
   if (instance.error) return <div>Error generating PDF: {instance.error}</div>;
 
   return (
     <div className="m-20">
       <InvoicePreview data={invoice?.data} />
-      <div className="flex justify-end mt-10 gap-5">
+      <div className="flex justify-end mt-10 gap-3">
         <Button
           className="bg-[var(--danger-color)] rounded-md hover:bg-[var(--danger-color-hover)] w-25"
           onClick={() => navigate("/dashboard/invoices")}
         >
           Back
         </Button>
+        <a href={instance.url!} download={`Invoice-${id}.pdf`}>
+          <Button className="bg-[var(--success-color)] hover:bg-[var(--success-color-hover)]">
+            Download
+          </Button>
+        </a>
         <Button
           className="px-4 py-2 bg-[var(--primary-color)] text-white rounded-md hover:bg-[var(--primary-color-hover)]"
           onClick={handlePrint}
