@@ -61,7 +61,7 @@ const InvoiceForm = ({
 
   //Form
   const itemUnitSchema = z.object({
-    itemId: z.number(),
+    barcode: z.string(),
 
     itemName: z.string().min(2, { message: "Please select an item." }),
 
@@ -128,7 +128,7 @@ const InvoiceForm = ({
       note: "",
       invoiceItems: [
         {
-          itemId: undefined,
+          barcode: undefined,
           itemName: "",
           quantity: undefined,
           purchasePrice: undefined,
@@ -182,7 +182,7 @@ const InvoiceForm = ({
 
   const handleAddField = () => {
     append({
-      itemId: undefined as any,
+      barcode: "",
       itemName: "",
       quantity: undefined as any,
       purchasePrice: undefined as any,

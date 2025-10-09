@@ -58,7 +58,7 @@ const InvoiceItemRow = <T extends FieldValues>({
     );
 
     if (selectedUnit && selectedItem) {
-      form.setValue(`invoiceItems.${index}.itemId`, selectedItem!.id);
+      form.setValue(`invoiceItems.${index}.barcode`, selectedItem!.barcode);
       form.setValue(`invoiceItems.${index}.quantity`, selectedUnit.quantity);
       form.setValue(
         `invoiceItems.${index}.purchasePrice`,

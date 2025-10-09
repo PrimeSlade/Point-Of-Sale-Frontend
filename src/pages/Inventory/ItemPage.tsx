@@ -129,6 +129,7 @@ const ItemServicePage = () => {
         data={data?.data ?? []}
         prompt="Search by item names or category"
         filter
+        excel
         locations={locations}
         totalPages={data?.meta.totalPages ?? 0}
         paginationState={paginationState}

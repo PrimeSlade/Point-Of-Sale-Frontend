@@ -21,7 +21,7 @@ const FilterByDate = <TData,>({
   serverSideSearch,
 }: FilterByDateProps<TData>) => {
   return (
-    <div className="flex gap-3 ml-auto">
+    <div className="flex gap-3">
       <Popover>
         <PopoverTrigger asChild>
           <Button

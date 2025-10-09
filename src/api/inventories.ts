@@ -66,4 +66,37 @@ const deleteItemById = async (id: number) => {
   }
 };
 
-export { addItem, getItems, getItemById, deleteItemById, editItemById };
+const importItems = async (file: File) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const { data } = await axiosInstance.post("/items/import", formData);
+
+    return data;
+  } catch (error: any) {
+    throw new Error(error.response?.data.error.message);
+  }
+};
+
+const exportItems = async () => {
+  try {
+    const { data } = await axiosInstance.get("/items/export", {
+      responseType: "blob", //or else it will try to convert json and file will corrupt
+    });
+
+    return data;
+  } catch (error: any) {
+    throw new Error(error.response?.data.error.message);
+  }
+};
+
+export {
+  addItem,
+  getItems,
+  getItemById,
+  deleteItemById,
+  editItemById,
+  importItems,
+  exportItems,
+};

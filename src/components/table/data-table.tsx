@@ -20,6 +20,7 @@ import PaginationBtn from "./PaginationBtn";
 import FilterBtn from "./FilterBtn";
 import type { DateRange } from "@/types/TreatmentType";
 import FilterByDate from "./FilterByDate";
+import ExcelBtn from "./ExcelBtn";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -27,6 +28,7 @@ interface DataTableProps<TData, TValue> {
   prompt: string;
   filter?: boolean;
   pagination?: boolean;
+  excel?: boolean;
   locations?: LocationType[];
   totalPages?: number;
   paginationState?: {
@@ -63,6 +65,7 @@ export function DataTable<TData, TValue>({
   setPaginationState,
   pagination = false,
   serverSideSearch = false,
+  excel = false,
   globalFilter,
   setGlobalFilter,
   columnFilters,
@@ -126,12 +129,19 @@ export function DataTable<TData, TValue>({
           )}
         </div>
         {filterByDate && date && setDate && (
-          <FilterByDate
-            date={date}
-            setDate={setDate}
-            table={table}
-            serverSideSearch={serverSideSearch}
-          />
+          <div className="ml-auto">
+            <FilterByDate
+              date={date}
+              setDate={setDate}
+              table={table}
+              serverSideSearch={serverSideSearch}
+            />
+          </div>
+        )}
+        {excel && (
+          <div className="ml-auto">
+            <ExcelBtn />
+          </div>
         )}
       </div>
 
