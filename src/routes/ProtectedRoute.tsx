@@ -13,7 +13,8 @@ const ProtectedRoute = ({ children, action, subject }: ProtectedRouteProps) => {
   const { user, isLoading, can } = useAuth();
 
   if (isLoading) {
-    return <Loading className="h-screen flex justify-center w-screen" />;
+    //return <Loading className="h-screen flex justify-center w-screen" />;
+    return null;
   }
 
   if (!user) {

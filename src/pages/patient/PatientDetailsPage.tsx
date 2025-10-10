@@ -21,6 +21,15 @@ const PatientDetailsPage = () => {
   if (isFetchingPatient)
     return <Loading className="flex justify-center h-screen items-center" />;
 
+  if (patient.data === null)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <h1 className="text-4xl font-semibold text-gray-500">
+          404 - Patient Not Found
+        </h1>
+      </div>
+    );
+
   return (
     <>
       <Header

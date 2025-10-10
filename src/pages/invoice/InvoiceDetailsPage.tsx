@@ -24,9 +24,9 @@ const InvoiceDetailsPage = () => {
     if (invoice?.data) {
       updateInstance(<InvoicePDF data={invoice.data} />);
     }
-  }, [invoice?.data]);
+  }, [invoice, updateInstance]);
 
-  const handlePrint = async () => {
+  const handlePrint = () => {
     // Create iframe for printing
     if (instance.url) {
       const iframe = document.createElement("iframe");
@@ -37,7 +37,7 @@ const InvoiceDetailsPage = () => {
       iframe.onload = () => {
         iframe.contentWindow?.print();
 
-        // // Clean up after print
+        // Clean up after print
         iframe.contentWindow?.addEventListener("afterprint", () => {
           document.body.removeChild(iframe);
         });
@@ -45,20 +45,45 @@ const InvoiceDetailsPage = () => {
     }
   };
 
-  if (isFetchingInvoice)
+  if (isFetchingInvoice) {
     return <Loading className="flex justify-center h-screen items-center" />;
+  }
 
-  if (instance.loading)
+  if (fetchInvoiceError) {
+    return (
+      <div className="flex justify-center h-screen items-center">
+        <p>Error fetching invoice details: {fetchInvoiceError.message}</p>
+      </div>
+    );
+  }
+
+  if (!invoice?.data) {
+    return (
+      <div className="flex justify-center h-screen items-center">
+        <p>Invoice not found.</p>
+      </div>
+    );
+  }
+
+  if (instance.loading) {
     return (
       <div className="flex justify-center h-screen items-center">
         Loading PDF...
       </div>
     );
-  if (instance.error) return <div>Error generating PDF: {instance.error}</div>;
+  }
+
+  if (instance.error) {
+    return (
+      <div className="flex justify-center h-screen items-center">
+        <p>Error generating PDF: {instance.error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="m-20">
-      <InvoicePreview data={invoice?.data} />
+      <InvoicePreview data={invoice.data} />
       <div className="flex justify-end mt-10 gap-3">
         <Button
           className="bg-[var(--danger-color)] rounded-md hover:bg-[var(--danger-color-hover)] w-25"
