@@ -21,16 +21,13 @@ const LocationPage = () => {
 
   //client side filtering
   const [globalFilter, setGlobalFilter] = useState("");
+  const [columnFilters, setColumnFilters] = useState("");
 
   //useAuth
   const { can } = useAuth();
 
   //tenstack
-  const {
-    data,
-    isLoading,
-    error: fetchError,
-  } = useLocations();
+  const { data, isLoading, error: fetchError } = useLocations();
 
   useEffect(() => {
     if (fetchError) {

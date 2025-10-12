@@ -26,6 +26,7 @@ const UserPage = () => {
 
   //client side filtering
   const [globalFilter, setGlobalFilter] = useState("");
+  const [columnFilters, setColumnFilters] = useState("");
 
   //useAuth
   const { user, can } = useAuth();
@@ -113,6 +114,8 @@ const UserPage = () => {
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
         filter
+        columnFilters={columnFilters}
+        setColumnFilters={setColumnFilters}
         locations={locations}
       />
       {fetchError && (

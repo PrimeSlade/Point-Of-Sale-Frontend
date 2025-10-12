@@ -6,8 +6,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { SelectedItems } from "./InvoieTreatmentBox";
 import type { LocationType } from "@/types/LocationType";
+import type { SelectedItems } from "./InvoiceTreatmentBox";
 
 interface LocationFilterProps {
   locations: LocationType[] | undefined;

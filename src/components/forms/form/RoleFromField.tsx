@@ -77,7 +77,7 @@ const RoleFormField = <T,>({
                   {subject === "all" ? "Admin" : subject}
                 </div>
 
-                <div className="grid gap-3 grid-cols-2 md:grid-cols-4">
+                <div className="grid gap-3 grid-cols-2 md:grid-cols-5">
                   {subjectPermission.map((permission: Permission) => (
                     <Label
                       className={`border p-3 rounded-md mb-3 hover:bg-accent/50 flex items-start has-[[aria-checked=true]]:border-[var(--primary-color-hover)] has-[[aria-checked=true]]:bg-blue-50 cursor-pointer ${
