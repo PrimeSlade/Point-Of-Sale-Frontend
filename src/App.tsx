@@ -8,8 +8,6 @@ import DoctorPage from "./pages/DoctorPage";
 import CategoryPage from "./pages/expense/CategoryPage";
 import ExpenseMainPage from "./pages/expense/ExpenseMainPage";
 import ExpensesPage from "./pages/expense/ExpensesPage";
-import ItemFormPage from "./pages/inventory/ItemFormPage";
-import ItemServicePage from "./pages/inventory/ItemPage";
 import InvoiceFormPage from "./pages/invoice/InvoiceFormPage";
 import InvoicePage from "./pages/invoice/InvoicePage";
 import PatientDetailsPage from "./pages/patient/PatientDetailsPage";
@@ -30,6 +28,8 @@ import InvoiceDetailsPage from "./pages/invoice/InvoiceDetailsPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import NotFoundPage from "./pages/NotFoundPage";
 import PublicRoute from "./routes/PublicRoute";
+import ItemServicePage from "./pages/Inventory/ItemPage";
+import ItemFormPage from "./pages/Inventory/ItemFormPage";
 
 function App() {
   return (
