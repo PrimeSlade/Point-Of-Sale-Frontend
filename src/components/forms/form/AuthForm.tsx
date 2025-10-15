@@ -32,9 +32,9 @@ const AuthForm = ({ form, onSubmit, fields, isPending }: LoginFormProps) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 w-[30%] mx-auto border rounded-2xl shadow p-5 bg-white"
+        className="space-y-4 w-full max-w-md mx-auto border rounded-2xl shadow-lg p-6 sm:p-8 bg-white"
       >
-        <h1 className="font-bold text-center text-2xl text-[var(--primary-color)]">
+        <h1 className="font-bold text-center text-xl sm:text-2xl md:text-3xl text-[var(--primary-color)]">
           Yaung Ni Oo
         </h1>
         {fields.map(({ name, label, placeholder, type = "text" }) => (
