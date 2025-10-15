@@ -27,9 +27,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Generate OG images
-        run: pnpm run generate:og
-
       - name: Build
         run: pnpm run build
 
