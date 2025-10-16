@@ -13,12 +13,12 @@ const SettingPage = () => {
     },
     { name: "Users", path: "users", icon: <Users />, subject: "User" },
     { name: "Roles", path: "roles", icon: <UserCheck />, subject: "Role" },
-    {
-      name: "General",
-      path: "general",
-      icon: <AlignJustify />,
-      subject: "all",
-    },
+    // {
+    //   name: "General",
+    //   path: "general",
+    //   icon: <AlignJustify />,
+    //   subject: "all",
+    // },
   ];
 
   return (

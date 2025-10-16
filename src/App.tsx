@@ -265,7 +265,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="general" element={<GeneralPage />} />
+            {/* <Route path="general" element={<GeneralPage />} /> */}
           </Route>
         </Route>
         <Route path="*" element={<NotFoundPage />} />
