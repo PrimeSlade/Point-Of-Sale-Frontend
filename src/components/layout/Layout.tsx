@@ -22,7 +22,7 @@ export default function Layout() {
     <>
       <AppSidebar />
       <SidebarTrigger className="mt-2" />
-      <div className={`mx-auto ${width()} overflow-x-auto`}>
+      <div className={`mx-auto ${width()} overflow-x-auto px-1`}>
         <div className="min-w-[600px] lg:min-w-0">
           <Outlet />
         </div>
