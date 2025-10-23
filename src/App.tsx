@@ -31,9 +31,108 @@ import ItemServicePage from "./pages/Inventory/ItemPage";
 import ItemFormPage from "./pages/Inventory/ItemFormPage";
 import { lazy, Suspense } from "react";
 import Loading from "./components/loading/Loading";
+import DynamicIndex from "./routes/DynamicIndex";
 
 // Lazy load PDF-heavy page
-const InvoiceDetailsPage = lazy(() => import("./pages/invoice/InvoiceDetailsPage"));
+const InvoiceDetailsPage = lazy(
+  () => import("./pages/invoice/InvoiceDetailsPage")
+);
+
+// Define main dashboard pages
+const dashboardPages = [
+  {
+    title: "Inventory",
+    url: "items",
+    subject: "Item",
+  },
+  {
+    title: "Service",
+    url: "services",
+    subject: "Service",
+  },
+  {
+    title: "Patients",
+    url: "patients",
+    subject: "Patient",
+  },
+  {
+    title: "Doctors",
+    url: "doctors",
+    subject: "Doctor",
+  },
+  {
+    title: "Treatment",
+    url: "treatments",
+    subject: "Treatment",
+  },
+  {
+    title: "POS/Invoices",
+    url: "invoices",
+    subject: "Invoice",
+  },
+  {
+    title: "Expenses",
+    url: "finance",
+    subject: ["Expense", "Category"],
+  },
+  {
+    title: "Reports",
+    url: "reports",
+    subject: ["Report-Expense", "Report-Invoice"],
+  },
+  {
+    title: "Settings",
+    url: "settings",
+    subject: ["Location", "User", "Role"],
+  },
+];
+
+// Finance sub-pages
+const financePages = [
+  {
+    title: "Expenses",
+    url: "expenses",
+    subject: "Expense",
+  },
+  {
+    title: "Categories",
+    url: "categories",
+    subject: "Category",
+  },
+];
+
+// Reports sub-pages
+const reportPages = [
+  {
+    title: "Expense Reports",
+    url: "expenses",
+    subject: "Expense",
+  },
+  {
+    title: "Invoice Reports",
+    url: "invoices",
+    subject: "Invoice",
+  },
+];
+
+// Settings sub-pages
+const settingPages = [
+  {
+    title: "Locations",
+    url: "locations",
+    subject: "Location",
+  },
+  {
+    title: "Users",
+    url: "users",
+    subject: "User",
+  },
+  {
+    title: "Roles",
+    url: "roles",
+    subject: "Role",
+  },
+];
 
 function App() {
   return (
@@ -55,6 +154,10 @@ function App() {
             </ProtectedRoute>
           }
         >
+          <Route
+            index
+            element={<DynamicIndex url="dashboard" pages={dashboardPages} />}
+          />
           <Route
             path="items"
             element={
@@ -160,7 +263,11 @@ function App() {
               path=":id"
               element={
                 <ProtectedRoute action="read" subject={["Invoice"]}>
-                  <Suspense fallback={<Loading className="flex justify-center h-screen items-center" />}>
+                  <Suspense
+                    fallback={
+                      <Loading className="flex justify-center h-screen items-center" />
+                    }
+                  >
                     <InvoiceDetailsPage />
                   </Suspense>
                 </ProtectedRoute>
@@ -175,6 +282,12 @@ function App() {
               </ProtectedRoute>
             }
           >
+            <Route
+              index
+              element={
+                <DynamicIndex url="dashboard/finance" pages={financePages} />
+              }
+            />
             <Route
               path="expenses"
               element={
@@ -204,6 +317,12 @@ function App() {
             }
           >
             <Route
+              index
+              element={
+                <DynamicIndex url="dashboard/reports" pages={reportPages} />
+              }
+            />
+            <Route
               path="invoices"
               element={
                 <ProtectedRoute action="read" subject={["Report-Invoice"]}>
@@ -231,6 +350,12 @@ function App() {
               </ProtectedRoute>
             }
           >
+            <Route
+              index
+              element={
+                <DynamicIndex url="dashboard/settings" pages={settingPages} />
+              }
+            />
             <Route
               path="locations"
               element={
