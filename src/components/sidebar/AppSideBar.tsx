@@ -130,7 +130,7 @@ export function AppSidebar() {
               </div>
 
               <SidebarGroupContent>
-                <SidebarMenu className="flex gap-3 w-55 mx-auto">
+                <SidebarMenu className="flex gap-3 w-55 mx-auto mt-3">
                   {items.map((item) => {
                     if (!can("read", item.subject)) return null;
                     return (

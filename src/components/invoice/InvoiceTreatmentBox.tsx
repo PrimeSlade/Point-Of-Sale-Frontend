@@ -117,7 +117,7 @@ const InvoiceTreatmentBox = ({
           />
         )}
       </div>
-      <div className="grid grid-cols-3 gap-4 mt-4">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         {isLoadingTreatments ? (
           Array.from({ length: 9 }).map((_, index) => (
             <TreatmentCardSkeleton key={index} />

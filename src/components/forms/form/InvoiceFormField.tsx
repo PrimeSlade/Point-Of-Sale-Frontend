@@ -135,8 +135,8 @@ const InvoiceFormField = <T extends FieldValues>({
           </div>
         </div>
 
-        <div className="border border-[var(--border-color)] rounded-lg overflow-hidden shadow">
-          <div className="grid grid-cols-1 lg:grid-cols-6 gap-0 bg-[var(--primary-color)] border-b border-[var(--border-color)]">
+        <div className="border border-[var(--border-color)] rounded-lg overflow-x-auto shadow">
+          <div className="grid min-w-270 grid-cols-6 gap-0 bg-[var(--primary-color)] border-b border-[var(--border-color)]">
             <div className="p-3 font-semibold text-white border-r border-[var(--border-color)]">
               Name
             </div>
@@ -168,7 +168,7 @@ const InvoiceFormField = <T extends FieldValues>({
             />
           ))}
 
-          <div className="p-3 bg-[var(--background-color)] flex justify-end gap-3">
+          <div className="p-3 bg-[var(--background-color)] flex justify-end gap-3 min-w-270">
             <Button
               type="button"
               onClick={onAddField}
