@@ -181,7 +181,7 @@ function ReusableFormDialog<T>({
                             }}
                           >
                             <FormControl>
-                              <SelectTrigger className="w-full">
+                              <SelectTrigger className="w-full min-w-30">
                                 <SelectValue placeholder={placeholder} />
                               </SelectTrigger>
                             </FormControl>

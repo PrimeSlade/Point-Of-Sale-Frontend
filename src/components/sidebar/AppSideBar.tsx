@@ -113,25 +113,24 @@ export function AppSidebar() {
         <SidebarContent>
           <div className="flex flex-col justify-between h-screen">
             <SidebarGroup>
-              <SidebarGroupLabel>
-                <div className="mt-40">
-                  <div className="text-2xl font-bold text-black">
-                    Yaung Ni Oo
-                  </div>
-                  <div className="mt-3 p-4 border rounded-xl w-55 flex flex-col gap-2 bg-[var(--background-color)] text-base">
-                    <div className="flex items-center gap-3 text-[var(--primary-color)]  ">
-                      <MapPin size={20} />
-                      <span className="font-bold">
-                        {toUpperCase(user!.location.name)}
-                      </span>
-                    </div>
-                    <div>{user!.name}</div>
-                    <div>{toUpperCase(user!.role.name)}</div>
-                  </div>
+              <div className="mt-5">
+                <div className="text-2xl font-bold text-black px-4">
+                  Yaung Ni Oo
                 </div>
-              </SidebarGroupLabel>
+                <div className="mx-auto mt-3 p-4 border rounded-xl w-55 flex flex-col gap-2 bg-[var(--background-color)] text-base">
+                  <div className="flex items-center gap-3 text-[var(--primary-color)]  ">
+                    <MapPin size={20} />
+                    <span className="font-bold">
+                      {toUpperCase(user!.location.name)}
+                    </span>
+                  </div>
+                  <div>{user!.name}</div>
+                  <div>{toUpperCase(user!.role.name)}</div>
+                </div>
+              </div>
+
               <SidebarGroupContent>
-                <SidebarMenu className="mt-40 flex gap-3 w-55 mx-auto">
+                <SidebarMenu className="flex gap-3 w-55 mx-auto mt-3">
                   {items.map((item) => {
                     if (!can("read", item.subject)) return null;
                     return (

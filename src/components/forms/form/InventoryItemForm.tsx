@@ -66,10 +66,10 @@ const InventoryItemForm = <T extends FieldValues>({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 w-[80%] mx-auto mt-20 border rounded-2xl shadow p-10"
+        className="space-y-4 w-full lg:w-[80%] mx-auto lg:mt-20 lg:border rounded-2xl lg:shadow p-4 md:p-10"
       >
-        <div className="flex flex-col gap-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+        <div className="flex flex-col gap-6 min-w-[600px] lg:min-w-0">
+          <div className="grid grid-cols-2 gap-3">
             <FormField
               control={form.control}
               name="name"
@@ -205,10 +205,7 @@ const InventoryItemForm = <T extends FieldValues>({
 
           {/* Units */}
           {fields.map((unitField, index) => (
-            <div
-              className="grid grid-cols-1 lg:grid-cols-4 gap-3"
-              key={unitField.id}
-            >
+            <div className="grid grid-cols-4 gap-3" key={unitField.id}>
               <FormField
                 control={form.control}
                 name={`itemUnits.${index}.unitType`}
@@ -222,7 +219,7 @@ const InventoryItemForm = <T extends FieldValues>({
                     </FormLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <FormControl>
-                        <SelectTrigger className=" w-full min-w-[150px]">
+                        <SelectTrigger className=" w-full min-w-[100px]">
                           <SelectValue placeholder="Select a Type" />
                         </SelectTrigger>
                       </FormControl>

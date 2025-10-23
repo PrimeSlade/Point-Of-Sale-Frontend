@@ -69,7 +69,7 @@ const InvoiceItemRow = <T extends FieldValues>({
 
   return (
     <div
-      className="grid grid-cols-1 lg:grid-cols-6 gap-0 border-b border-[var(--border-color)] last:border-b-0"
+      className="min-w-270 grid grid-cols-6 gap-0 border-b border-[var(--border-color)] last:border-b-0"
       key={fieldId}
     >
       <div className="p-3 border-r border-[var(--border-color)]">

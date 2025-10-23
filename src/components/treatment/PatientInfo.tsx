@@ -14,7 +14,7 @@ const fields = [
 
 const PatientInfo = ({ data }: PatientInfoProps) => {
   return (
-    <div className="border rounded-xl p-5 flex flex-col gap-2 shadow h-45">
+    <div className="border rounded-xl p-5 flex flex-col gap-2 shadow h-45 min-w-80">
       <div className="font-bold">PatientInfo</div>
       {data ? (
         <div className="grid grid-cols-2 gap-3">

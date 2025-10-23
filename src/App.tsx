@@ -24,12 +24,16 @@ import TreatmentFormPage from "./pages/treatment/TreatmentFormPage";
 import TreatmentPage from "./pages/treatment/TreatmentPage";
 import InvoiceReportPage from "./pages/report/InvoiceReportPage";
 import ExpenseReportPage from "./pages/report/ExpenseReportPage";
-import InvoiceDetailsPage from "./pages/invoice/InvoiceDetailsPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import NotFoundPage from "./pages/NotFoundPage";
 import PublicRoute from "./routes/PublicRoute";
 import ItemServicePage from "./pages/Inventory/ItemPage";
 import ItemFormPage from "./pages/Inventory/ItemFormPage";
+import { lazy, Suspense } from "react";
+import Loading from "./components/loading/Loading";
+
+// Lazy load PDF-heavy page
+const InvoiceDetailsPage = lazy(() => import("./pages/invoice/InvoiceDetailsPage"));
 
 function App() {
   return (
@@ -156,7 +160,9 @@ function App() {
               path=":id"
               element={
                 <ProtectedRoute action="read" subject={["Invoice"]}>
-                  <InvoiceDetailsPage />
+                  <Suspense fallback={<Loading className="flex justify-center h-screen items-center" />}>
+                    <InvoiceDetailsPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
