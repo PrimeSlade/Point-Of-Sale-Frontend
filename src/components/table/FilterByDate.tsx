@@ -64,7 +64,7 @@ const FilterByDate = <TData,>({
           />
         </PopoverContent>
       </Popover>
-      <div className="flex items-center justify-center ">From</div>
+      <div className="flex items-center justify-center">From</div>
       <Popover>
         <PopoverTrigger asChild>
           <Button

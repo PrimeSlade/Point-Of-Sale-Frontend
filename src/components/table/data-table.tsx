@@ -103,7 +103,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex flex-col lg:flex-row lg:items-center py-4 gap-3">
         <div className="w-130 flex gap-3">
           <Input
             placeholder={prompt}
@@ -129,7 +129,7 @@ export function DataTable<TData, TValue>({
           )}
         </div>
         {filterByDate && date && setDate && (
-          <div className="ml-auto">
+          <div className="lg:ml-auto">
             <FilterByDate
               date={date}
               setDate={setDate}
@@ -139,7 +139,7 @@ export function DataTable<TData, TValue>({
           </div>
         )}
         {excel && (
-          <div className="ml-auto">
+          <div className="lg:ml-auto">
             <ExcelBtn />
           </div>
         )}
