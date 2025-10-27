@@ -1,3 +1,5 @@
+import type { User } from "./UserType";
+
 type unitType =
   | "btl"
   | "amp"
@@ -52,4 +54,37 @@ type ItemType = {
   itemUnits: ItemUnits[];
 };
 
-export type { ItemUnits, CreateItem, EditItem, ItemType, Location };
+type ItemHistoryDetail = {
+  id: number;
+  oldUnitType: string;
+  newUnitType: string;
+  oldRate: number;
+  newRate: number;
+  oldQuantity: number;
+  newQuantity: number;
+  oldPurchasePrice: number;
+  newPurchasePrice: number;
+  itemHistoryId: number;
+};
+
+type InventoryAction = "edit" | "import" | string;
+
+type ItemHistory = {
+  id: number;
+  userName: string;
+  createdAt: string; // ISO date string
+  action: InventoryAction;
+  userId: string;
+  itemId: number;
+  itemHistoryDetails: ItemHistoryDetail[];
+  user: User;
+};
+
+export type {
+  ItemUnits,
+  CreateItem,
+  EditItem,
+  ItemType,
+  Location,
+  ItemHistory,
+};
