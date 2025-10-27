@@ -1,7 +1,14 @@
 import type { ItemHistory } from "@/types/ItemType";
 import { formatDate } from "@/utils/formatDate";
-import { Clock, Layers } from "lucide-react";
+import { Clock, Layers, User } from "lucide-react";
 import React from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { toUpperCase as toFirstUpperCase } from "@/utils/formatText";
 
 type InventoryAction = "EDIT" | "IMPORT";
 
@@ -37,37 +44,51 @@ const ItemHistoryCard = ({ history }: ItemHistoryCardProps) => {
   };
 
   return (
-    <div className="mb-5">
-      <div className="bg-white rounded-lg shadow border transition-shadow overflow-hidden">
-        <div className="flex items-start justify-between p-6 pb-4">
-          <div className="flex items-center gap-3">
-            <div>
-              <p className="font-semibold text-gray-900">{history.userName}</p>
-              <div className="flex items-center gap-2 text-sm text-gray-500">
-                <Clock className="w-4 h-4" />
-                {formatDate(new Date(history?.createdAt))}
+    <Accordion type="single" collapsible className="mb-4">
+      <AccordionItem
+        value={history.id.toString()}
+        className="bg-white rounded-lg shadow border"
+      >
+        <AccordionTrigger className="px-6 py-4 hover:no-underline">
+          <div className="flex items-start justify-between w-full pr-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                <User className="w-5 h-5 text-blue-600" />
+              </div>
+              <div>
+                <p className="flex gap-2">
+                  <span className="font-semibold  text-gray-900">
+                    {history.userName}
+                  </span>
+
+                  <span className="text-gray-500">
+                    ({toFirstUpperCase(history.user.role.name)})
+                  </span>
+                </p>
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <Clock className="w-4 h-4" />
+                  {formatDate(new Date(history?.createdAt), true)}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="flex items-center gap-2">
-            {history.itemHistoryDetails.length > 1 && (
-              <span className="flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs font-medium">
-                <Layers className="w-3 h-3" />
-                {history.itemHistoryDetails.length} Units
+            <div className="flex items-center gap-2">
+              {history.itemHistoryDetails.length > 1 && (
+                <span className="flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs font-medium">
+                  <Layers className="w-3 h-3" />
+                  {history.itemHistoryDetails.length} Units
+                </span>
+              )}
+              <span
+                className={`px-3 py-1 rounded text-xs font-semibold ${getActionBadge(
+                  history.action.toUpperCase() as InventoryAction
+                )}`}
+              >
+                {history.action.toUpperCase()}
               </span>
-            )}
-            <span
-              className={`px-3 py-1 rounded text-xs font-semibold ${getActionBadge(
-                history.action.toUpperCase() as InventoryAction
-              )}`}
-            >
-              {history.action.toUpperCase()}
-            </span>
+            </div>
           </div>
-        </div>
-
-        {/* Unit Type Changes Table */}
-        <div className="px-6 pb-6">
+        </AccordionTrigger>
+        <AccordionContent className="px-6 pb-6">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -135,9 +156,9 @@ const ItemHistoryCard = ({ history }: ItemHistoryCardProps) => {
               </tbody>
             </table>
           </div>
-        </div>
-      </div>
-    </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   );
 };
 
