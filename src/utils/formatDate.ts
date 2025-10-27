@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 
-const formatDate = (date: Date) => {
-  return format(date, "dd/MM/yyyy");
+const formatDate = (date: Date, hour: boolean = false) => {
+  return format(date, hour ? "dd/MM/yyyy hh:mm a" : "dd/MM/yyyy");
 };
 
 const formatDateForURL = (date: Date) => {

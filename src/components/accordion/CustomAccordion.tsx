@@ -22,7 +22,7 @@ const CustomAccordion = ({ data }: CustomAccordionProps) => {
         const formatted = formatDate(new Date(tre.createdAt));
         return (
           <AccordionItem value={tre.id + ""}>
-            <AccordionTrigger>
+            <AccordionTrigger className="hover:no-underline">
               <div className="flex flex-col gap-3">
                 <div>{formatted}</div>
                 <div>
