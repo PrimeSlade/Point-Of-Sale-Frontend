@@ -32,6 +32,7 @@ import ItemFormPage from "./pages/Inventory/ItemFormPage";
 import { lazy, Suspense } from "react";
 import Loading from "./components/loading/Loading";
 import DynamicIndex from "./routes/DynamicIndex";
+import ItemHistoryPage from "./pages/Inventory/ItemHistoryPage";
 
 // Lazy load PDF-heavy page
 const InvoiceDetailsPage = lazy(
@@ -180,6 +181,14 @@ function App() {
               element={
                 <ProtectedRoute action="update" subject={["Item"]}>
                   <ItemFormPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path=":id/histories"
+              element={
+                <ProtectedRoute action="read" subject={["Item"]}>
+                  <ItemHistoryPage />
                 </ProtectedRoute>
               }
             />

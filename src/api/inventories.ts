@@ -91,6 +91,16 @@ const exportItems = async () => {
   }
 };
 
+const getItemHistoriesById = async (id: number) => {
+  try {
+    const { data } = await axiosInstance.get(`/items/${id}/histories`);
+
+    return data;
+  } catch (error: any) {
+    throw new Error(error.response?.data.error.message);
+  }
+};
+
 export {
   addItem,
   getItems,
@@ -99,4 +109,5 @@ export {
   editItemById,
   importItems,
   exportItems,
+  getItemHistoriesById,
 };

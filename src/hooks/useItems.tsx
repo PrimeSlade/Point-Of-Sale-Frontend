@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getItems, getItemById } from "@/api/inventories";
+import { getItems, getItemById, getItemHistoriesById } from "@/api/inventories";
 
 export const useItems = (
   pageIndex: number = 0,
@@ -20,5 +20,13 @@ export const useItem = (id: number | string | undefined) => {
     queryKey: ["item", id],
     queryFn: () => getItemById(Number(id)),
     enabled: Boolean(id),
+  });
+};
+
+export const useItemHistory = (id: number) => {
+  return useQuery({
+    queryKey: ["items", "history", id],
+    queryFn: () => getItemHistoriesById(id),
+    retry: 3,
   });
 };

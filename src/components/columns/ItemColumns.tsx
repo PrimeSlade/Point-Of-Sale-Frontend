@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { PenLine, Trash2 } from "lucide-react";
+import { PenLine, Trash2, History } from "lucide-react";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
 import type { ItemType } from "@/types/ItemType";
@@ -119,6 +119,14 @@ const ItemColumns = ({
         <>
           <div className="flex gap-5 items-center">
             <ItemCard data={item} />
+            <button
+              onClick={() => navigate(`/dashboard/items/${item.id}/histories`)}
+            >
+              <History
+                size={20}
+                className="text-[var(--primary-color)] hover:text-[var(--primary-color-hover)] hover:border hover:border-white"
+              />
+            </button>
             {can("update", "Item") && (
               <button
                 onClick={() => navigate(`/dashboard/items/edit/${item.id}`)}
