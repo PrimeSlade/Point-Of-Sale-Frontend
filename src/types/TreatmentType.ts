@@ -23,8 +23,8 @@ type TreatmentForm = {
 };
 
 type DateRange = {
-  startDate: Date | undefined;
-  endDate: Date | undefined;
+  startDate?: Date;
+  endDate?: Date;
 };
 
 export type { TreatmentData, TreatmentForm, DateRange };
