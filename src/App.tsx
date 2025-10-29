@@ -1,5 +1,5 @@
 import Layout from "@/components/layout/Layout";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
 import "./App.css";
 import NestedLayout from "./components/layout/NestedLayout";

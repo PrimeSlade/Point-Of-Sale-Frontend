@@ -7,10 +7,9 @@ type ItemHistoryDetailsCardProp = {
 
 const renderFieldChange = (
   oldVal: string | number,
-  newVal: string | number,
-  isPrice = false
+  newVal: string | number
 ) => {
-  if (oldVal === newVal || (isPrice && Number(oldVal) === Number(newVal))) {
+  if (oldVal === newVal) {
     return <span className="text-gray-700 font-medium">{newVal}</span>;
   }
 
@@ -54,11 +53,7 @@ const ItemHistroyDetailsCard = ({ detail }: ItemHistoryDetailsCardProp) => {
         {renderFieldChange(detail.oldQuantity, detail.newQuantity)}
       </td>
       <td className="py-3 px-3">
-        {renderFieldChange(
-          detail.oldPurchasePrice,
-          detail.newPurchasePrice,
-          true
-        )}
+        {renderFieldChange(detail.oldPurchasePrice, detail.newPurchasePrice)}
       </td>
     </tr>
   );
