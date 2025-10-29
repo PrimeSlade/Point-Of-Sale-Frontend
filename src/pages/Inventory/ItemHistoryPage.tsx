@@ -5,7 +5,6 @@ import ItemHistoryCard from "@/components/item/ItemHistoryCard";
 import Loading from "@/components/loading/Loading";
 import { useItemHistory } from "@/hooks/useItems";
 import type { ItemHistory } from "@/types/ItemType";
-import { Package } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 

@@ -87,4 +87,5 @@ export type {
   ItemType,
   Location,
   ItemHistory,
+  ItemHistoryDetail,
 };
