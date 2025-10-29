@@ -9,6 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { toUpperCase as toFirstUpperCase } from "@/utils/formatText";
+import ItemHistroyDetailsCard from "./ItemHistroyDetailsCard";
 
 type InventoryAction = "EDIT" | "IMPORT";
 
@@ -26,23 +27,6 @@ const ItemHistoryCard = ({ history }: ItemHistoryCardProps) => {
     return styles[action];
   };
 
-  const renderFieldChange = (
-    oldVal: string | number,
-    newVal: string | number,
-    isPrice = false
-  ) => {
-    if (oldVal === newVal || (isPrice && Number(oldVal) === Number(newVal))) {
-      return <span className="text-gray-700 font-medium">{newVal}</span>;
-    }
-
-    return (
-      <div className="flex items-center gap-2">
-        <span className="text-gray-400 line-through text-sm">{oldVal}</span>
-        <span className="text-gray-900 font-semibold">{newVal}</span>
-      </div>
-    );
-  };
-
   return (
     <Accordion type="single" collapsible className="mb-4">
       <AccordionItem
@@ -53,7 +37,7 @@ const ItemHistoryCard = ({ history }: ItemHistoryCardProps) => {
           <div className="flex items-start justify-between w-full pr-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                <User className="w-5 h-5 text-blue-600" />
+                <User className="w-5 h-5 text-[var(--primary-color)]" />
               </div>
               <div>
                 <p className="flex gap-2">
@@ -115,43 +99,7 @@ const ItemHistoryCard = ({ history }: ItemHistoryCardProps) => {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {history.itemHistoryDetails.map((detail) => (
-                  <tr
-                    key={detail.id}
-                    className="hover:bg-gray-50 transition-colors bg-blue-50/30"
-                  >
-                    <td className="py-3 px-3">
-                      {detail.oldUnitType !== detail.newUnitType ? (
-                        <div className="flex items-center gap-2">
-                          <span className="px-2 py-1 bg-gray-100 text-gray-500 rounded text-sm font-medium uppercase line-through">
-                            {detail.oldUnitType}
-                          </span>
-                          <span className="px-2 py-1 rounded text-sm font-semibold uppercase">
-                            {detail.newUnitType}
-                          </span>
-                        </div>
-                      ) : (
-                        <span className="px-2 py- rounded text-sm font-medium uppercase">
-                          {detail.newUnitType}
-                        </span>
-                      )}
-                    </td>
-                    <td className="py-3 px-3">
-                      {renderFieldChange(detail.oldRate, detail.newRate)}
-                    </td>
-                    <td className="py-3 px-3">
-                      {renderFieldChange(
-                        detail.oldQuantity,
-                        detail.newQuantity
-                      )}
-                    </td>
-                    <td className="py-3 px-3">
-                      {renderFieldChange(
-                        detail.oldPurchasePrice,
-                        detail.newPurchasePrice,
-                        true
-                      )}
-                    </td>
-                  </tr>
+                  <ItemHistroyDetailsCard detail={detail} />
                 ))}
               </tbody>
             </table>
