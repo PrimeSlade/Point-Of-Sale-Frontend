@@ -10,7 +10,7 @@ import type { Table } from "@tanstack/react-table";
 type FilterByDateProps<TData> = {
   date: DateRange;
   setDate: React.Dispatch<React.SetStateAction<DateRange>>;
-  table: Table<TData>;
+  table?: Table<TData>;
   serverSideSearch: boolean;
 };
 
@@ -54,7 +54,7 @@ const FilterByDate = <TData,>({
                   newState.endDate &&
                   serverSideSearch
                 ) {
-                  table.setPageIndex(0);
+                  table!.setPageIndex(0);
                 }
                 return newState;
               });
@@ -93,7 +93,7 @@ const FilterByDate = <TData,>({
                   newState.endDate &&
                   serverSideSearch
                 ) {
-                  table.setPageIndex(0);
+                  table!.setPageIndex(0);
                 }
                 return newState;
               })
