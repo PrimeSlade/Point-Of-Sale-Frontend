@@ -20,7 +20,7 @@ const ItemSearchFilter = ({
     <div className="flex flex-col md:flex-row gap-3 items-center">
       <Input
         className="mt-5 w-80"
-        placeholder="Search by remark..."
+        placeholder="Search by user name..."
         value={currentSearchTerm}
         onChange={(e) => onSearchChange(e.target.value)}
       />
