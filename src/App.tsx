@@ -27,12 +27,12 @@ import ExpenseReportPage from "./pages/report/ExpenseReportPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import NotFoundPage from "./pages/NotFoundPage";
 import PublicRoute from "./routes/PublicRoute";
-import ItemServicePage from "./pages/Inventory/ItemPage";
-import ItemFormPage from "./pages/Inventory/ItemFormPage";
+import ItemServicePage from "./pages/inventory/ItemPage";
+import ItemFormPage from "./pages/inventory/ItemFormPage";
 import { lazy, Suspense } from "react";
 import Loading from "./components/loading/Loading";
 import DynamicIndex from "./routes/DynamicIndex";
-import ItemHistoryPage from "./pages/Inventory/ItemHistoryPage";
+import ItemHistoryPage from "./pages/inventory/ItemHistoryPage";
 
 // Lazy load PDF-heavy page
 const InvoiceDetailsPage = lazy(
