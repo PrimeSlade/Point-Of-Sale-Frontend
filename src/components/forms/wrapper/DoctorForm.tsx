@@ -67,7 +67,7 @@ const DoctorForm = ({
     email: z.email({ message: "Please enter a valid email address." }),
 
     commission: z
-      .number({ message: "Commission must be a valid number." })
+      .float64({ message: "Commission must be a valid number." })
       .min(0, { message: "Commission cannot be negative." }),
 
     address: z.string().optional(),

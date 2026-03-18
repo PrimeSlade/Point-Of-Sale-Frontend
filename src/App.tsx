@@ -4,7 +4,7 @@ import { Toaster } from "sonner";
 import "./App.css";
 import NestedLayout from "./components/layout/NestedLayout";
 import LoginPage from "./pages/auth/LoginPage";
-import DoctorPage from "./pages/DoctorPage";
+import DoctorPage from "./pages/doctor/DoctorPage";
 import CategoryPage from "./pages/expense/CategoryPage";
 import ExpenseMainPage from "./pages/expense/ExpenseMainPage";
 import ExpensesPage from "./pages/expense/ExpensesPage";
