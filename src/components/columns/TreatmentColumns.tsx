@@ -40,7 +40,7 @@ export function useTreatmentColumns({
     },
     {
       id: "age",
-      header: () => <div className="font-bold">Age</div>,
+      header: () => <div className="font-bold">{t("column.age")}</div>,
       cell: ({ row }) => {
         return calcAge(new Date(row.original.patient?.dateOfBirth!));
       },
