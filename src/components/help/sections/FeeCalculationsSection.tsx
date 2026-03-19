@@ -26,25 +26,25 @@ const content = {
       "Service prices (consultation fees, lab tests, etc.) are fixed and do not go through the Price Percent calculation. They are added to the sub total at their exact retail price.",
   },
   my: {
-    title: "ကြေးနှုန်း တွက်ချက်မှု",
+    title: "ဈေးနှုန်းတွက်ချက်ပုံများ",
     intro:
-      "ပစ္စည်းဈေးနှုန်းများ၊ လျှော့ဈေးများနှင့် စုစုပေါင်းတွက်ချက်ပုံများကို နားလည်ခြင်းဖြင့် ငွေတောင်းခံလွှာ အမှားများကို ရှောင်ကွင်းနိုင်သည်။",
-    retailTitle: "ပစ္စည်း လက်လီဈေးနှုန်း တွက်ချက်ပုံ",
+      "ပစ္စည်းဈေးနှုန်းများ၊ လျှော့ဈေးများနှင့် စုစုပေါင်း ကျသင့်ငွေတွက်ချက်ပုံများကို နားလည်သဘောပေါက်ခြင်းဖြင့် ငွေတောင်းခံလွှာများတွင် အမှားအယွင်းမရှိစေရန် ဆောင်ရွက်နိုင်ပါသည်။",
+    retailTitle: "ပစ္စည်း၏ လက်လီဈေးနှုန်း (Retail Price) တွက်ချက်ပုံ",
     retailPara: (
       <>
-        ပစ္စည်းများတွင် သတ်မှတ်ထားသော လက်လီဈေး မရှိပါ။ ယင်းအစား စနစ်သည် ပစ္စည်း၏{" "}
-        <strong className="text-[var(--text-primary)]">ဝယ်ယူဈေး</strong>{" "}
+        ဆေးဝါး/ကုန်ပစ္စည်းများအတွက် ပုံသေလက်လီဈေး သတ်မှတ်ထားခြင်း မရှိပါ။ ယင်းအစား စနစ်သည် ပစ္စည်း၏{" "}
+        <strong className="text-[var(--text-primary)]">ဝယ်ယူဈေး (Purchase Price)</strong>{" "}
         နှင့် ငွေတောင်းခံလွှာ ဖန်တီးသူ ဝန်ထမ်း၏{" "}
-        <strong className="text-[var(--text-primary)]">Price Percent</strong>{" "}
-        မှ ရောင်းဈေး တွက်ချက်သည်။
+        <strong className="text-[var(--text-primary)]">ဈေးတင်နှုန်း (Price Percent)</strong>{" "}
+        အပေါ် အခြေခံ၍ ရောင်းဈေးကို တွက်ချက်ပါသည်။
       </>
     ),
     retailPost:
-      "ဆိုလိုသည်မှာ Price Percent ကွဲပြားသော ဝန်ထမ်းများသည် တစ်ဆောင်တည်းသော ပစ္စည်းအတွက် ဈေးနှုန်း ကွဲပြားနိုင်သည်။ Price Percent = 0 ဆိုပါက ဝယ်ဈေးဖြင့် ထည့်သည်၊ ဈေးတင်မှု မရှိပါ။",
-    invoiceTitle: "ငွေတောင်းခံလွှာ စုစုပေါင်း တွက်ချက်ပုံ",
-    servicesTitle: "ဝန်ဆောင်မှုများသည် Price Percent ကို မမှီ",
+      "ဆိုလိုသည်မှာ ဈေးတင်နှုန်း (Price Percent) မတူညီသော ဝန်ထမ်းများအလိုက် တစ်မျိုးတည်းသော ပစ္စည်းအတွက် ရောင်းဈေး ကွဲပြားနိုင်ပါသည်။ အကယ်၍ Price Percent ကို သုည (0) ဟု သတ်မှတ်ပါက ဝယ်ယူဈေးအတိုင်းသာ ရောင်းချမည်ဖြစ်ပြီး ဈေးတင်မှု ရှိမည်မဟုတ်ပါ။",
+    invoiceTitle: "စုစုပေါင်း ကျသင့်ငွေ (Invoice Total) တွက်ချက်ပုံ",
+    servicesTitle: "ဝန်ဆောင်မှုများ (Services) အတွက် ဈေးတင်နှုန်း (Price Percent) မသက်ဆိုင်ခြင်း",
     servicesPara:
-      "ဝန်ဆောင်မှုဈေးနှုန်းများ (ဆေးကြည့်ခ၊ ဓာတ်ခွဲမှု စသည်) သည် Price Percent ၏ သက်ရောက်မှု မရှိပါ။ ယင်းတို့ကို မူလဈေးနှုန်းဖြင့် Sub Total ထဲ ထည့်သည်။",
+      "ဝန်ဆောင်မှုဈေးနှုန်းများ (ဥပမာ - ဆေးစစ်ခ၊ ဓာတ်ခွဲစမ်းသပ်ခ စသည်) သည် ဈေးတင်နှုန်း (Price Percent) ၏ သက်ရောက်မှု မရှိပါ။ ၎င်းတို့ကို သတ်မှတ်ထားသည့် မူလဈေးနှုန်းအတိုင်းသာ စုစုပေါင်းငွေ (Sub Total) အတွင်းသို့ ပေါင်းထည့်ပါသည်။",
   },
 };
 
@@ -59,12 +59,12 @@ const FeeCalculationsSection = ({ lang }: { lang: Lang }) => {
         <Formula>
           Retail Price = Purchase Price + (Purchase Price × Price Percent ÷ 100)
         </Formula>
-        <Example>
+        <Example lang={lang}>
           Purchase Price = 1,000 MMK, Price Percent = 30%
           <br />
           Retail Price = 1,000 + (1,000 × 30 ÷ 100) = <strong>1,300 MMK</strong>
         </Example>
-        <RetailPriceCalc />
+        <RetailPriceCalc lang={lang} />
         <p>{c.retailPost}</p>
       </Sub>
 
@@ -76,7 +76,7 @@ const FeeCalculationsSection = ({ lang }: { lang: Lang }) => {
           <br />
           <strong>Total Amount = Sub Total − Total Item Discount − Invoice Discount</strong>
         </Formula>
-        <Example>
+        <Example lang={lang}>
           2 items at 1,300 MMK each + 1 service at 5,000 MMK
           <br />
           Sub Total = (1,300 × 2) + 5,000 = <strong>7,600 MMK</strong>
@@ -87,7 +87,7 @@ const FeeCalculationsSection = ({ lang }: { lang: Lang }) => {
           <br />
           Total Amount = 7,600 − 400 − 600 = <strong>6,600 MMK</strong>
         </Example>
-        <InvoiceTotalCalc />
+        <InvoiceTotalCalc lang={lang} />
       </Sub>
 
       <Sub title={c.servicesTitle}>

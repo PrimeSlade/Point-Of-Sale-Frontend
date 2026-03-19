@@ -1,3 +1,5 @@
+import { type Lang } from "@/data/helpContent";
+
 export const Section = ({
   id,
   title,
@@ -41,14 +43,20 @@ export const Formula = ({ children }: { children: React.ReactNode }) => (
   </div>
 );
 
-export const Example = ({ children }: { children: React.ReactNode }) => (
+export const Example = ({
+  lang = "en",
+  children,
+}: {
+  lang?: Lang;
+  children: React.ReactNode;
+}) => (
   <div className="my-4 overflow-hidden rounded-lg border border-[var(--border-color)]">
     <div className="flex items-center gap-1.5 border-b border-[var(--border-color)] bg-[var(--primary-color)] px-3 py-1.5">
       <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
       <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
       <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
       <span className="ml-2 text-[10px] font-bold uppercase tracking-widest text-white/80">
-        Example
+        {lang === "en" ? "Example" : "ဥပမာ"}
       </span>
     </div>
     <div className="bg-[var(--primary-bg)] px-4 py-3 text-xs leading-7 text-[var(--text-primary)]">

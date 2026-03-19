@@ -57,12 +57,12 @@ const HelpPage = () => {
       <div className="min-w-0 flex-1 pl-56 pr-4">
         <div className="flex items-start justify-between">
           <Header
-            header={lang === "en" ? "Help & Documentation" : "အကူအညီနှင့် လမ်းညွှန်"}
+            header={lang === "en" ? "Help & Documentation" : "အကူအညီနှင့် လမ်းညွှန်ချက်များ"}
             className="text-2xl"
             subHeader={
               lang === "en"
                 ? "How the system works — for staff and administrators."
-                : "စနစ်အသုံးပြုပုံ — ဝန်ထမ်းများနှင့် စီမံခန့်ခွဲသူများအတွက်။"
+                : "စနစ်အသုံးပြုပုံ လမ်းညွှန် - ဝန်ထမ်းများနှင့် စီမံခန့်ခွဲသူများအတွက်။"
             }
           />
           <div className="mt-5 flex shrink-0 overflow-hidden rounded-lg border border-[var(--border-color)]">

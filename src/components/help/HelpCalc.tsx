@@ -1,3 +1,4 @@
+import { type Lang } from "@/data/helpContent";
 import { useState } from "react";
 
 const CalcRow = ({
@@ -47,15 +48,17 @@ const CalcResult = ({
 
 const CalcWrapper = ({
   title,
+  lang,
   children,
 }: {
   title: string;
+  lang: Lang;
   children: React.ReactNode;
 }) => (
   <div className="my-4 overflow-hidden rounded-lg border border-dashed border-[var(--primary-color)]/40">
     <div className="flex items-center gap-2 border-b border-[var(--border-color)] bg-[var(--background-color)] px-4 py-2">
       <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--primary-color)]">
-        Try it
+        {lang === "en" ? "Try it" : "စမ်းသပ်တွက်ချက်ရန်"}
       </span>
       <span className="text-[10px] text-[var(--text-secondary)]">— {title}</span>
     </div>
@@ -63,33 +66,67 @@ const CalcWrapper = ({
   </div>
 );
 
-export const RetailPriceCalc = () => {
+export const RetailPriceCalc = ({ lang = "en" }: { lang?: Lang }) => {
   const [purchasePrice, setPurchasePrice] = useState(1000);
   const [pricePercent, setPricePercent] = useState(30);
   const retail = purchasePrice + (purchasePrice * pricePercent) / 100;
+
+  const labels = {
+    en: {
+      title: "retail price calculator",
+      purchase: "Purchase Price (MMK)",
+      percent: "Price Percent",
+      retail: "Retail Price",
+    },
+    my: {
+      title: "လက်လီဈေးနှုန်း တွက်ချက်ကိရိယာ",
+      purchase: "ဝယ်ယူဈေး (MMK)",
+      percent: "ဈေးတင်နှုန်း (%)",
+      retail: "လက်လီဈေးနှုန်း",
+    },
+  }[lang];
+
   return (
-    <CalcWrapper title="retail price calculator">
-      <CalcRow label="Purchase Price (MMK)" value={purchasePrice} onChange={setPurchasePrice} />
-      <CalcRow label="Price Percent" value={pricePercent} onChange={setPricePercent} suffix="%" />
+    <CalcWrapper title={labels.title} lang={lang}>
+      <CalcRow label={labels.purchase} value={purchasePrice} onChange={setPurchasePrice} />
+      <CalcRow label={labels.percent} value={pricePercent} onChange={setPricePercent} suffix="%" />
       <div className="border-t border-[var(--border-color)] pt-3">
-        <CalcResult label="Retail Price" value={retail} suffix="MMK" />
+        <CalcResult label={labels.retail} value={retail} suffix="MMK" />
       </div>
     </CalcWrapper>
   );
 };
 
-export const InvoiceTotalCalc = () => {
+export const InvoiceTotalCalc = ({ lang = "en" }: { lang?: Lang }) => {
   const [subtotal, setSubtotal] = useState(7600);
   const [itemDiscount, setItemDiscount] = useState(400);
   const [invoiceDiscount, setInvoiceDiscount] = useState(600);
   const total = Math.max(0, subtotal - itemDiscount - invoiceDiscount);
+
+  const labels = {
+    en: {
+      title: "invoice total calculator",
+      subtotal: "Sub Total (MMK)",
+      itemDiscount: "Total Item Discount (MMK)",
+      invoiceDiscount: "Invoice Discount (MMK)",
+      total: "Total Amount",
+    },
+    my: {
+      title: "စုစုပေါင်းကျသင့်ငွေ တွက်ချက်ကိရိယာ",
+      subtotal: "စုစုပေါင်း (Sub Total) (MMK)",
+      itemDiscount: "ပစ္စည်းလျှော့ဈေး (MMK)",
+      invoiceDiscount: "ငွေတောင်းခံလွှာလျှော့ဈေး (MMK)",
+      total: "စုစုပေါင်း ကျသင့်ငွေ",
+    },
+  }[lang];
+
   return (
-    <CalcWrapper title="invoice total calculator">
-      <CalcRow label="Sub Total (MMK)" value={subtotal} onChange={setSubtotal} />
-      <CalcRow label="Total Item Discount (MMK)" value={itemDiscount} onChange={setItemDiscount} />
-      <CalcRow label="Invoice Discount (MMK)" value={invoiceDiscount} onChange={setInvoiceDiscount} />
+    <CalcWrapper title={labels.title} lang={lang}>
+      <CalcRow label={labels.subtotal} value={subtotal} onChange={setSubtotal} />
+      <CalcRow label={labels.itemDiscount} value={itemDiscount} onChange={setItemDiscount} />
+      <CalcRow label={labels.invoiceDiscount} value={invoiceDiscount} onChange={setInvoiceDiscount} />
       <div className="border-t border-[var(--border-color)] pt-3">
-        <CalcResult label="Total Amount" value={total} suffix="MMK" />
+        <CalcResult label={labels.total} value={total} suffix="MMK" />
       </div>
     </CalcWrapper>
   );
