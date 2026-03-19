@@ -4,7 +4,7 @@ import { useExpenses } from "@/hooks/useExpenses";
 import { useLocations } from "@/hooks/useLocations";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
-import ExpensesColumns from "@/components/columns/ExpenseColumns";
+import { useExpenseColumns } from "@/components/columns/ExpenseColumns";
 import ExpenseForm from "@/components/forms/wrapper/ExpenseForm";
 import Header from "@/components/header/Header";
 import { DataTable } from "@/components/table/data-table";
@@ -16,9 +16,11 @@ import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 const ExpensesPage = () => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
 
@@ -102,7 +104,7 @@ const ExpensesPage = () => {
     }
   }, [fetchError]);
 
-  const columns = ExpensesColumns({
+  const columns = useExpenseColumns({
     onDelete: deleteExpenseMutate,
     isDeleting,
     locations,
@@ -113,13 +115,13 @@ const ExpensesPage = () => {
   return (
     <>
       <Header
-        header="Expenses"
+        header={t("expense.management")}
         className="text-2xl"
         action={
           <>
             {can("create", "Expense") && (
               <DialogButton
-                name="Add Expense"
+                name={t("expense.addNew")}
                 icon={<Plus />}
                 openFrom={() => setIsFormOpen(true)}
               />
@@ -130,7 +132,7 @@ const ExpensesPage = () => {
       <DataTable
         columns={columns}
         data={expenses?.data ?? []}
-        prompt="Search by names, descriptions or categories"
+        prompt={t("expense.searchPlaceholder")}
         totalPages={expenses?.meta.totalPages ?? 0}
         paginationState={paginationState}
         setPaginationState={setPaginationState}
@@ -143,7 +145,7 @@ const ExpensesPage = () => {
         <AlertBox
           open={errorOpen}
           onClose={() => setErrorOpen(false)}
-          title="Error"
+          title={t("common.error")}
           description={fetchError.message}
           mode={"error"}
         />

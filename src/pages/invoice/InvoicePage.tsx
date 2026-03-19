@@ -2,7 +2,7 @@ import { deleteInvoiceById } from "@/api/invoice";
 import { useInvoices } from "@/hooks/useInvoices";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
-import InvoiceColumns from "@/components/columns/InvoiceColumns";
+import { useInvoiceColumns } from "@/components/columns/InvoiceColumns";
 import Header from "@/components/header/Header";
 import { DataTable } from "@/components/table/data-table";
 import { useAuth } from "@/hooks/useAuth";
@@ -15,8 +15,10 @@ import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 const InvoicePage = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -96,7 +98,7 @@ const InvoicePage = () => {
     }
   }, [fetchInvoiceError]);
 
-  const columns = InvoiceColumns({
+  const columns = useInvoiceColumns({
     onDelete: deleteInvoiceMutate,
     isDeleting,
     page: page - 1,
@@ -105,14 +107,14 @@ const InvoicePage = () => {
   return (
     <div>
       <Header
-        header="Invoice"
+        header={t("invoice.management")}
         className="text-3xl"
-        subHeader="Manage invoices and items"
+        subHeader={t("invoice.subHeader")}
         action={
           <div className="flex gap-2">
             {can("create", "Invoice") && (
               <DialogButton
-                name="Generate Invoice"
+                name={t("form.invoice.generateInvoice")}
                 icon={<Plus />}
                 openFrom={() => navigate("/dashboard/invoices/add")}
               />
@@ -123,7 +125,7 @@ const InvoicePage = () => {
       <DataTable
         columns={columns}
         data={data?.data ?? []}
-        prompt="Search by patient names or item names"
+        prompt={t("invoice.searchPlaceholder")}
         totalPages={data?.meta.totalPages ?? 0}
         paginationState={paginationState}
         setPaginationState={setPaginationState}
@@ -139,7 +141,7 @@ const InvoicePage = () => {
         <AlertBox
           open={errorOpen}
           onClose={() => setErrorOpen(false)}
-          title="Error"
+          title={t("common.error")}
           description={fetchInvoiceError.message}
           mode={"error"}
         />

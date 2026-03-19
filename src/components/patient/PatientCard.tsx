@@ -2,6 +2,7 @@ import type { PatientData } from "@/types/PatientType";
 import { Button } from "../ui/button";
 import { calcAge, formatDate, formatText } from "@/utils/formatDate";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 type PatientCardProps = {
   data: PatientData;
@@ -10,6 +11,7 @@ type PatientCardProps = {
 
 const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const dob = new Date(data?.dateOfBirth);
 
@@ -19,11 +21,11 @@ const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {
 
   const lastVisit = treatments?.[0]
     ? formatDate(new Date(treatments[0].createdAt))
-    : "No visits yet";
+    : t("patient.noVisits");
 
   return (
     <div className="border p-5 rounded-lg h-full shadow">
-      <h1 className="font-bold text-xl">Patient Infomation</h1>
+      <h1 className="font-bold text-xl">{t("patient.info")}</h1>
 
       <div
         className={`${
@@ -33,7 +35,7 @@ const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {
         {mode === "invoice" && (
           <div>
             <label htmlFor="phone" className="text-[var(--text-secondary)]">
-              Name
+              {t("patient.name")}
             </label>
             <div id="phone" className="font-bold">
               {data?.name}
@@ -43,7 +45,7 @@ const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {
 
         <div>
           <label htmlFor="phone" className="text-[var(--text-secondary)]">
-            Phone
+            {t("patient.phone")}
           </label>
           <div id="phone" className="font-bold">
             {data?.phoneNumber.number}
@@ -51,15 +53,15 @@ const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {
         </div>
         <div>
           <label htmlFor="email" className="text-[var(--text-secondary)]">
-            Email
+            {t("patient.email")}
           </label>
           <div id="email" className={data?.email === null ? "" : "font-bold"}>
-            {data?.email || "No email provided"}
+            {data?.email || t("patient.noEmail")}
           </div>
         </div>
         <div>
           <label htmlFor="address" className="text-[var(--text-secondary)]">
-            Address
+            {t("patient.address")}
           </label>
           <div
             id="address"
@@ -67,12 +69,12 @@ const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {
               data?.address === "" || data?.address === null ? "" : "font-bold"
             }
           >
-            {data?.address || "No address provided"}
+            {data?.address || t("patient.noAddress")}
           </div>
         </div>
         <div>
           <label htmlFor="dateOfBirth" className="text-[var(--text-secondary)]">
-            Date of Birth
+            {t("patient.dob")}
           </label>
           <div id="dateOfBirth">
             <span className="font-bold">{formatted}</span> ({calcAge(dob)})
@@ -80,7 +82,7 @@ const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {
         </div>
         <div>
           <label htmlFor="gender" className="text-[var(--text-secondary)]">
-            Gender
+            {t("patient.gender")}
           </label>
           <div id="gender" className="font-bold">
             {formatText(data?.gender)}
@@ -88,7 +90,7 @@ const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {
         </div>
         <div>
           <label htmlFor="location" className="text-[var(--text-secondary)]">
-            Location
+            {t("patient.location")}
           </label>
           <div id="location" className="font-bold">
             {data?.location.name}
@@ -100,7 +102,7 @@ const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {
               htmlFor="patientStatus"
               className="text-[var(--text-secondary)]"
             >
-              Patient Status
+              {t("patient.status")}
             </label>
             <div id="patientStatus" className="font-bold">
               {formatText(data?.patientStatus)}
@@ -111,7 +113,7 @@ const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {
               htmlFor="patientCondtion"
               className="text-[var(--text-secondary)]"
             >
-              Patient Condtion
+              {t("patient.condition")}
             </label>
             <div id="patientCondtion" className="font-bold">
               {formatText(data?.patientCondition)}
@@ -124,7 +126,7 @@ const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {
               htmlFor="department"
               className="text-[var(--text-secondary)]"
             >
-              Department
+              {t("patient.department")}
             </label>
             <div id="department" className="font-bold">
               {formatText(data?.department)}
@@ -135,7 +137,7 @@ const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {
               htmlFor="patientType"
               className="text-[var(--text-secondary)]"
             >
-              Patient Type(In/Out)
+              {t("patient.type")}
             </label>
             <div id="patientType" className="font-bold">
               {formatText(data?.patientType)}
@@ -151,7 +153,7 @@ const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {
                   htmlFor="totalTreatments"
                   className="text-[var(--text-secondary)]"
                 >
-                  Total Treatments
+                  {t("patient.totalTreatments")}
                 </label>
                 <div
                   id="totalTreatments"
@@ -165,7 +167,7 @@ const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {
                   htmlFor="totalTreatments"
                   className="text-[var(--text-secondary)]"
                 >
-                  Last Visit
+                  {t("patient.lastVisit")}
                 </label>
                 <div id="totalTreatments" className="font-bold ">
                   {lastVisit}
@@ -176,7 +178,7 @@ const PatientCard = ({ data, mode = "patient" }: PatientCardProps) => {
               className="bg-[var(--success-color)] hover:bg-[var(--success-color-hover)] mt-2"
               onClick={() => navigate("/dashboard/treatments/add")}
             >
-              New Treatment
+              {t("patient.newTreatment")}
             </Button>
           </>
         )}

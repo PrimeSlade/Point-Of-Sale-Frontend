@@ -18,6 +18,7 @@ import type { ServiceData } from "@/types/ServiceType";
 import type { LocationType } from "@/types/LocationType";
 import { addInvoice } from "@/api/invoice";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "react-i18next";
 
 type InvoiceFormProps = {
   invoiceData?: Invoice;
@@ -47,6 +48,7 @@ const InvoiceForm = ({
   serviceData,
   locationData,
 }: InvoiceFormProps) => {
+  const { t } = useTranslation();
   //TenStack
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -211,7 +213,7 @@ const InvoiceForm = ({
             className=" data-[state=checked]:border-[var(--primary-color)]"
           />
           <Label htmlFor="r1" className="font-bold">
-            Treatment
+            {t("sidebar.treatment")}
           </Label>
         </div>
         <div className="flex items-center gap-3">
@@ -221,7 +223,7 @@ const InvoiceForm = ({
             className="data-[state=checked]:border-[var(--primary-color)]"
           />
           <Label htmlFor="r2" className="font-bold">
-            Walk-In
+            {t("common.walkIn")}
           </Label>
         </div>
       </RadioGroup>

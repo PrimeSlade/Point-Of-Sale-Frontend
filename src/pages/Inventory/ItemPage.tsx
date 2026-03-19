@@ -3,7 +3,7 @@ import { useItems } from "@/hooks/useItems";
 import { useLocations } from "@/hooks/useLocations";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
-import ItemColumns from "@/components/columns/ItemColumns";
+import { useItemColumns } from "@/components/columns/ItemColumns";
 import Header from "@/components/header/Header";
 import { DataTable } from "@/components/table/data-table";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -14,8 +14,10 @@ import { toast } from "sonner";
 import type { PaginationState } from "@tanstack/react-table";
 import useDebounce from "@/hooks/useDebounce";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "react-i18next";
 
 const ItemServicePage = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -100,7 +102,7 @@ const ItemServicePage = () => {
   }, [error]);
 
   //column
-  const columns = ItemColumns({
+  const columns = useItemColumns({
     onDelete: deleteItemMutate,
     isDeleting,
     page: page - 1,
@@ -109,14 +111,14 @@ const ItemServicePage = () => {
   return (
     <div>
       <Header
-        header="Inventory"
+        header={t("inventory.management")}
         className="text-3xl"
-        subHeader="Manage products"
+        subHeader={t("inventory.subHeader")}
         action={
           <div className="flex gap-2">
             {can("create", "Item") && (
               <DialogButton
-                name="Add Item"
+                name={t("inventory.addNew")}
                 icon={<Plus />}
                 openFrom={() => navigate("/dashboard/items/add")}
               />
@@ -127,7 +129,7 @@ const ItemServicePage = () => {
       <DataTable
         columns={columns}
         data={data?.data ?? []}
-        prompt="Search by item names or category"
+        prompt={t("inventory.searchPlaceholder")}
         filter
         excel
         locations={locations}
@@ -145,7 +147,7 @@ const ItemServicePage = () => {
         <AlertBox
           open={errorOpen}
           onClose={() => setErrorOpen(false)}
-          title="Error"
+          title={t("common.error")}
           description={error.message}
           mode={"error"}
         />

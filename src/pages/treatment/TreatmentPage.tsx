@@ -2,7 +2,7 @@ import { deleteTreatmentById } from "@/api/treatments";
 import { useTreatments } from "@/hooks/useTreatments";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
-import TreatmentColumns from "@/components/columns/TreatmentColumns";
+import { useTreatmentColumns } from "@/components/columns/TreatmentColumns";
 import Header from "@/components/header/Header";
 import { DataTable } from "@/components/table/data-table";
 import { useAuth } from "@/hooks/useAuth";
@@ -14,8 +14,10 @@ import type { PaginationState } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 const TreatmentPage = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -95,7 +97,7 @@ const TreatmentPage = () => {
     }
   }, [fetchTreatmentError]);
 
-  const columns = TreatmentColumns({
+  const columns = useTreatmentColumns({
     onDelete: deleteTreatmentMutate,
     isDeleting,
     page: page - 1,
@@ -104,14 +106,14 @@ const TreatmentPage = () => {
   return (
     <div>
       <Header
-        header="Treatment Management"
-        subHeader="All your treatment records, one place"
+        header={t("treatment.management")}
+        subHeader={t("treatment.subHeader")}
         className="text-3xl"
         action={
           <div className="flex gap-2">
             {can("create", "Treatment") && (
               <DialogButton
-                name="Register New Treatment"
+                name={t("treatment.addNew")}
                 openFrom={() => navigate("/dashboard/treatments/add")}
               />
             )}
@@ -121,7 +123,7 @@ const TreatmentPage = () => {
       <DataTable
         columns={columns}
         data={data?.data ?? []}
-        prompt="Search by patient names, age or doctor names"
+        prompt={t("treatment.searchPlaceholder")}
         totalPages={data?.meta.totalPages ?? 0}
         paginationState={paginationState}
         setPaginationState={setPaginationState}
@@ -137,7 +139,7 @@ const TreatmentPage = () => {
         <AlertBox
           open={errorOpen}
           onClose={() => setErrorOpen(false)}
-          title="Error"
+          title={t("common.error")}
           description={fetchTreatmentError.message}
           mode={"error"}
         />

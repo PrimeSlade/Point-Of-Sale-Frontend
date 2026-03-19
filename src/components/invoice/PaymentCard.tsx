@@ -3,6 +3,7 @@ import type { ItemUnits } from "@/types/ItemType";
 import type { ServiceData } from "@/types/ServiceType";
 import { calculatePriceWithIncrease } from "@/utils/calcPrice";
 import type { UseFormReturn } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import {
   FormControl,
   FormField,
@@ -28,6 +29,7 @@ type PaymentCardProps = {
 const paymentMethod = ["kpay", "wave", "cash", "others"];
 
 const PaymentCard = ({ form }: PaymentCardProps) => {
+  const { t } = useTranslation();
   const watchedItems = form.watch("invoiceItems") || [];
   const watchedServices = form.watch("invoiceServices") || [];
   const discountAmount = form.watch("discountAmount") || 0;
@@ -110,14 +112,14 @@ const PaymentCard = ({ form }: PaymentCardProps) => {
                 <FormItem>
                   <FormLabel>
                     <span>
-                      Payment Method
+                      {t("column.paymentMethod")}
                       <span className="text-[var(--danger-color)]">*</span>
                     </span>
                   </FormLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger className="w-50">
-                        <SelectValue placeholder="Payment Method" />
+                        <SelectValue placeholder={t("column.paymentMethod")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -155,7 +157,7 @@ const PaymentCard = ({ form }: PaymentCardProps) => {
             <hr className="border-[var(--border-color)]" />
             <div className="flex justify-between items-center">
               <span className="text-lg font-semibold text-[var(--text-primary)]">
-                Total Amount
+                {t("column.totalAmount")}
               </span>
               <span className="text-lg font-bold text-[var(--success-color)]">
                 {total.toFixed(2)}

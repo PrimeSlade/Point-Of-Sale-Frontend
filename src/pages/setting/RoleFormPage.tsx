@@ -6,8 +6,10 @@ import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const RoleFormPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [errorOpen, setErrorOpen] = useState(false);
@@ -42,7 +44,7 @@ const RoleFormPage = () => {
   return (
     <div>
       <Header
-        header="Add Role"
+        header={t("role.addNew")}
         className="text-2xl"
         action={
           <DialogButton
@@ -60,7 +62,7 @@ const RoleFormPage = () => {
         <AlertBox
           open={errorOpen}
           onClose={() => setErrorOpen(false)}
-          title="Error"
+          title={t("common.error")}
           description={fetchError.message}
           mode={"error"}
         />

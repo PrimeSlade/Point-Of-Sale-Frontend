@@ -4,7 +4,7 @@ import { useRoles } from "@/hooks/useRoles";
 import { useUsers } from "@/hooks/useUsers";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
-import UserColumns from "@/components/columns/UserColumns";
+import { useUserColumns } from "@/components/columns/UserColumns";
 import UserForm from "@/components/forms/wrapper/UserForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
@@ -16,8 +16,10 @@ import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 const UserPage = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
@@ -81,25 +83,25 @@ const UserPage = () => {
     }
   }, [fetchError]);
 
-  if (isLoading) return <Loading className="h-150" />;
-
-  const columns = UserColumns({
+  const columns = useUserColumns({
     onDelete: deleteUserMutate,
     isDeleting,
     locations,
-    roles: roles.data,
+    roles: roles?.data,
   });
+
+  if (isLoading) return <Loading className="h-150" />;
 
   return (
     <div>
       <Header
-        header="Locations"
+        header={t("user.management")}
         className="text-2xl"
         action={
           <>
             {can("create", "User") && (
               <DialogButton
-                name="Add User"
+                name={t("user.addNew")}
                 icon={<Plus />}
                 openFrom={() => setIsFormOpen(true)}
               />
@@ -110,7 +112,7 @@ const UserPage = () => {
       <DataTable
         columns={columns}
         data={users.data ?? []}
-        prompt="Search by names or emails"
+        prompt={t("user.searchPlaceholder")}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
         filter
@@ -122,7 +124,7 @@ const UserPage = () => {
         <AlertBox
           open={errorOpen}
           onClose={() => setErrorOpen(false)}
-          title="Error"
+          title={t("common.error")}
           description={fetchError.message}
           mode={"error"}
         />

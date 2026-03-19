@@ -1,0 +1,439 @@
+{
+  "action": {
+    "add": "ထည့်ပါ",
+    "cancel": "မလုပ်တော့ပါ",
+    "saveChanges": "သိမ်းဆည်းမည်"
+  },
+  "column": {
+    "actions": "လုပ်ဆောင်ချက်များ",
+    "address": "လိပ်စာ",
+    "age": "အသက်",
+    "amount": "ပမာဏ",
+    "category": "အမျိုးအစား",
+    "commission": "ကော်မရှင် (%)",
+    "date": "ရက်စွဲ",
+    "department": "ဌာန",
+    "description": "အကြောင်းအရာ",
+    "doctorName": "ဆရာဝန်အမည်",
+    "email": "အီးမေးလ်",
+    "expiryDate": "သက်တမ်းကုန်ဆုံးရက်",
+    "inStock": "ပစ္စည်းရှိ/မရှိ",
+    "invoiceId": "ဘေလ်နံပါတ်",
+    "location": "တည်နေရာ",
+    "name": "အမည်",
+    "no": "စဉ်",
+    "patientName": "လူနာအမည်",
+    "paymentMethod": "ပေးချေမှုပုံစံ",
+    "phone": "ဖုန်းနံပါတ်",
+    "pricePercent": "ဈေးတင်နှုန်း (%)",
+    "purchasePrice": "ဝယ်ဈေး",
+    "retailPrice": "ရောင်းဈေး",
+    "role": "ရာထူး",
+    "roleName": "ရာထူးအမည်",
+    "totalAmount": "စုစုပေါင်း ကျသင့်ငွေ",
+    "unit": "ယူနစ်"
+  },
+  "common": {
+    "action": "လုပ်ဆောင်ချက်",
+    "action.select_category": "အမျိုးအစား ရွေးပါ",
+    "action.select_condition": "အခြေအနေ ရွေးပါ",
+    "action.select_department": "ဌာန ရွေးပါ",
+    "action.select_gender": "ကျား/မ ရွေးပါ",
+    "action.select_location": "တည်နေရာ ရွေးပါ",
+    "action.select_status": "အဆင့် ရွေးပါ",
+    "action.select_type": "အမျိုးအစား ရွေးပါ",
+    "confirmDeletion": "ဖျက်ဖို့ သေချာပြီလား",
+    "deleteDescription": "ဒါကို ဖျက်ဖို့ သေချာပြီလား?",
+    "description": "အကြောင်းအရာ",
+    "error": "အမှားအယွင်း",
+    "errorOccurred": "အမှားတစ်ခု ဖြစ်သွားပါတယ်။ ပြန်ကြိုးစားကြည့်ပါဦး။",
+    "location": "တည်နေရာ",
+    "name": "အမည်",
+    "no": "မရှိ",
+    "pickDate": "ရက်စွဲ ရွေးပါ",
+    "price": "ဈေးနှုန်း",
+    "quantity": "အရေအတွက်",
+    "selectLocation": "တည်နေရာ ရွေးပါ",
+    "services": "ဝန်ဆောင်မှုများ",
+    "unitType": "ယူနစ် အမျိုးအစား",
+    "walkIn": "ပြင်ပလူနာ",
+    "yes": "ရှိ"
+  },
+  "doctor": {
+    "addNew": "ဆရာဝန်အသစ် ထည့်ရန်",
+    "edit": "အချက်အလက် ပြင်မည်",
+    "form": {
+      "addressLabel": "လိပ်စာ",
+      "addressPlaceholder": "လိပ်စာ ရေးပါ",
+      "commissionError": "ကော်မရှင် ဂဏန်း မှန်အောင် ရိုက်ပါ",
+      "commissionLabel": "ကော်မရှင် (%)",
+      "commissionNegative": "ကော်မရှင် အနှုတ် မဖြစ်ရပါ",
+      "commissionPlaceholder": "ကော်မရှင် ရာခိုင်နှုန်း ရေးပါ",
+      "descriptionLabel": "အကြောင်းအရာ",
+      "descriptionPlaceholder": "အသေးစိတ် ရေးနိုင်ပါတယ်",
+      "emailError": "အီးမေးလ် မှန်အောင် ရိုက်ပါ",
+      "emailLabel": "အီးမေးလ်",
+      "emailPlaceholder": "အီးမေးလ် ရေးပါ",
+      "locationError": "တည်နေရာ ရွေးပေးပါ",
+      "locationLabel": "တည်နေရာ",
+      "locationPlaceholder": "တည်နေရာ ရွေးပါ",
+      "nameErrorMax": "အမည် စာလုံး ၅၀ ထက် မပိုရပါ",
+      "nameErrorMin": "အမည် အနည်းဆုံး ၂ လုံး ရှိရပါမယ်",
+      "nameLabel": "ဆရာဝန်အမည်",
+      "namePlaceholder": "ဆရာဝန်အမည် ရေးပါ",
+      "phoneError": "ဖုန်းနံပါတ် မှန်အောင် ရိုက်ပါ",
+      "phoneLabel": "ဖုန်းနံပါတ်",
+      "phonePlaceholder": "ဖုန်းနံပါတ် ရေးပါ"
+    },
+    "management": "ဆရာဝန်များ စီမံခန့်ခွဲမှု",
+    "searchPlaceholder": "အမည်၊ အီးမေးလ် သို့မဟုတ် ဖုန်းနဲ့ ရှာပါ",
+    "subHeader": "ဆရာဝန် မှတ်တမ်းတွေကို ဒီမှာ စီမံနိုင်ပါတယ်"
+  },
+  "endDate": "ကုန်ဆုံးရက်",
+  "error": "အမှားအယွင်း",
+  "filter": "စစ်ထုတ်ရန်",
+  "form": {
+    "category": {
+      "create_title": "အမျိုးအစားအသစ် လုပ်ရန်",
+      "edit_title": "အမျိုးအစား ပြင်ရန်",
+      "error": {
+        "location_required": "တည်နေရာ ရွေးဖို့ လိုပါတယ်",
+        "name_max": "အမည် စာလုံး ၅၀ ထက် မပိုရပါ",
+        "name_min": "အမည် အနည်းဆုံး ၂ လုံး ရှိရပါမယ်"
+      },
+      "label": {
+        "description": "အကြောင်းအရာ",
+        "location": "တည်နေရာ",
+        "name": "အမျိုးအစား အမည်"
+      },
+      "placeholder": {
+        "description": "အကြောင်းအရာ ရေးပါ",
+        "name": "အမျိုးအစား အမည်ရေးပါ"
+      },
+      "toast": {
+        "create_success": "အမျိုးအစားအသစ် ထည့်ပြီးပါပြီ",
+        "edit_success": "အမျိုးအစား ပြင်ပြီးပါပြီ"
+      }
+    },
+    "expense": {
+      "create_title": "အသုံးစရိတ်အသစ် ထည့်ရန်",
+      "edit_title": "အသုံးစရိတ် ပြင်ရန်",
+      "error": {
+        "amount_invalid": "ပမာဏ ဂဏန်း မှန်အောင် ရိုက်ပါ",
+        "amount_negative": "ပမာဏ အနှုတ် မဖြစ်ရပါ",
+        "category_required": "အမျိုးအစား ရွေးပေးပါ",
+        "date_required": "ရက်စွဲ ရွေးပေးပါ",
+        "location_required": "တည်နေရာ ရွေးပေးပါ",
+        "name_max": "အမည် စာလုံး ၅၀ ထက် မပိုရပါ",
+        "name_min": "အမည် အနည်းဆုံး ၂ လုံး ရှိရပါမယ်"
+      },
+      "label": {
+        "amount": "ပမာဏ",
+        "category": "အမျိုးအစား",
+        "date": "ရက်စွဲ",
+        "description": "အကြောင်းအရာ",
+        "location": "တည်နေရာ",
+        "name": "အသုံးစရိတ် အမည်"
+      },
+      "placeholder": {
+        "amount": "ပမာဏ ရေးပါ",
+        "date": "ရက်စွဲ ရွေးပါ",
+        "description": "အကြောင်းအရာ ရေးပါ",
+        "name": "အသုံးစရိတ် အမည်ရေးပါ"
+      },
+      "toast": {
+        "create_success": "အသုံးစရိတ်အသစ် မှတ်သားပြီးပါပြီ",
+        "edit_success": "အသုံးစရိတ် ပြင်ပြီးပါပြီ"
+      }
+    },
+    "inventory": {
+      "category": "အမျိုးအစား",
+      "expiryDate": "သက်တမ်းကုန်ဆုံးရက်",
+      "itemName": "ပစ္စည်းအမည်",
+      "purchasePrice": "ဝယ်ဈေး",
+      "rate": "နှုန်းထား",
+      "selectUnitType": "ယူနစ် အမျိုးအစား ရွေးပါ",
+      "unitType": "ယူနစ် အမျိုးအစား"
+    },
+    "invoice": {
+      "discountPrice": "လျှော့ဈေး",
+      "generateInvoice": "ဘေလ် ထုတ်မည်",
+      "location": "တည်နေရာ",
+      "retailPrice": "ရောင်းဈေး",
+      "selectServices": "ဝန်ဆောင်မှုများ ရွေးပါ",
+      "updateInvoice": "ဘေလ် ပြင်မည်"
+    },
+    "item": {
+      "error": {
+        "category_max": "အမျိုးအစား စာလုံး ၅၀ ထက် မပိုရပါ",
+        "category_min": "အမျိုးအစား အနည်းဆုံး ၂ လုံး ရှိရပါမယ်",
+        "expiry_date_required": "သက်တမ်းကုန်ဆုံးရက် ရွေးပေးပါ",
+        "location_required": "တည်နေရာ ရွေးပေးပါ",
+        "name_max": "အမည် စာလုံး ၁၀၀ ထက် မပိုရပါ",
+        "name_min": "အမည် အနည်းဆုံး ၂ လုံး ရှိရပါမယ်",
+        "price_negative": "ဈေးနှုန်း အနှုတ် မဖြစ်ရပါ",
+        "quantity_negative": "အရေအတွက် အနှုတ် မဖြစ်ရပါ",
+        "quantity_number": "အရေအတွက် ဂဏန်း ဖြစ်ရပါမယ်",
+        "quantity_whole": "အရေအတွက် ကိန်းပြည့် ဖြစ်ရပါမယ်",
+        "rate_number": "နှုန်းထား ဂဏန်း ဖြစ်ရပါမယ်",
+        "unit_required": "ယူနစ် ရွေးပေးပါ",
+        "units_length": "ယူနစ် စာလုံး ၁ လုံးကနေ ၂၀ လုံးအထိ ရေးပါ"
+      },
+      "toast": {
+        "create_success": "ပစ္စည်းအသစ် ထည့်ပြီးပါပြီ",
+        "edit_success": "ပစ္စည်း ပြင်ပြီးပါပြီ"
+      }
+    },
+    "location": {
+      "add_title": "တည်နေရာအသစ် ထည့်ရန်",
+      "address_label": "လိပ်စာ",
+      "address_placeholder": "လိပ်စာ ရေးပါ",
+      "error": {
+        "address_max": "လိပ်စာ စာလုံး ၂၀၀ ထက် မပိုရပါ",
+        "address_min": "လိပ်စာ အနည်းဆုံး ၅ လုံး ရှိရပါမယ်",
+        "name_max": "အမည် စာလုံး ၅၀ ထက် မပိုရပါ",
+        "name_min": "အမည် အနည်းဆုံး ၂ လုံး ရှိရပါမယ်",
+        "phone_invalid": "ဖုန်းနံပါတ် မှားနေပါတယ်"
+      },
+      "name_label": "တည်နေရာ အမည်",
+      "name_placeholder": "တည်နေရာ အမည်ရေးပါ",
+      "phone_label": "ဖုန်းနံပါတ်",
+      "phone_placeholder": "ဖုန်းနံပါတ် ရေးပါ"
+    },
+    "login": {
+      "email_label": "အီးမေးလ် လိပ်စာ",
+      "email_placeholder": "အီးမေးလ် ရေးပါ",
+      "error": {
+        "email_required": "အီးမေးလ် ရေးဖို့ လိုပါတယ်",
+        "password_required": "စကားဝှက် ရေးဖို့ လိုပါတယ်"
+      },
+      "password_label": "စကားဝှက်",
+      "password_placeholder": "စကားဝှက် ရေးပါ"
+    },
+    "patient": {
+      "create_title": "လူနာအသစ် ထည့်ရန်",
+      "edit_title": "လူနာအချက်အလက် ပြင်ရန်",
+      "error": {
+        "condition_required": "အခြေအနေ ရွေးပေးပါ",
+        "department_required": "ဌာန ရွေးပေးပါ",
+        "dob_required": "မွေးသက္ကရာဇ် ရွေးပေးပါ",
+        "gender_required": "ကျား/မ ရွေးပေးပါ",
+        "location_required": "တည်နေရာ ရွေးပေးပါ",
+        "name_max": "အမည် စာလုံး ၅၀ ထက် မပိုရပါ",
+        "name_min": "အမည် အနည်းဆုံး ၂ လုံး ရှိရပါမယ်",
+        "phone_invalid": "ဖုန်းနံပါတ် မှားနေပါတယ်",
+        "status_required": "အဆင့် ရွေးပေးပါ",
+        "type_required": "လူနာအမျိုးအစား ရွေးပေးပါ"
+      },
+      "label": {
+        "address": "လိပ်စာ",
+        "condition": "အခြေအနေ",
+        "department": "ဌာန",
+        "dob": "မွေးသက္ကရာဇ်",
+        "email": "အီးမေးလ်",
+        "gender": "ကျား/မ",
+        "location": "တည်နေရာ",
+        "name": "လူနာအမည်",
+        "phone": "ဖုန်းနံပါတ်",
+        "status": "အဆင့်",
+        "type": "လူနာအမျိုးအစား"
+      },
+      "placeholder": {
+        "address": "လိပ်စာ ရေးပါ",
+        "dob": "ရက်စွဲ ရွေးပါ",
+        "email": "အီးမေးလ် ရေးပါ",
+        "name": "လူနာအမည် ရေးပါ",
+        "phone": "ဖုန်းနံပါတ် ရေးပါ"
+      },
+      "toast": {
+        "create_success": "လူနာအသစ် ထည့်ပြီးပါပြီ",
+        "edit_success": "လူနာအချက်အလက် ပြင်ပြီးပါပြီ"
+      }
+    },
+    "role": {
+      "enterName": "ရာထူးအမည် ရေးပါ",
+      "error": {
+        "name_max": "ရာထူးအမည် စာလုံး ၅၀ ထက် မပိုရပါ",
+        "name_min": "ရာထူးအမည် အနည်းဆုံး ၂ လုံး ရှိရပါမယ်",
+        "permissions_required": "အနည်းဆုံး လုပ်ပိုင်ခွင့် တစ်ခု ရွေးပေးပါ"
+      }
+    },
+    "service": {
+      "add_title": "ဝန်ဆောင်မှုအသစ် ထည့်ရန်",
+      "error": {
+        "name_max": "အမည် စာလုံး ၁၀၀ ထက် မပိုရပါ",
+        "name_min": "အမည် အနည်းဆုံး ၂ လုံး ရှိရပါမယ်",
+        "price_negative": "ဈေးနှုန်း အနှုတ် မဖြစ်ရပါ"
+      },
+      "name_label": "ဝန်ဆောင်မှု အမည်",
+      "name_placeholder": "ဝန်ဆောင်မှု အမည်ရေးပါ",
+      "price_label": "ဈေးနှုန်း",
+      "price_placeholder": "ဈေးနှုန်း ရေးပါ"
+    },
+    "user": {
+      "add_title": "အသုံးပြုသူအသစ် ထည့်ရန်",
+      "edit_title": "အသုံးပြုသူ ပြင်ရန်",
+      "email_label": "အီးမေးလ်",
+      "email_placeholder": "အီးမေးလ် ရေးပါ",
+      "error": {
+        "email_invalid": "အီးမေးလ် မှားနေပါတယ်",
+        "location_required": "တည်နေရာ ရွေးပေးပါ",
+        "name_max": "အမည် စာလုံး ၅၀ ထက် မပိုရပါ",
+        "name_min": "အမည် အနည်းဆုံး ၂ လုံး ရှိရပါမယ်",
+        "password_min": "စကားဝှက် အနည်းဆုံး ၆ လုံး ရှိရပါမယ်",
+        "price_percent_invalid": "ရာခိုင်နှုန်း မှားနေပါတယ်",
+        "price_percent_max": "ရာခိုင်နှုန်း ၁၀၀ ထက် မပိုရပါ",
+        "price_percent_negative": "ရာခိုင်နှုန်း အနှုတ် မဖြစ်ရပါ",
+        "role_required": "ရာထူး ရွေးပေးပါ"
+      },
+      "location_label": "တည်နေရာ",
+      "location_placeholder": "တည်နေရာ ရွေးပါ",
+      "name_label": "အသုံးပြုသူ အမည်",
+      "name_placeholder": "အသုံးပြုသူ အမည်ရေးပါ",
+      "password_label": "စကားဝှက်",
+      "password_placeholder": "စကားဝှက် ရေးပါ",
+      "price_percent_label": "ဈေးတင်နှုန်း (%)",
+      "price_percent_placeholder": "ရာခိုင်နှုန်း ရေးပါ",
+      "role_label": "ရာထူး",
+      "role_placeholder": "ရာထူး ရွေးပါ"
+    }
+  },
+  "inventory": {
+    "addNew": "ပစ္စည်းအသစ်ထည့်ရန်",
+    "management": "ကုန်ပစ္စည်းစာရင်း စီမံခန့်ခွဲမှု",
+    "searchPlaceholder": "ပစ္စည်းအမည် ဒါမှမဟုတ် အမျိုးအစားနဲ့ ရှာပါ",
+    "subHeader": "ပစ္စည်းတွေနဲ့ လက်ကျန်စာရင်းကို ဒီမှာ စီမံနိုင်ပါတယ်"
+  },
+  "category": {
+    "addNew": "အမျိုးအစားအသစ် ထည့်ရန်",
+    "management": "အမျိုးအစား စီမံခန့်ခွဲမှု",
+    "searchPlaceholder": "အမျိုးအစား အမည်နဲ့ ရှာပါ"
+  },
+  "expense": {
+    "addNew": "အသုံးစရိတ် ထည့်ရန်",
+    "management": "အသုံးစရိတ် စီမံခန့်ခွဲမှု",
+    "searchPlaceholder": "အမည် ဒါမှမဟုတ် အကြောင်းအရာနဲ့ ရှာပါ"
+  },
+  "invoice": {
+    "addNew": "ဘေလ်အသစ် လုပ်ရန်",
+    "management": "ဘေလ်များ စီမံခန့်ခွဲမှု",
+    "searchPlaceholder": "လူနာအမည်နဲ့ ရှာပါ",
+    "subHeader": "ဘေလ်တွေနဲ့ ငွေပေးချေမှုတွေကို ဒီမှာ စီမံနိုင်ပါတယ်"
+  },
+  "patient": {
+    "addNew": "လူနာအသစ် ထည့်ရန်",
+    "address": "လိပ်စာ",
+    "condition": "အခြေအနေ",
+    "department": "ဌာန",
+    "dob": "မွေးသက္ကရာဇ်",
+    "email": "အီးမေးလ်",
+    "gender": "ကျား/မ",
+    "info": "လူနာ အချက်အလက်",
+    "lastVisit": "နောက်ဆုံး လာပြတဲ့ရက်",
+    "location": "တည်နေရာ",
+    "management": "လူနာများ စီမံခန့်ခွဲမှု",
+    "name": "အမည်",
+    "newTreatment": "ဆေးကုသမှု အသစ်",
+    "noAddress": "လိပ်စာ မရှိပါ",
+    "noEmail": "အီးမေးလ် မရှိပါ",
+    "noTreatments": "ဆေးကုသမှု မှတ်တမ်း မရှိပါ",
+    "noVisits": "လာပြထားတာ မရှိသေးပါ",
+    "phone": "ဖုန်းနံပါတ်",
+    "searchPlaceholder": "အမည် ဒါမှမဟုတ် ဖုန်းနဲ့ ရှာပါ",
+    "status": "အဆင့်",
+    "subHeader": "လူနာ မှတ်တမ်းတွေကို ဒီမှာ စီမံနိုင်ပါတယ်",
+    "totalTreatments": "စုစုပေါင်း ဆေးကုသမှုများ",
+    "treatmentHistory": "ဆေးကုသမှု မှတ်တမ်း",
+    "type": "အမျိုးအစား"
+  },
+  "report": {
+    "financialOverview": "ဘဏ္ဍာရေး အစီရင်ခံစာများ",
+    "subHeader": "ဝင်ငွေနဲ့ အသုံးစရိတ်တွေကို စနစ်တကျ ကြည့်နိုင်ပါတယ်"
+  },
+  "role": {
+    "addNew": "ရာထူးအသစ် ထည့်ရန်",
+    "management": "ရာထူးနှင့် လုပ်ပိုင်ခွင့် စီမံခန့်ခွဲမှု",
+    "searchPlaceholder": "ရာထူးနဲ့ ရှာပါ",
+    "admin": "အက်ဒမင်"
+  },
+  "location": {
+    "addNew": "တည်နေရာအသစ် ထည့်ရန်",
+    "management": "တည်နေရာများ စီမံခန့်ခွဲမှု",
+    "searchPlaceholder": "တည်နေရာနဲ့ ရှာပါ"
+  },
+  "service": {
+    "addNew": "ဝန်ဆောင်မှု ထည့်ရန်",
+    "management": "ဝန်ဆောင်မှုများ စီမံခန့်ခွဲမှု",
+    "searchPlaceholder": "ဝန်ဆောင်မှုနဲ့ ရှာပါ",
+    "subHeader": "ဆေးရုံရဲ့ ဝန်ဆောင်မှုတွေကို ဒီမှာ စီမံနိုင်ပါတယ်"
+  },
+  "user": {
+    "addNew": "အသုံးပြုသူ ထည့်ရန်",
+    "management": "အသုံးပြုသူများ စီမံခန့်ခွဲမှု",
+    "searchPlaceholder": "အသုံးပြုသူနဲ့ ရှာပါ"
+  },
+  "search": "ရှာဖွေရန်",
+  "searchBy": "ရှာဖွေရန်",
+  "sidebar": {
+    "confirmLogout": "အကောင့်ထွက်ဖို့ သေချာပြီလား",
+    "help": "အကူအညီ",
+    "logout": "အကောင့်ထွက်မယ်",
+    "logoutDescription": "အကောင့်ထွက်မှာ သေချာပါသလား?",
+    "inventory": "ကုန်ပစ္စည်းစာရင်း",
+    "service": "ဝန်ဆောင်မှုများ",
+    "patients": "လူနာစာရင်း",
+    "doctors": "ဆရာဝန်များ",
+    "treatment": "ဆေးကုသမှုများ",
+    "invoices": "ဘေလ်နှင့် POS",
+    "expenses": "ကုန်ကျစရိတ်များ",
+    "reports": "အစီရင်ခံစာများ",
+    "settings": "ဆက်တင်များ"
+  },
+  "startDate": "စတင်ရက်",
+  "table": {
+    "noResults": "ရှာဖွေမှု မတွေ့ပါ",
+    "totalAmount": "စုစုပေါင်း ပမာဏ"
+  },
+  "treatment": {
+    "addNew": "ဆေးကုသမှု မှတ်ပုံတင်ရန်",
+    "createSubHeader": "ဆေးကုသမှု မှတ်တမ်းအသစ် လုပ်ရန်",
+    "creation": "ဆေးကုသမှု ပြုလုပ်ခြင်း",
+    "edit": "ဆေးကုသမှု ပြင်ရန်",
+    "editSubHeader": "ဆေးကုသမှု အချက်အလက်တွေကို ပြင်ရန်",
+    "form": {
+      "assignDoctor": "ဆရာဝန် တာဝန်ပေးရန်",
+      "clickToSelectDoctor": "ဆရာဝန် ရွေးရန် နှိပ်ပါ",
+      "clickToSelectPatient": "လူနာ ရွေးရန် နှိပ်ပါ",
+      "createBtn": "ဆေးကုသမှု လုပ်မည်",
+      "diagnosisLabel": "ရောဂါအဖြေ",
+      "diagnosisPlaceholder": "ရောဂါအဖြေ ရေးပါ",
+      "dialogSelectDoctor": "ဆရာဝန် ရွေးပါ",
+      "dialogSelectPatient": "လူနာ ရွေးပါ",
+      "errorSelectBoth": "လူနာနဲ့ ဆရာဝန်ကို ရွေးပေးပါ",
+      "investigationLabel": "စမ်းသပ်စစ်ဆေးချက်",
+      "investigationPlaceholder": "စမ်းသပ်ချက်တွေ ရေးပါ",
+      "searchByName": "အမည်နဲ့ ရှာပါ",
+      "selectPatient": "ရွေးထားတဲ့ လူနာ",
+      "treatmentLabel": "ဆေးကုသမှု",
+      "treatmentPlaceholder": "ဆေးကုသမှု အသေးစိတ် ရေးပါ",
+      "treatmentErrorMax": "စာလုံး ၂၅၀ ထက် မပိုရပါ",
+      "treatmentErrorMin": "အနည်းဆုံး စာလုံး ၅ လုံး ရှိရပါမယ်",
+      "updateBtn": "ဆေးကုသမှု ပြင်မည်"
+    },
+    "management": "ဆေးကုသမှုများ စီမံခန့်ခွဲမှု",
+    "searchPlaceholder": "လူနာ ဒါမှမဟုတ် ဆရာဝန်အမည်နဲ့ ရှာပါ",
+    "subHeader": "ဆေးကုသမှု မှတ်တမ်း အားလုံးကို တစ်နေရာတည်းမှာ ကြည့်နိုင်ပါတယ်"
+  },
+  "unit": {
+    "pkg": "ထုပ်",
+    "box": "ဘူး",
+    "strip": "ကတ်",
+    "btl": "ပုလင်း",
+    "amp": "ဆေးထိုးပြွန်",
+    "tube": "ပြွန်",
+    "sac": "အိတ်",
+    "cap": "ဆေးတောင့်",
+    "tab": "ဆေးပြား",
+    "pcs": "ခု"
+  }
+}

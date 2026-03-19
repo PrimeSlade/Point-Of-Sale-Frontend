@@ -2,7 +2,7 @@ import { deleteServiceById } from "@/api/services";
 import { useServices } from "@/hooks/useServices";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
-import ServiceColumns from "@/components/columns/ServiceColumns";
+import { useServiceColumns } from "@/components/columns/ServiceColumns";
 import ServiceForm from "@/components/forms/wrapper/ServiceForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
@@ -13,9 +13,11 @@ import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 const ServicePage = () => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
@@ -48,7 +50,7 @@ const ServicePage = () => {
     },
   });
 
-  const columns = ServiceColumns({
+  const columns = useServiceColumns({
     onDelete: deleteServiceMutate,
     isDeleting,
   });
@@ -59,14 +61,14 @@ const ServicePage = () => {
   return (
     <div>
       <Header
-        header="Service"
+        header={t("service.management")}
         className="text-3xl"
-        subHeader="Manage services"
+        subHeader={t("service.subHeader")}
         action={
           <div className="flex gap-2">
             {can("create", "Service") && (
               <DialogButton
-                name="Add Service"
+                name={t("service.addNew")}
                 icon={<Plus />}
                 openFrom={() => setIsFormOpen(true)}
               />
@@ -77,7 +79,7 @@ const ServicePage = () => {
       <DataTable
         columns={columns}
         data={services?.data ?? []}
-        prompt="Search by names"
+        prompt={t("service.searchPlaceholder")}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
         pagination
@@ -89,7 +91,7 @@ const ServicePage = () => {
         <AlertBox
           open={errorOpen}
           onClose={() => setErrorOpen(false)}
-          title="Error"
+          title={t("common.error")}
           description={fetchServiceError.message}
           mode={"error"}
         />

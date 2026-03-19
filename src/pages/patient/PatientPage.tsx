@@ -3,7 +3,7 @@ import { useLocations } from "@/hooks/useLocations";
 import { usePatients } from "@/hooks/usePatients";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
-import PatientColumns from "@/components/columns/PatientColumns";
+import { usePatientColumns } from "@/components/columns/PatientColumns";
 import PatientForm from "@/components/forms/wrapper/PatientForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
@@ -14,9 +14,11 @@ import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 const PatientPage = () => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
@@ -57,27 +59,27 @@ const PatientPage = () => {
 
   const isLoading = isFetchingPatients || isFetchingLocations;
 
-  if (isLoading)
-    return <Loading className="flex justify-center h-screen items-center" />;
-
-  const columns = PatientColumns({
+  const columns = usePatientColumns({
     onDelete: deletePatientMutate,
     isDeleting,
     locations,
   });
 
+  if (isLoading)
+    return <Loading className="flex justify-center h-screen items-center" />;
+
   return (
     <>
       <div>
         <Header
-          header="Patient Management"
+          header={t("patient.management")}
           className="text-3xl"
-          subHeader="Manage patient records and information"
+          subHeader={t("patient.subHeader")}
           action={
             <div className="flex gap-2">
               {can("create", "Patient") && (
                 <DialogButton
-                  name="Add New Patient"
+                  name={t("patient.addNew")}
                   icon={<Plus />}
                   openFrom={() => setIsFormOpen(true)}
                 />
@@ -88,7 +90,7 @@ const PatientPage = () => {
         <DataTable
           columns={columns}
           data={patients.data ?? []}
-          prompt="Search by names or phone numbers"
+          prompt={t("patient.searchPlaceholder")}
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
           pagination
@@ -99,7 +101,7 @@ const PatientPage = () => {
           <AlertBox
             open={errorOpen}
             onClose={() => setErrorOpen(false)}
-            title="Error"
+            title={t("common.error")}
             description={fetchPatientError.message}
             mode={"error"}
           />

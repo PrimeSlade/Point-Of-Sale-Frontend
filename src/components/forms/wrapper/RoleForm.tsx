@@ -8,6 +8,7 @@ import z from "zod";
 import RoleFormField from "../form/RoleFromField";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 type RoleFormProps = {
   data?: Role;
@@ -16,6 +17,7 @@ type RoleFormProps = {
 };
 
 const RoleForm = ({ data, permissions, mode }: RoleFormProps) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
@@ -60,13 +62,13 @@ const RoleForm = ({ data, permissions, mode }: RoleFormProps) => {
   const formSchema = z.object({
     name: z
       .string()
-      .min(2, { message: "Role name must be at least 2 characters." })
-      .max(20, { message: "Role name must be at most 20 characters." }),
+      .min(2, { message: t("form.role.error.name_min") })
+      .max(20, { message: t("form.role.error.name_max") }),
 
     permissions: z
       .array(z.object({ id: z.number() }))
       .refine((selectedIds) => selectedIds.some((id) => id), {
-        message: "You have to select at least one permission.",
+        message: t("form.role.error.permissions_required"),
       }),
   });
 

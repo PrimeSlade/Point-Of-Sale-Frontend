@@ -6,9 +6,11 @@ import { useInvoice } from "@/hooks/useInvoices";
 import { useLocations } from "@/hooks/useLocations";
 import { useServices } from "@/hooks/useServices";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 //used for both create and edit
 const InvoiceFormPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -28,7 +30,7 @@ const InvoiceFormPage = () => {
   return (
     <div>
       <Header
-        header={!isEdit ? "Generate Invoice" : "Edit Invoice"}
+        header={!isEdit ? t("form.invoice.generateInvoice") : t("form.invoice.updateInvoice")}
         className="text-3xl mb-5"
         subHeader=""
         action={

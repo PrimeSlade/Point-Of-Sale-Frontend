@@ -1,4 +1,5 @@
 import type { Invoice } from "@/types/InvoiceType";
+import { useTranslation } from "react-i18next";
 
 type PaymentSummaryBoxProps = {
   data: Invoice[] | undefined;
@@ -11,6 +12,7 @@ const PaymentSummaryBox = ({
   data,
   calcTotalAmount,
 }: PaymentSummaryBoxProps) => {
+  const { t } = useTranslation();
   const summary = calcTotalAmount(data || []);
 
   return (
@@ -18,11 +20,11 @@ const PaymentSummaryBox = ({
       <div className="grid grid-cols-3 gap-3 border-b">
         <div className="col-span-2">
           <h1 className="font-bold col-span-2 border-r py-2 px-3">
-            Payment Method
+            {t("column.paymentMethod")}
           </h1>
         </div>
         <div>
-          <h1 className="font-bold p-2">Amount</h1>
+          <h1 className="font-bold p-2">{t("column.amount")}</h1>
         </div>
       </div>
       <div className="grid grid-cols-3 gap-3 border-b">
@@ -60,7 +62,7 @@ const PaymentSummaryBox = ({
       <div className="grid grid-cols-3 gap-3">
         <div className="col-span-2">
           <h1 className="font-bold col-span-2 border-r py-2 px-3 flex justify-end">
-            Total Amount
+            {t("column.totalAmount")}
           </h1>
         </div>
         <div>

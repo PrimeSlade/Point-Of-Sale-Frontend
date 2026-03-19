@@ -11,6 +11,8 @@ import ReusableFormDialog, {
 import type { CategoryType, ExpenseType } from "@/types/ExpenseType";
 import type { LocationType } from "@/types/LocationType";
 import { addExpense, editExpenseById } from "@/api/expenses";
+import { useTranslation } from "react-i18next";
+import { useMemo } from "react";
 
 type ExpenseFormProps = {
   data?: ExpenseType;
@@ -30,6 +32,7 @@ const ExpenseForm = ({
   categoryData,
 }: ExpenseFormProps) => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   //Tenstack
   const {
@@ -66,31 +69,35 @@ const ExpenseForm = ({
     },
   });
 
-  //From
-  const formSchema = z.object({
-    name: z
-      .string()
-      .min(2, { message: "Category name must be at least 2 characters." })
-      .max(50, { message: "Category name must be at most 50 characters." }),
+  //Form schema
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        name: z
+          .string()
+          .min(2, { message: t("form.expense.error.name_min") })
+          .max(50, { message: t("form.expense.error.name_max") }),
 
-    description: z.string().optional(),
+        description: z.string().optional(),
 
-    locationId: z.number({
-      message: "Please select a valid location.",
-    }),
+        locationId: z.number({
+          message: t("form.expense.error.location_required"),
+        }),
 
-    categoryId: z.number({
-      message: "Please select a valid category.",
-    }),
+        categoryId: z.number({
+          message: t("form.expense.error.category_required"),
+        }),
 
-    amount: z
-      .number({ message: "Please enter a valid amount." })
-      .min(0, { message: "Purchase price cannot be negative." }),
+        amount: z
+          .number({ message: t("form.expense.error.amount_invalid") })
+          .min(0, { message: t("form.expense.error.amount_negative") }),
 
-    date: z.date({
-      message: "Date is required.",
-    }),
-  });
+        date: z.date({
+          message: t("form.expense.error.date_required"),
+        }),
+      }),
+    [t]
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -115,13 +122,13 @@ const ExpenseForm = ({
   const ExpenseFields = [
     {
       name: "name",
-      label: "Name",
-      placeholder: "Enter expense",
+      label: t("form.expense.label.name"),
+      placeholder: t("form.expense.placeholder.name"),
     },
     {
       name: "categoryId",
-      label: "Category",
-      placeholder: "Select a Category",
+      label: t("form.expense.label.category"),
+      placeholder: t("common.action.select_category"),
       fieldType: "select" as FieldType,
       options: categoryData?.map((l: CategoryType) => ({
         value: l.id,
@@ -130,20 +137,20 @@ const ExpenseForm = ({
     },
     {
       name: "amount",
-      label: "Amount",
-      placeholder: "Enter amount",
+      label: t("form.expense.label.amount"),
+      placeholder: t("form.expense.placeholder.amount"),
       type: "number" as Types,
     },
     {
       name: "description",
-      label: "Description",
-      placeholder: "Enter description",
+      label: t("form.expense.label.description"),
+      placeholder: t("form.expense.placeholder.description"),
       optional: true,
     },
     {
       name: "locationId",
-      label: "Location",
-      placeholder: "Select a Location",
+      label: t("form.expense.label.location"),
+      placeholder: t("common.action.select_location"),
       fieldType: "select" as FieldType,
       options: locationData?.map((l: LocationType) => ({
         value: l.id,
@@ -152,17 +159,22 @@ const ExpenseForm = ({
     },
     {
       name: "date",
-      label: "Date",
-      placeholder: "Select a Date",
+      label: t("form.expense.label.date"),
+      placeholder: t("common.pickDate"),
       fieldType: "date" as FieldType,
     },
   ];
+
+  const title =
+    mode === "create"
+      ? t("form.expense.create_title")
+      : t("form.expense.edit_title");
 
   return (
     <ReusableFormDialog
       open={open}
       onClose={onClose}
-      title="Add New Category"
+      title={title}
       fields={ExpenseFields}
       form={form}
       onSubmit={onSubmit}

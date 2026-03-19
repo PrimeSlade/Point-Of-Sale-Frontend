@@ -1,5 +1,6 @@
 import type { PatientData } from "@/types/PatientType";
 import { formatText } from "@/utils/formatDate";
+import { useTranslation } from "react-i18next";
 
 type PatientInfoProps = {
   data: PatientData | null;
@@ -13,9 +14,11 @@ const fields = [
 ];
 
 const PatientInfo = ({ data }: PatientInfoProps) => {
+  const { t } = useTranslation();
+
   return (
     <div className="border rounded-xl p-5 flex flex-col gap-2 shadow h-45 min-w-80">
-      <div className="font-bold">PatientInfo</div>
+      <div className="font-bold">{t("patient.info")}</div>
       {data ? (
         <div className="grid grid-cols-2 gap-3">
           {fields.map(({ key, label }) => (

@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import ReusableFormDialog, { type Types } from "../form/ReusableFrom";
+import { useTranslation } from "react-i18next";
+import { useMemo } from "react";
 
 type ServiceFormProps = {
   data?: ServiceData;
@@ -17,6 +19,8 @@ type ServiceFormProps = {
 
 const ServiceForm = ({ data, mode, open, onClose }: ServiceFormProps) => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
+
   //Tenstack
   const {
     mutate: addServiceMutate,
@@ -51,17 +55,21 @@ const ServiceForm = ({ data, mode, open, onClose }: ServiceFormProps) => {
     },
   });
 
-  //From
-  const formSchema = z.object({
-    name: z
-      .string()
-      .min(2, { message: "Service name must be at least 2 characters." })
-      .max(50, { message: "Service name must be at most 50 characters." }),
+  //Form schema
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        name: z
+          .string()
+          .min(2, { message: t("form.service.error.name_min") })
+          .max(100, { message: t("form.service.error.name_max") }),
 
-    retailPrice: z
-      .number()
-      .min(0, { message: "Reatail price cannot be negative." }),
-  });
+        retailPrice: z
+          .number()
+          .min(0, { message: t("form.service.error.price_negative") }),
+      }),
+    [t]
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -82,13 +90,13 @@ const ServiceForm = ({ data, mode, open, onClose }: ServiceFormProps) => {
   const ServiceFields = [
     {
       name: "name",
-      label: "Service Name",
-      placeholder: "Enter service name",
+      label: t("form.service.name_label"),
+      placeholder: t("form.service.name_placeholder"),
     },
     {
       name: "retailPrice",
-      label: "Retail Price",
-      placeholder: "Enter retail price",
+      label: t("form.service.price_label"),
+      placeholder: t("form.service.price_placeholder"),
       type: "number" as Types,
     },
   ];
@@ -97,7 +105,7 @@ const ServiceForm = ({ data, mode, open, onClose }: ServiceFormProps) => {
     <ReusableFormDialog
       open={open}
       onClose={onClose}
-      title="Add New Service"
+      title={t("form.service.add_title")}
       fields={ServiceFields}
       form={form}
       onSubmit={onSubmit}

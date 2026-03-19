@@ -1,6 +1,6 @@
 import type { LocationType } from "@/types/LocationType";
 import type { PatientData } from "@/types/PatientType";
-import { type Dispatch, type SetStateAction } from "react";
+import { type Dispatch, type SetStateAction, useMemo } from "react";
 import z from "zod";
 import ReusableFormDialog, { type FieldType } from "../form/ReusableFrom";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addPatient, editPatientById } from "@/api/patients";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 type PatientFormProps = {
   data?: PatientData;
@@ -41,6 +42,7 @@ const PatientForm = ({
   locationData,
 }: PatientFormProps) => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   //Tenstack
   const {
@@ -77,50 +79,53 @@ const PatientForm = ({
     },
   });
 
-  //From
-  const formSchema = z.object({
-    name: z
-      .string()
-      .min(2, { message: "Name must be at least 2 characters." })
-      .max(50, { message: "Name must be at most 50 characters." }),
+  //Form
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        name: z
+          .string()
+          .min(2, { message: t("form.patient.error.name_min") })
+          .max(50, { message: t("form.patient.error.name_max") }),
 
-    gender: z.enum(gender, {
-      message: "Please select a gender.",
-    }),
+        gender: z.enum(gender, {
+          message: t("form.patient.error.gender_required"),
+        }),
 
-    email: z.email().optional(),
+        email: z.email().optional(),
 
-    dateOfBirth: z.date({
-      message: "Date of birth is required.",
-    }),
+        dateOfBirth: z.date({
+          message: t("form.patient.error.dob_required"),
+        }),
 
-    address: z.string().optional(),
+        address: z.string().optional(),
 
-    patientStatus: z.enum(patientStatus, {
-      message: "Please select a valid patient status.",
-    }),
+        patientStatus: z.enum(patientStatus, {
+          message: t("form.patient.error.status_required"),
+        }),
 
-    patientCondition: z.enum(patientCondition, {
-      message: "Please select a valid patient condition.",
-    }),
+        patientCondition: z.enum(patientCondition, {
+          message: t("form.patient.error.condition_required"),
+        }),
 
-    patientType: z.enum(patientType, {
-      message: "Please select a valid patient type.",
-    }),
+        patientType: z.enum(patientType, {
+          message: t("form.patient.error.type_required"),
+        }),
 
-    department: z.enum(department, {
-      message: "Please select a department.",
-    }),
+        department: z.enum(department, {
+          message: t("form.patient.error.department_required"),
+        }),
 
-    locationId: z.number({
-      message: "Please select a valid location.",
-    }),
+        locationId: z.number({
+          message: t("form.patient.error.location_required"),
+        }),
 
-    phoneNumber: z.string().regex(/^\+?[0-9]{9,15}$/, {
-      message:
-        "Phone number must contain only digits and be 9–15 characters long.",
-    }),
-  });
+        phoneNumber: z.string().regex(/^\+?[0-9]{9,15}$/, {
+          message: t("form.patient.error.phone_invalid"),
+        }),
+      }),
+    [t]
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -150,65 +155,65 @@ const PatientForm = ({
   const patientField = [
     {
       name: "name",
-      label: "Patient Name",
-      placeholder: "Enter a patient name",
+      label: t("form.patient.label.name"),
+      placeholder: t("form.patient.placeholder.name"),
     },
     {
       name: "address",
-      label: "Address",
-      placeholder: "Enter address",
+      label: t("form.patient.label.address"),
+      placeholder: t("form.patient.placeholder.address"),
       optional: true,
     },
     {
       name: "email",
-      label: "Email",
-      placeholder: "Enter patient email",
+      label: t("form.patient.label.email"),
+      placeholder: t("form.patient.placeholder.email"),
     },
     {
       name: "gender",
-      label: "Gender",
-      placeholder: "Select a Gender",
+      label: t("form.patient.label.gender"),
+      placeholder: t("common.action.select_gender"),
       fieldType: "select" as FieldType,
       options: toOptions(gender),
     },
     {
       name: "dateOfBirth",
-      label: "Date of Birth",
-      placeholder: "Select a Birthdate",
+      label: t("form.patient.label.dob"),
+      placeholder: t("form.patient.placeholder.dob"),
       fieldType: "date" as FieldType,
     },
     {
       name: "patientStatus",
-      label: "Patient Status",
-      placeholder: "Select a Status",
+      label: t("form.patient.label.status"),
+      placeholder: t("common.action.select_status"),
       fieldType: "select" as FieldType,
       options: toOptions(patientStatus),
     },
     {
       name: "patientCondition",
-      label: "Patient Condition",
-      placeholder: "Select a Condition",
+      label: t("form.patient.label.condition"),
+      placeholder: t("common.action.select_condition"),
       fieldType: "select" as FieldType,
       options: toOptions(patientCondition),
     },
     {
       name: "patientType",
-      label: "Patient Type",
-      placeholder: "Select a Type",
+      label: t("form.patient.label.type"),
+      placeholder: t("common.action.select_type"),
       fieldType: "select" as FieldType,
       options: toOptions(patientType),
     },
     {
       name: "department",
-      label: "Department",
-      placeholder: "Select a Department",
+      label: t("form.patient.label.department"),
+      placeholder: t("common.action.select_department"),
       fieldType: "select" as FieldType,
       options: toOptions(department),
     },
     {
       name: "locationId",
-      label: "Location",
-      placeholder: "Select a Location",
+      label: t("form.patient.label.location"),
+      placeholder: t("common.action.select_location"),
       fieldType: "select" as FieldType,
       options: locationData!.map((l: LocationType) => ({
         value: l.id,
@@ -217,8 +222,8 @@ const PatientForm = ({
     },
     {
       name: "phoneNumber",
-      label: "Phone Number",
-      placeholder: "Enter phone number",
+      label: t("form.patient.label.phone"),
+      placeholder: t("form.patient.placeholder.phone"),
     },
   ];
 
@@ -229,7 +234,7 @@ const PatientForm = ({
       mode={mode}
       open={open}
       onClose={onClose}
-      title="Add New Patient"
+      title={mode === "create" ? t("form.patient.create_title") : t("form.patient.edit_title")}
       fields={patientField}
       form={form}
       onSubmit={onSubmit}

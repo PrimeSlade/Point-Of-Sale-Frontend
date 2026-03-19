@@ -1,11 +1,13 @@
 import type { TreatmentData } from "@/types/TreatmentType";
 import { formatDate } from "@/utils/formatDate";
+import { useTranslation } from "react-i18next";
 
 type TreatmentDiagnosisBoxProps = {
   data: TreatmentData;
 };
 
 const TreatmentDiagnosisBox = ({ data }: TreatmentDiagnosisBoxProps) => {
+  const { t } = useTranslation();
   const formatted = formatDate(new Date(data.createdAt));
 
   return (
@@ -25,7 +27,7 @@ const TreatmentDiagnosisBox = ({ data }: TreatmentDiagnosisBoxProps) => {
         <div className="space-y-3">
           <div>
             <label className="text-[var(--text-secondary)] text-sm font-medium">
-              Investigation
+              {t("treatment.form.investigationLabel")}
             </label>
             <div className="mt-1 p-3 bg-gray-100 border border-gray-300 rounded-md min-h-[60px]">
               <p className="text-sm break-words">
@@ -35,7 +37,7 @@ const TreatmentDiagnosisBox = ({ data }: TreatmentDiagnosisBoxProps) => {
           </div>
           <div>
             <label className="text-[var(--text-secondary)] text-sm font-medium">
-              Diagnosis
+              {t("treatment.form.diagnosisLabel")}
             </label>
             <div className="mt-1 p-3 bg-gray-100 rounded-md min-h-[60px] border border-gray-300">
               <p className="text-sm break-words">

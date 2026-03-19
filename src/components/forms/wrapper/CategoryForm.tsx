@@ -8,8 +8,10 @@ import ReusableFormDialog, { type FieldType } from "../form/ReusableFrom";
 import type { CategoryType } from "@/types/ExpenseType";
 import type { LocationType } from "@/types/LocationType";
 import { addCategory, editCategoryById } from "@/api/categories";
+import { useTranslation } from "react-i18next";
+import { useMemo } from "react";
 
-type CategoryFormProps = {  
+type CategoryFormProps = {
   data?: CategoryType;
   mode: "create" | "edit";
   open: boolean;
@@ -25,6 +27,7 @@ const CategoryForm = ({
   locationData,
 }: CategoryFormProps) => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   //Tenstack
   const {
@@ -61,19 +64,23 @@ const CategoryForm = ({
     },
   });
 
-  //From
-  const formSchema = z.object({
-    name: z
-      .string()
-      .min(2, { message: "Category name must be at least 2 characters." })
-      .max(50, { message: "Category name must be at most 50 characters." }),
+  //Form schema
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        name: z
+          .string()
+          .min(2, { message: t("form.category.error.name_min") })
+          .max(50, { message: t("form.category.error.name_max") }),
 
-    description: z.string().optional(),
+        description: z.string().optional(),
 
-    locationId: z.number({
-      message: "Please select a valid location.",
-    }),
-  });
+        locationId: z.number({
+          message: t("form.category.error.location_required"),
+        }),
+      }),
+    [t]
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -95,19 +102,19 @@ const CategoryForm = ({
   const CategoryFields = [
     {
       name: "name",
-      label: "Service Name",
-      placeholder: "Enter service name",
+      label: t("form.category.label.name"),
+      placeholder: t("form.category.placeholder.name"),
     },
     {
       name: "description",
-      label: "Description",
-      placeholder: "Enter description",
+      label: t("form.category.label.description"),
+      placeholder: t("form.category.placeholder.description"),
       optional: true,
     },
     {
       name: "locationId",
-      label: "Location",
-      placeholder: "Select a Location",
+      label: t("form.category.label.location"),
+      placeholder: t("common.action.select_location"),
       fieldType: "select" as FieldType,
       options: locationData.map((l: LocationType) => ({
         value: l.id,
@@ -116,11 +123,16 @@ const CategoryForm = ({
     },
   ];
 
+  const title =
+    mode === "create"
+      ? t("form.category.create_title")
+      : t("form.category.edit_title");
+
   return (
     <ReusableFormDialog
       open={open}
       onClose={onClose}
-      title="Add New Category"
+      title={title}
       fields={CategoryFields}
       form={form}
       onSubmit={onSubmit}

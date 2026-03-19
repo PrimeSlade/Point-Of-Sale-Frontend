@@ -30,72 +30,34 @@ import { Button } from "../ui/button";
 import AlertBox from "../alertBox/AlertBox";
 import { useState } from "react";
 import useLogout from "@/hooks/useLogout";
+import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 
-// Menu items.
-const items = [
-  {
-    title: "Inventory",
-    url: "items",
-    icon: Box,
-    subject: "Item",
-  },
-  {
-    title: "Service",
-    url: "services",
-    icon: Receipt,
-    subject: "Service",
-  },
-  {
-    title: "Patients",
-    url: "patients",
-    icon: Users,
-    subject: "Patient",
-  },
-  {
-    title: "Doctors",
-    url: "doctors",
-    icon: GraduationCap,
-    subject: "Doctor",
-  },
-  {
-    title: "Treatment",
-    url: "treatments",
-    icon: ClipboardPlus,
-    subject: "Treatment",
-  },
-  {
-    title: "POS/Invoices",
-    url: "invoices",
-    icon: ReceiptText,
-    subject: "Invoice",
-  },
-  {
-    title: "Expenses",
-    url: "finance",
-    icon: NotebookPen,
-    subject: ["Expense", "Category"],
-  },
-  {
-    title: "Reports",
-    url: "reports",
-    icon: ChartNoAxesCombined,
-    subject: ["Report-Expense", "Report-Invoice"],
-  },
-  {
-    title: "Settings",
-    url: "settings",
-    icon: Settings,
-    subject: ["Location", "User", "Role"],
-  },
+const NAV_ITEMS = [
+  { titleKey: "sidebar.inventory", url: "items", icon: Box, subject: "Item" },
+  { titleKey: "sidebar.service", url: "services", icon: Receipt, subject: "Service" },
+  { titleKey: "sidebar.patients", url: "patients", icon: Users, subject: "Patient" },
+  { titleKey: "sidebar.doctors", url: "doctors", icon: GraduationCap, subject: "Doctor" },
+  { titleKey: "sidebar.treatment", url: "treatments", icon: ClipboardPlus, subject: "Treatment" },
+  { titleKey: "sidebar.invoices", url: "invoices", icon: ReceiptText, subject: "Invoice" },
+  { titleKey: "sidebar.expenses", url: "finance", icon: NotebookPen, subject: ["Expense", "Category"] },
+  { titleKey: "sidebar.reports", url: "reports", icon: ChartNoAxesCombined, subject: ["Report-Expense", "Report-Invoice"] },
+  { titleKey: "sidebar.settings", url: "settings", icon: Settings, subject: ["Location", "User", "Role"] },
 ];
 
 export function AppSidebar() {
   const location = useLocation();
   const { user, can } = useAuth();
-
   const { logout } = useLogout();
-
+  const { t } = useTranslation();
   const [alertOpen, setAlertOpen] = useState(false);
+  const [lang, setLang] = useState(i18n.language === "my" ? "my" : "en");
+
+  const switchLang = (l: "en" | "my") => {
+    i18n.changeLanguage(l);
+    localStorage.setItem("lang", l);
+    setLang(l);
+  };
 
   const isActive = (path: string) => {
     return location.pathname.startsWith(path)
@@ -136,10 +98,10 @@ export function AppSidebar() {
 
               <SidebarGroupContent>
                 <SidebarMenu className="flex gap-3 w-55 mx-auto mt-3">
-                  {items.map((item) => {
+                  {NAV_ITEMS.map((item) => {
                     if (!can("read", item.subject)) return null;
                     return (
-                      <SidebarMenuItem key={item.title}>
+                      <SidebarMenuItem key={item.titleKey}>
                         <SidebarMenuButton
                           asChild
                           className={`p-6 ${isActive(
@@ -158,7 +120,7 @@ export function AppSidebar() {
                                 `/dashboard/${item.url}`
                               )}`}
                             >
-                              {item.title}
+                              {t(item.titleKey)}
                             </span>
                           </Link>
                         </SidebarMenuButton>
@@ -180,7 +142,7 @@ export function AppSidebar() {
                         <span
                           className={`text-xl ${isTextActive("/dashboard/help")}`}
                         >
-                          Help
+                          {t("sidebar.help")}
                         </span>
                       </Link>
                     </SidebarMenuButton>
@@ -192,11 +154,28 @@ export function AppSidebar() {
               <SidebarGroupContent>
                 <SidebarMenu className="w-55 mx-auto">
                   <SidebarMenuItem>
+                    <div className="flex overflow-hidden rounded-lg border border-[var(--border-color)] mb-2">
+                      {(["en", "my"] as const).map((l) => (
+                        <button
+                          key={l}
+                          onClick={() => switchLang(l)}
+                          className={`flex-1 py-1 text-xs font-medium transition-colors ${
+                            lang === l
+                              ? "bg-[var(--primary-color)] text-white"
+                              : "bg-white text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                          }`}
+                        >
+                          {l === "en" ? "EN" : "မြန်မာ"}
+                        </button>
+                      ))}
+                    </div>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
                     <Button
                       className="w-full bg-white hover:bg-[var(--danger-color)] hover:text-white mb-2 text-black border border-[var(--danger-color)] "
                       onClick={() => setAlertOpen(true)}
                     >
-                      Log out
+                      {t("sidebar.logout")}
                     </Button>
                   </SidebarMenuItem>
                 </SidebarMenu>
@@ -207,8 +186,8 @@ export function AppSidebar() {
       </Sidebar>
       <AlertBox
         open={alertOpen}
-        title="Confirm Logout"
-        description="Are you sure you want to Log out?"
+        title={t("sidebar.confirmLogout")}
+        description={t("sidebar.logoutDescription")}
         onClose={() => setAlertOpen(false)}
         onConfirm={logout}
         mode="confirm"

@@ -5,15 +5,17 @@ import DialogButton from "@/components/button/DialogButton";
 import LocationForm from "@/components/forms/wrapper/LocationForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
-import LocationColumns from "@/components/columns/LocationColumns";
+import { useLocationColumns } from "@/components/columns/LocationColumns";
 import { DataTable } from "@/components/table/data-table";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "react-i18next";
 
 const LocationPage = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -46,7 +48,7 @@ const LocationPage = () => {
     },
   });
 
-  const columns = LocationColumns({
+  const columns = useLocationColumns({
     onDelete: deleteLocationMutate,
     isDeleting,
   });
@@ -57,13 +59,13 @@ const LocationPage = () => {
     <>
       <div>
         <Header
-          header="Locations"
+          header={t("location.management")}
           className="text-2xl"
           action={
             <>
               {can("create", "Location") && (
                 <DialogButton
-                  name="Add Location"
+                  name={t("location.addNew")}
                   icon={<Plus />}
                   openFrom={() => setIsFormOpen(true)}
                 />
@@ -74,7 +76,7 @@ const LocationPage = () => {
         <DataTable
           columns={columns}
           data={data ?? []}
-          prompt="Search by names or phone numbers"
+          prompt={t("location.searchPlaceholder")}
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
         />
@@ -82,7 +84,7 @@ const LocationPage = () => {
           <AlertBox
             open={errorOpen}
             onClose={() => setErrorOpen(false)}
-            title="Error"
+            title={t("common.error")}
             description={fetchError.message}
             mode={"error"}
           />

@@ -6,6 +6,7 @@ import { formatDate } from "@/utils/formatDate";
 import { CalendarIcon } from "lucide-react";
 import type { DateRange } from "@/types/TreatmentType";
 import type { Table } from "@tanstack/react-table";
+import { useTranslation } from "react-i18next";
 
 type FilterByDateProps<TData> = {
   date: DateRange;
@@ -20,6 +21,8 @@ const FilterByDate = <TData,>({
   setDate,
   serverSideSearch,
 }: FilterByDateProps<TData>) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex gap-3">
       <Popover>
@@ -34,7 +37,7 @@ const FilterByDate = <TData,>({
             {date.startDate ? (
               formatDate(date?.startDate)
             ) : (
-              <span>Start Date</span>
+              <span>{t("startDate")}</span>
             )}
             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
           </Button>
@@ -74,7 +77,7 @@ const FilterByDate = <TData,>({
               !date.endDate && "text-muted-foreground"
             )}
           >
-            {date.endDate ? formatDate(date?.endDate) : <span>End Date</span>}
+            {date.endDate ? formatDate(date?.endDate) : <span>{t("endDate")}</span>}
             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
           </Button>
         </PopoverTrigger>

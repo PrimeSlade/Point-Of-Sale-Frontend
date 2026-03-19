@@ -13,6 +13,7 @@ import type { LocationType } from "@/types/LocationType";
 import { addUser, editUserById } from "@/api/users";
 import type { Role } from "@/types/RoleType";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "react-i18next";
 
 type UserFormProps = {
   data?: User;
@@ -31,6 +32,7 @@ const UserForm = ({
   locationData,
   roleData,
 }: UserFormProps) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   //useAuth
@@ -79,26 +81,26 @@ const UserForm = ({
   const formSchema = z.object({
     name: z
       .string()
-      .min(2, { message: "User name must be at least 2 characters." })
-      .max(50, { message: "User name must be at most 50 characters." }),
+      .min(2, { message: t("form.user.error.name_min") })
+      .max(50, { message: t("form.user.error.name_max") }),
 
-    email: z.email({ message: "Please enter a valid email address." }),
+    email: z.email({ message: t("form.user.error.email_invalid") }),
 
     password: z
       .string()
-      .min(5, { message: "Password must be at least 6 characters long." }),
+      .min(5, { message: t("form.user.error.password_min") }),
 
     pricePercent: z
-      .number({ message: "Price percentage must be a valid number." })
-      .min(0, { message: "Price percentage cannot be negative." })
-      .max(100, { message: "Price percentage cannot exceed 100%." }),
+      .number({ message: t("form.user.error.price_percent_invalid") })
+      .min(0, { message: t("form.user.error.price_percent_negative") })
+      .max(100, { message: t("form.user.error.price_percent_max") }),
 
     locationId: z.number({
-      message: "Please select a valid location.",
+      message: t("form.user.error.location_required"),
     }),
 
     roleId: z.number({
-      message: "Please select a valid role.",
+      message: t("form.user.error.role_required"),
     }),
   });
 
@@ -125,31 +127,31 @@ const UserForm = ({
   const userFields = [
     {
       name: "name",
-      label: "User Name",
-      placeholder: "Enter user name",
+      label: t("form.user.name_label"),
+      placeholder: t("form.user.name_placeholder"),
     },
     {
       name: "email",
-      label: "Email",
-      placeholder: "Enter email address",
+      label: t("form.user.email_label"),
+      placeholder: t("form.user.email_placeholder"),
       type: "email" as Types,
     },
     {
       name: "password",
-      label: "Password",
-      placeholder: "Enter password",
+      label: t("form.user.password_label"),
+      placeholder: t("form.user.password_placeholder"),
       type: "password" as Types,
     },
     {
       name: "pricePercent",
-      label: "Price Percentage (%)",
-      placeholder: "Enter price percentage",
+      label: t("form.user.price_percent_label"),
+      placeholder: t("form.user.price_percent_placeholder"),
       type: "number" as Types,
     },
     {
       name: "locationId",
-      label: "Location",
-      placeholder: "Select a Location",
+      label: t("form.user.location_label"),
+      placeholder: t("form.user.location_placeholder"),
       fieldType: "select" as FieldType,
       options: locationData.map((l: LocationType) => ({
         value: l.id,
@@ -158,8 +160,8 @@ const UserForm = ({
     },
     {
       name: "roleId",
-      label: "Role",
-      placeholder: "Select a Role",
+      label: t("form.user.role_label"),
+      placeholder: t("form.user.role_placeholder"),
       fieldType: "select" as FieldType,
       options: roleData.map((r: Role) => ({
         value: r.id,
@@ -172,7 +174,7 @@ const UserForm = ({
     <ReusableFormDialog
       open={open}
       onClose={onClose}
-      title={mode === "create" ? "Add New User" : "Edit User"}
+      title={mode === "create" ? t("form.user.add_title") : t("form.user.edit_title")}
       fields={userFields}
       form={form}
       onSubmit={onSubmit}

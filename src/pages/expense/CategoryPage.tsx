@@ -3,7 +3,7 @@ import { useCategories } from "@/hooks/useCategories";
 import { useLocations } from "@/hooks/useLocations";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
-import CategoryColumns from "@/components/columns/CategoryColumns";
+import { useCategoryColumns } from "@/components/columns/CategoryColumns";
 import CategoryForm from "@/components/forms/wrapper/CategoryForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
@@ -14,9 +14,11 @@ import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 const CategoryPage = () => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
@@ -64,24 +66,24 @@ const CategoryPage = () => {
     }
   }, [fetchError]);
 
-  if (isLoading) return <Loading className="h-150" />;
-
-  const columns = CategoryColumns({
+  const columns = useCategoryColumns({
     onDelete: deleteCategoryMutate,
     isDeleting,
     locations,
   });
 
+  if (isLoading) return <Loading className="h-150" />;
+
   return (
     <>
       <Header
-        header="Categories"
+        header={t("category.management")}
         className="text-2xl"
         action={
           <>
             {can("create", "Category") && (
               <DialogButton
-                name="Add Category"
+                name={t("category.addNew")}
                 icon={<Plus />}
                 openFrom={() => setIsFormOpen(true)}
               />
@@ -92,7 +94,7 @@ const CategoryPage = () => {
       <DataTable
         columns={columns}
         data={categories.data ?? []}
-        prompt="Search by names"
+        prompt={t("category.searchPlaceholder")}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
         pagination
@@ -103,7 +105,7 @@ const CategoryPage = () => {
         <AlertBox
           open={errorOpen}
           onClose={() => setErrorOpen(false)}
-          title="Error"
+          title={t("common.error")}
           description={fetchError.message}
           mode={"error"}
         />

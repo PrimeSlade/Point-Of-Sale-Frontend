@@ -2,11 +2,14 @@ import Header from "@/components/header/Header";
 import NavBar from "@/components/navbar/NavBar";
 import { FileText, Wallet } from "lucide-react";
 import { Outlet } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ReportPage = () => {
+  const { t } = useTranslation();
+
   const navItems = [
     {
-      name: "Expenses",
+      name: t("expense.management"),
       path: "expenses",
       icon: <Wallet />,
       subject: "Expense",
@@ -22,9 +25,9 @@ const ReportPage = () => {
   return (
     <div>
       <Header
-        header="Financial Overview Reports"
+        header={t("report.financialOverview")}
         className="text-3xl"
-        subHeader="Manage operational costs and billing efficiently"
+        subHeader={t("report.subHeader")}
       />
       <NavBar navItems={navItems} />
       <div className="mt-5">

@@ -7,6 +7,7 @@ import {
 } from "../ui/select";
 import type { Table } from "@tanstack/react-table";
 import type { LocationType } from "@/types/LocationType";
+import { useTranslation } from "react-i18next";
 
 type Props<TData> = {
   table: Table<TData>;
@@ -23,6 +24,8 @@ const FilterBtn = <TData,>({
   locations,
   columnFilters,
 }: Props<TData>) => {
+  const { t } = useTranslation();
+
   return (
     <Select
       value={
@@ -43,7 +46,7 @@ const FilterBtn = <TData,>({
       }}
     >
       <SelectTrigger className="ml-auto w-70">
-        <SelectValue placeholder="Select location" />
+        <SelectValue placeholder={t("common.selectLocation")} />
       </SelectTrigger>
       <SelectContent align="end">
         <SelectItem value="__all">All Locations</SelectItem>

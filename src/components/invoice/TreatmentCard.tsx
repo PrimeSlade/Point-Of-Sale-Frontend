@@ -1,5 +1,6 @@
 import type { TreatmentData } from "@/types/TreatmentType";
 import { formatDate } from "@/utils/formatDate";
+import { useTranslation } from "react-i18next";
 
 type TreatmentCardProps = {
   data: TreatmentData;
@@ -12,6 +13,7 @@ const TreatmentCard = ({
   isSelected = false,
   onSelect,
 }: TreatmentCardProps) => {
+  const { t } = useTranslation();
   const formatted = formatDate(new Date(data.createdAt));
 
   return (
@@ -32,7 +34,7 @@ const TreatmentCard = ({
                   isSelected ? "text-green-600" : "text-[var(--text-secondary)]"
                 }`}
               >
-                Patient Name
+                {t("column.patientName")}
               </label>
               <div
                 className={`font-bold text-lg ${
@@ -49,7 +51,7 @@ const TreatmentCard = ({
                   isSelected ? "text-green-600" : "text-[var(--text-secondary)]"
                 }`}
               >
-                Doctor Name
+                {t("column.doctorName")}
               </label>
               <div
                 className={`font-bold ${isSelected ? "text-green-700" : ""}`}

@@ -6,10 +6,12 @@ import AlertBox from "@/components/alertBox/AlertBox";
 import Header from "@/components/header/Header";
 import PatientCard from "@/components/patient/PatientCard";
 import TreatmentCard from "@/components/patient/TreatmentCard";
+import { useTranslation } from "react-i18next";
 
 const PatientDetailsPage = () => {
   const { id } = useParams();
   const [errorOpen, setErrorOpen] = useState(false);
+  const { t } = useTranslation();
 
   //tenstack
   const {
@@ -50,7 +52,7 @@ const PatientDetailsPage = () => {
         <AlertBox
           open={errorOpen}
           onClose={() => setErrorOpen(false)}
-          title="Error"
+          title={t("common.error")}
           description={fetchPatientError.message}
           mode={"error"}
         />

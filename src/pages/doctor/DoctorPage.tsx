@@ -3,7 +3,7 @@ import { useLocations } from "@/hooks/useLocations";
 import { useDoctors } from "@/hooks/useDoctors";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
-import DoctorColumns from "@/components/columns/DoctorColumns";
+import { useDoctorColumns } from "@/components/columns/DoctorColumns";
 import DoctorForm from "@/components/forms/wrapper/DoctorForm";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
@@ -14,9 +14,11 @@ import type { PaginationState } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 const DoctorPage = () => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
@@ -54,27 +56,27 @@ const DoctorPage = () => {
 
   const isLoading = isFetchingDoctors || isFetchingLocations;
 
-  if (isLoading)
-    return <Loading className="flex justify-center h-screen items-center" />;
-
-  const columns = DoctorColumns({
+  const columns = useDoctorColumns({
     onDelete: deleteDoctorMutate,
     isDeleting,
     locations,
   });
 
+  if (isLoading)
+    return <Loading className="flex justify-center h-screen items-center" />;
+
   return (
     <>
       <div>
         <Header
-          header="Doctor Management"
+          header={t("doctor.management")}
           className="text-3xl"
-          subHeader="Manage doctor records and information"
+          subHeader={t("doctor.subHeader")}
           action={
             <div className="flex gap-2">
               {can("create", "Doctor") && (
                 <DialogButton
-                  name="Add New Doctor"
+                  name={t("doctor.addNew")}
                   icon={<Plus />}
                   openFrom={() => setIsFormOpen(true)}
                 />
@@ -85,7 +87,7 @@ const DoctorPage = () => {
         <DataTable
           columns={columns}
           data={doctors?.data ?? []}
-          prompt="Search by names, emails or phone numbers"
+          prompt={t("doctor.searchPlaceholder")}
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
           pagination
@@ -96,7 +98,7 @@ const DoctorPage = () => {
           <AlertBox
             open={errorOpen}
             onClose={() => setErrorOpen(false)}
-            title="Error"
+            title={t("common.error")}
             description={fetchDoctorError.message}
             mode={"error"}
           />

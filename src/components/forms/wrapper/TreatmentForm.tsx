@@ -8,11 +8,12 @@ import type { PatientData } from "@/types/PatientType";
 import type { TreatmentData } from "@/types/TreatmentType";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import z from "zod";
+import { useTranslation } from "react-i18next";
 
 type TreatmentFormProps = {
   treatmentData?: TreatmentData;
@@ -27,6 +28,7 @@ const TreatmentForm = ({
   mode,
   treatmentData,
 }: TreatmentFormProps) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -35,19 +37,23 @@ const TreatmentForm = ({
   );
   const [selectedDoctor, setSelectedDoctor] = useState<DoctorData | null>(null);
 
-  //zod
-  const formSchema = z.object({
-    investigation: z.string().optional(),
-    diagnosis: z.string().optional(),
-    treatment: z
-      .string()
-      .min(5, {
-        message: "Treatment must be at least 5 characters.",
-      })
-      .max(300, {
-        message: "Treatment must not be longer than 250 characters.",
+  //zod - defined inside component via useMemo so it can access t()
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        investigation: z.string().optional(),
+        diagnosis: z.string().optional(),
+        treatment: z
+          .string()
+          .min(5, {
+            message: t("treatment.form.treatmentErrorMin"),
+          })
+          .max(300, {
+            message: t("treatment.form.treatmentErrorMax"),
+          }),
       }),
-  });
+    [t]
+  );
 
   //tenstack
   const {
@@ -109,7 +115,7 @@ const TreatmentForm = ({
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     if (!selectedPatient || !selectedDoctor) {
-      toast.error("Please select a patient and a doctor before creating.");
+      toast.error(t("treatment.form.errorSelectBoth"));
       return;
     }
 
@@ -130,10 +136,10 @@ const TreatmentForm = ({
     <div className="grid grid-cols-3 gap-x-5 mt-5 gap-y-5">
       <div className="col-span-2">
         <PatientDoctorForm<PatientData>
-          title="Selected Patient"
-          btnLabel="Click to select a patient"
-          dialogTitle="Select a patient"
-          placeholder="Search by names"
+          title={t("treatment.form.selectPatient")}
+          btnLabel={t("treatment.form.clickToSelectPatient")}
+          dialogTitle={t("treatment.form.dialogSelectPatient")}
+          placeholder={t("treatment.form.searchByName")}
           setSelectedPerson={setSelectedPatient}
           data={patientData ?? []}
           selectedPerson={selectedPatient}
@@ -145,10 +151,10 @@ const TreatmentForm = ({
       </div>
       <div className="col-span-2">
         <PatientDoctorForm<DoctorData>
-          title="Assign Doctor"
-          btnLabel="Click to select a doctor"
-          dialogTitle="Select a doctor"
-          placeholder="Search by names"
+          title={t("treatment.form.assignDoctor")}
+          btnLabel={t("treatment.form.clickToSelectDoctor")}
+          dialogTitle={t("treatment.form.dialogSelectDoctor")}
+          placeholder={t("treatment.form.searchByName")}
           setSelectedPerson={setSelectedDoctor}
           data={doctorData ?? []}
           selectedPerson={selectedDoctor}
@@ -164,24 +170,24 @@ const TreatmentForm = ({
           >
             <CustomTextarea
               label="investigation"
-              placeholder="Type your investigation here"
-              title="Investigation"
+              placeholder={t("treatment.form.investigationPlaceholder")}
+              title={t("treatment.form.investigationLabel")}
               form={form}
               name="investigation"
               optional
             />
             <CustomTextarea
               label="diagnosis"
-              placeholder="Type your diagnosis here"
-              title="Diagnosis"
+              placeholder={t("treatment.form.diagnosisPlaceholder")}
+              title={t("treatment.form.diagnosisLabel")}
               form={form}
               name="diagnosis"
               optional
             />
             <CustomTextarea
               label="treatment"
-              placeholder="Type your treatment here"
-              title="Treatment"
+              placeholder={t("treatment.form.treatmentPlaceholder")}
+              title={t("treatment.form.treatmentLabel")}
               form={form}
               name="treatment"
             />
@@ -190,7 +196,9 @@ const TreatmentForm = ({
                 type="submit"
                 className="w-60 flex bg-[var(--success-color)] hover:bg-[var(--success-color-hover)]"
               >
-                {mode === "create" ? "Create Treatment" : "Update Treatment"}
+                {mode === "create"
+                  ? t("treatment.form.createBtn")
+                  : t("treatment.form.updateBtn")}
               </Button>
             </div>
           </form>

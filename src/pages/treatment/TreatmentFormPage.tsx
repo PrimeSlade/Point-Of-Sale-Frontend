@@ -5,8 +5,10 @@ import { useDoctors } from "@/hooks/useDoctors";
 import { usePatients } from "@/hooks/usePatients";
 import { useTreatment } from "@/hooks/useTreatments";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const TreatmentFormPage = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const isEdit = Boolean(id);
 
@@ -35,10 +37,10 @@ const TreatmentFormPage = () => {
   return (
     <>
       <Header
-        header={isEdit ? "Edit Treatment" : "Treatment Creation"}
+        header={isEdit ? t("treatment.edit") : t("treatment.creation")}
         className="text-3xl"
         subHeader={
-          isEdit ? "Modify existing treatment details" : "Create new treatments"
+          isEdit ? t("treatment.editSubHeader") : t("treatment.createSubHeader")
         }
       />
       <TreatmentForm

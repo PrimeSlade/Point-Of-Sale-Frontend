@@ -2,7 +2,7 @@ import { deleteRoleById } from "@/api/roles";
 import { useRoles } from "@/hooks/useRoles";
 import AlertBox from "@/components/alertBox/AlertBox";
 import DialogButton from "@/components/button/DialogButton";
-import RoleColumns from "@/components/columns/RoleColumns";
+import { useRoleColumns } from "@/components/columns/RoleColumns";
 import Header from "@/components/header/Header";
 import Loading from "@/components/loading/Loading";
 import { DataTable } from "@/components/table/data-table";
@@ -12,8 +12,10 @@ import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 const RolePage = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -53,7 +55,7 @@ const RolePage = () => {
 
   if (isFetchingRoles) return <Loading className="h-150" />;
 
-  const columns = RoleColumns({
+  const columns = useRoleColumns({
     onDelete: deleteRoleMutate,
     isDeleting,
   });
@@ -61,13 +63,13 @@ const RolePage = () => {
   return (
     <div>
       <Header
-        header="Roles"
+        header={t("role.management")}
         className="text-2xl"
         action={
           <>
             {can("create", "Role") && (
               <DialogButton
-                name="Add Role"
+                name={t("role.addNew")}
                 icon={<Plus />}
                 openFrom={() => navigate("/dashboard/settings/roles/add")}
               />
@@ -78,7 +80,7 @@ const RolePage = () => {
       <DataTable
         columns={columns}
         data={roles.data ?? []}
-        prompt="Search by names or emails"
+        prompt={t("role.searchPlaceholder")}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />
@@ -86,7 +88,7 @@ const RolePage = () => {
         <AlertBox
           open={errorOpen}
           onClose={() => setErrorOpen(false)}
-          title="Error"
+          title={t("common.error")}
           description={fetchRoleError.message}
           mode={"error"}
         />

@@ -8,12 +8,14 @@ import {
 import type { TreatmentData } from "@/types/TreatmentType";
 import { formatDate } from "@/utils/formatDate";
 import { Eye } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 type TreatmentCardProps = {
   data: TreatmentData;
 };
 
 const TreatmentCard = ({ data }: TreatmentCardProps) => {
+  const { t } = useTranslation();
   const formatted = formatDate(new Date(data.createdAt));
 
   return (
@@ -30,11 +32,11 @@ const TreatmentCard = ({ data }: TreatmentCardProps) => {
             <DialogTitle>Treatment Details</DialogTitle>
           </DialogHeader>
           <div className="grid grid-cols-3 gap-y-3 p-5">
-            <h1 className="font-bold text-[var(--text-secondary)]">Name</h1>
+            <h1 className="font-bold text-[var(--text-secondary)]">{t("column.name")}</h1>
             <h1 className="font-bold text-[var(--text-secondary)]">
-              Patient Name
+              {t("column.patientName")}
             </h1>
-            <h1 className="font-bold text-[var(--text-secondary)]">Date</h1>
+            <h1 className="font-bold text-[var(--text-secondary)]">{t("column.date")}</h1>
 
             <div className="col-span-3 grid grid-cols-3 rounded-md border bg-[var(--background-color)]">
               <div className="px-3 py-2">{data.patient?.name}</div>
@@ -45,7 +47,7 @@ const TreatmentCard = ({ data }: TreatmentCardProps) => {
             {data.investigation && (
               <>
                 <h1 className="font-bold text-[var(--text-secondary)] col-span-3">
-                  Investigation
+                  {t("treatment.form.investigationLabel")}
                 </h1>
                 <div className="px-3 py-2 border rounded-md bg-[var(--background-color)] col-span-3">
                   {data.investigation}
@@ -56,7 +58,7 @@ const TreatmentCard = ({ data }: TreatmentCardProps) => {
             {data.diagnosis && (
               <>
                 <h1 className="font-bold text-[var(--text-secondary)] col-span-3">
-                  Diagnosis
+                  {t("treatment.form.diagnosisLabel")}
                 </h1>
                 <div className="px-3 py-2 border rounded-md bg-[var(--background-color)] col-span-3">
                   {data.diagnosis}
@@ -65,7 +67,7 @@ const TreatmentCard = ({ data }: TreatmentCardProps) => {
             )}
 
             <h1 className="font-bold text-[var(--text-secondary)] col-span-3">
-              Treatment
+              {t("treatment.form.treatmentLabel")}
             </h1>
             <div className="px-3 py-2 border rounded-md bg-[var(--background-color)] col-span-3">
               {data.treatment}

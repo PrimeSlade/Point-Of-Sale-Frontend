@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import ReusableFormDialog, { type Types } from "../form/ReusableFrom";
 import type { Dispatch, SetStateAction } from "react";
+import { useTranslation } from "react-i18next";
 
 type LocationFormProps = {
   id?: number;
@@ -26,6 +27,7 @@ const LocationForm = ({
   oldPhoneNumber,
   id,
 }: LocationFormProps) => {
+  const { t } = useTranslation();
   //TenStack
   const queryClient = useQueryClient();
 
@@ -65,17 +67,16 @@ const LocationForm = ({
   const formSchema = z.object({
     name: z
       .string()
-      .min(2, { message: "Name must be at least 2 characters." })
-      .max(50, { message: "Name must be at most 50 characters." }),
+      .min(2, { message: t("form.location.error.name_min") })
+      .max(50, { message: t("form.location.error.name_max") }),
 
     address: z
       .string()
-      .min(2, { message: "Address must be at least 2 characters." })
-      .max(50, { message: "Address must be at most 50 characters." }),
+      .min(2, { message: t("form.location.error.address_min") })
+      .max(50, { message: t("form.location.error.address_max") }),
 
     phoneNumber: z.string().regex(/^\+?[0-9]{9,15}$/, {
-      message:
-        "Phone number must contain only digits and be 9–15 characters long.",
+      message: t("form.location.error.phone_invalid"),
     }),
   });
 
@@ -99,14 +100,18 @@ const LocationForm = ({
   const locationFields = [
     {
       name: "name",
-      label: "Location Name",
-      placeholder: "Enter location name",
+      label: t("form.location.name_label"),
+      placeholder: t("form.location.name_placeholder"),
     },
-    { name: "address", label: "Address", placeholder: "Enter address" },
+    {
+      name: "address",
+      label: t("form.location.address_label"),
+      placeholder: t("form.location.address_placeholder"),
+    },
     {
       name: "phoneNumber",
-      label: "Phone Number",
-      placeholder: "Enter phone number",
+      label: t("form.location.phone_label"),
+      placeholder: t("form.location.phone_placeholder"),
     },
   ];
 
@@ -114,7 +119,7 @@ const LocationForm = ({
     <ReusableFormDialog
       open={open}
       onClose={onClose}
-      title="Add New Location"
+      title={t("form.location.add_title")}
       fields={locationFields}
       form={form}
       onSubmit={onSubmit}

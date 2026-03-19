@@ -1,0 +1,439 @@
+{
+  "action": {
+    "add": "Add",
+    "cancel": "Cancel",
+    "saveChanges": "Save Changes"
+  },
+  "column": {
+    "actions": "Actions",
+    "address": "Address",
+    "age": "Age",
+    "amount": "Amount",
+    "category": "Category",
+    "commission": "Commission (%)",
+    "date": "Date",
+    "department": "Department",
+    "description": "Description",
+    "doctorName": "Doctor Name",
+    "email": "Email",
+    "expiryDate": "Expiry Date",
+    "inStock": "In Stock",
+    "invoiceId": "Invoice ID",
+    "location": "Location",
+    "name": "Name",
+    "no": "No.",
+    "patientName": "Patient Name",
+    "paymentMethod": "Payment Method",
+    "phone": "Phone",
+    "pricePercent": "Price Percent",
+    "purchasePrice": "Purchase Price",
+    "retailPrice": "Retail Price",
+    "role": "Role",
+    "roleName": "Role Name",
+    "totalAmount": "Total Amount",
+    "unit": "Unit"
+  },
+  "common": {
+    "action": "Action",
+    "action.select_category": "Select Category",
+    "action.select_condition": "Select Condition",
+    "action.select_department": "Select Department",
+    "action.select_gender": "Select Gender",
+    "action.select_location": "Select Location",
+    "action.select_status": "Select Status",
+    "action.select_type": "Select Type",
+    "confirmDeletion": "Confirm Deletion",
+    "deleteDescription": "Are you sure you want to delete this item?",
+    "description": "Description",
+    "error": "Error",
+    "errorOccurred": "An error occurred. Please try again.",
+    "location": "Location",
+    "name": "Name",
+    "no": "No",
+    "pickDate": "Pick a date",
+    "price": "Price",
+    "quantity": "Quantity",
+    "selectLocation": "Select Location",
+    "services": "Services",
+    "unitType": "Unit Type",
+    "walkIn": "Walk-in Patient",
+    "yes": "Yes"
+  },
+  "doctor": {
+    "addNew": "Add New Doctor",
+    "edit": "Edit Doctor",
+    "form": {
+      "addressLabel": "Address",
+      "addressPlaceholder": "Enter doctor's address",
+      "commissionError": "Commission must be a valid number",
+      "commissionLabel": "Commission (%)",
+      "commissionNegative": "Commission cannot be negative",
+      "commissionPlaceholder": "Enter commission percentage",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Enter description",
+      "emailError": "Please enter a valid email address",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Enter email address",
+      "locationError": "Please select a location",
+      "locationLabel": "Location",
+      "locationPlaceholder": "Select location",
+      "nameErrorMax": "Name cannot exceed 50 characters",
+      "nameErrorMin": "Name must be at least 2 characters",
+      "nameLabel": "Doctor Name",
+      "namePlaceholder": "Enter doctor's name",
+      "phoneError": "Please enter a valid phone number",
+      "phoneLabel": "Phone",
+      "phonePlaceholder": "Enter phone number"
+    },
+    "management": "Doctor Management",
+    "searchPlaceholder": "Search by name, email or phone",
+    "subHeader": "Manage doctor records and information"
+  },
+  "endDate": "End Date",
+  "error": "Error",
+  "filter": "Filter",
+  "form": {
+    "category": {
+      "create_title": "Create Category",
+      "edit_title": "Edit Category",
+      "error": {
+        "location_required": "Location is required",
+        "name_max": "Name cannot exceed 50 characters",
+        "name_min": "Name must be at least 2 characters"
+      },
+      "label": {
+        "description": "Description",
+        "location": "Location",
+        "name": "Category Name"
+      },
+      "placeholder": {
+        "description": "Enter description",
+        "name": "Enter category name"
+      },
+      "toast": {
+        "create_success": "Category created successfully",
+        "edit_success": "Category updated successfully"
+      }
+    },
+    "expense": {
+      "create_title": "Add New Expense",
+      "edit_title": "Edit Expense",
+      "error": {
+        "amount_invalid": "Amount must be a valid number",
+        "amount_negative": "Amount cannot be negative",
+        "category_required": "Category is required",
+        "date_required": "Date is required",
+        "location_required": "Location is required",
+        "name_max": "Name cannot exceed 50 characters",
+        "name_min": "Name must be at least 2 characters"
+      },
+      "label": {
+        "amount": "Amount",
+        "category": "Category",
+        "date": "Date",
+        "description": "Description",
+        "location": "Location",
+        "name": "Expense Name"
+      },
+      "placeholder": {
+        "amount": "Enter amount",
+        "date": "Pick a date",
+        "description": "Enter description",
+        "name": "Enter expense name"
+      },
+      "toast": {
+        "create_success": "Expense recorded successfully",
+        "edit_success": "Expense updated successfully"
+      }
+    },
+    "inventory": {
+      "category": "Category",
+      "expiryDate": "Expiry Date",
+      "itemName": "Item Name",
+      "purchasePrice": "Purchase Price",
+      "rate": "Rate",
+      "selectUnitType": "Select Unit Type",
+      "unitType": "Unit Type"
+    },
+    "invoice": {
+      "discountPrice": "Discount Price",
+      "generateInvoice": "Generate Invoice",
+      "location": "Location",
+      "retailPrice": "Retail Price",
+      "selectServices": "Select Services",
+      "updateInvoice": "Update Invoice"
+    },
+    "item": {
+      "error": {
+        "category_max": "Category cannot exceed 50 characters",
+        "category_min": "Category must be at least 2 characters",
+        "expiry_date_required": "Expiry date is required",
+        "location_required": "Location is required",
+        "name_max": "Name cannot exceed 100 characters",
+        "name_min": "Name must be at least 2 characters",
+        "price_negative": "Price cannot be negative",
+        "quantity_negative": "Quantity cannot be negative",
+        "quantity_number": "Quantity must be a number",
+        "quantity_whole": "Quantity must be a whole number",
+        "rate_number": "Rate must be a number",
+        "unit_required": "Unit is required",
+        "units_length": "Unit must be between 1 and 20 characters"
+      },
+      "toast": {
+        "create_success": "Item added successfully",
+        "edit_success": "Item updated successfully"
+      }
+    },
+    "location": {
+      "add_title": "Add New Location",
+      "address_label": "Address",
+      "address_placeholder": "Enter location address",
+      "error": {
+        "address_max": "Address cannot exceed 200 characters",
+        "address_min": "Address must be at least 5 characters",
+        "name_max": "Name cannot exceed 50 characters",
+        "name_min": "Name must be at least 2 characters",
+        "phone_invalid": "Invalid phone number"
+      },
+      "name_label": "Location Name",
+      "name_placeholder": "Enter location name",
+      "phone_label": "Phone Number",
+      "phone_placeholder": "Enter phone number"
+    },
+    "login": {
+      "email_label": "Email Address",
+      "email_placeholder": "Enter your email",
+      "error": {
+        "email_required": "Email is required",
+        "password_required": "Password is required"
+      },
+      "password_label": "Password",
+      "password_placeholder": "Enter your password"
+    },
+    "patient": {
+      "create_title": "Add New Patient",
+      "edit_title": "Edit Patient",
+      "error": {
+        "condition_required": "Condition is required",
+        "department_required": "Department is required",
+        "dob_required": "Date of birth is required",
+        "gender_required": "Gender is required",
+        "location_required": "Location is required",
+        "name_max": "Name cannot exceed 50 characters",
+        "name_min": "Name must be at least 2 characters",
+        "phone_invalid": "Invalid phone number",
+        "status_required": "Status is required",
+        "type_required": "Patient type is required"
+      },
+      "label": {
+        "address": "Address",
+        "condition": "Condition",
+        "department": "Department",
+        "dob": "Date of Birth",
+        "email": "Email",
+        "gender": "Gender",
+        "location": "Location",
+        "name": "Patient Name",
+        "phone": "Phone Number",
+        "status": "Status",
+        "type": "Patient Type"
+      },
+      "placeholder": {
+        "address": "Enter address",
+        "dob": "Pick a date",
+        "email": "Enter email",
+        "name": "Enter patient name",
+        "phone": "Enter phone number"
+      },
+      "toast": {
+        "create_success": "Patient added successfully",
+        "edit_success": "Patient updated successfully"
+      }
+    },
+    "role": {
+      "enterName": "Enter Role Name",
+      "error": {
+        "name_max": "Role name cannot exceed 50 characters",
+        "name_min": "Role name must be at least 2 characters",
+        "permissions_required": "At least one permission is required"
+      }
+    },
+    "service": {
+      "add_title": "Add New Service",
+      "error": {
+        "name_max": "Name cannot exceed 100 characters",
+        "name_min": "Name must be at least 2 characters",
+        "price_negative": "Price cannot be negative"
+      },
+      "name_label": "Service Name",
+      "name_placeholder": "Enter service name",
+      "price_label": "Price",
+      "price_placeholder": "Enter price"
+    },
+    "user": {
+      "add_title": "Add New User",
+      "edit_title": "Edit User",
+      "email_label": "Email",
+      "email_placeholder": "Enter email address",
+      "error": {
+        "email_invalid": "Invalid email address",
+        "location_required": "Location is required",
+        "name_max": "Name cannot exceed 50 characters",
+        "name_min": "Name must be at least 2 characters",
+        "password_min": "Password must be at least 6 characters",
+        "price_percent_invalid": "Invalid percentage",
+        "price_percent_max": "Percentage cannot exceed 100",
+        "price_percent_negative": "Percentage cannot be negative",
+        "role_required": "Role is required"
+      },
+      "location_label": "Location",
+      "location_placeholder": "Select location",
+      "name_label": "User Name",
+      "name_placeholder": "Enter user name",
+      "password_label": "Password",
+      "password_placeholder": "Enter password",
+      "price_percent_label": "Price Percent (%)",
+      "price_percent_placeholder": "Enter percentage",
+      "role_label": "Role",
+      "role_placeholder": "Select role"
+    }
+  },
+  "inventory": {
+    "addNew": "Add Item",
+    "management": "Inventory Management",
+    "searchPlaceholder": "Search by item names or category",
+    "subHeader": "Manage products and stock levels"
+  },
+  "category": {
+    "addNew": "Add Category",
+    "management": "Category Management",
+    "searchPlaceholder": "Search by category name"
+  },
+  "expense": {
+    "addNew": "Add Expense",
+    "management": "Expense Management",
+    "searchPlaceholder": "Search by names or descriptions"
+  },
+  "invoice": {
+    "addNew": "Add Invoice",
+    "management": "Invoice Management",
+    "searchPlaceholder": "Search by patient names",
+    "subHeader": "Manage billing and invoices"
+  },
+  "patient": {
+    "addNew": "Add New Patient",
+    "address": "Address",
+    "condition": "Condition",
+    "department": "Department",
+    "dob": "Date of Birth",
+    "email": "Email",
+    "gender": "Gender",
+    "info": "Patient Information",
+    "lastVisit": "Last Visit",
+    "location": "Location",
+    "management": "Patient Management",
+    "name": "Name",
+    "newTreatment": "New Treatment",
+    "noAddress": "No address provided",
+    "noEmail": "No email provided",
+    "noTreatments": "No treatments recorded",
+    "noVisits": "No visits yet",
+    "phone": "Phone",
+    "searchPlaceholder": "Search by name or phone",
+    "status": "Status",
+    "subHeader": "Manage patient records and information",
+    "totalTreatments": "Total Treatments",
+    "treatmentHistory": "Treatment History",
+    "type": "Type"
+  },
+  "report": {
+    "financialOverview": "Financial Overview Reports",
+    "subHeader": "Manage operational costs and billing efficiently"
+  },
+  "role": {
+    "addNew": "Add Role",
+    "management": "Role Management",
+    "searchPlaceholder": "Search roles",
+    "admin": "Admin"
+  },
+  "location": {
+    "addNew": "Add Location",
+    "management": "Location Management",
+    "searchPlaceholder": "Search locations"
+  },
+  "service": {
+    "addNew": "Add Service",
+    "management": "Service Management",
+    "searchPlaceholder": "Search services",
+    "subHeader": "Manage available services"
+  },
+  "user": {
+    "addNew": "Add User",
+    "management": "User Management",
+    "searchPlaceholder": "Search users"
+  },
+  "search": "Search",
+  "searchBy": "Search By",
+  "sidebar": {
+    "confirmLogout": "Confirm Logout",
+    "help": "Help",
+    "logout": "Logout",
+    "logoutDescription": "Are you sure you want to logout?",
+    "inventory": "Inventory",
+    "service": "Service",
+    "patients": "Patients",
+    "doctors": "Doctors",
+    "treatment": "Treatment",
+    "invoices": "POS/Invoices",
+    "expenses": "Expenses",
+    "reports": "Reports",
+    "settings": "Settings"
+  },
+  "startDate": "Start Date",
+  "table": {
+    "noResults": "No results found",
+    "totalAmount": "Total Amount"
+  },
+  "treatment": {
+    "addNew": "Register New Treatment",
+    "createSubHeader": "Create new treatment record",
+    "creation": "Treatment Creation",
+    "edit": "Edit Treatment",
+    "editSubHeader": "Modify existing treatment details",
+    "form": {
+      "assignDoctor": "Assign Doctor",
+      "clickToSelectDoctor": "Click to select a doctor",
+      "clickToSelectPatient": "Click to select a patient",
+      "createBtn": "Create Treatment",
+      "diagnosisLabel": "Diagnosis",
+      "diagnosisPlaceholder": "Enter diagnosis",
+      "dialogSelectDoctor": "Select Doctor",
+      "dialogSelectPatient": "Select Patient",
+      "errorSelectBoth": "Please select a patient and a doctor",
+      "investigationLabel": "Investigation",
+      "investigationPlaceholder": "Enter investigation details",
+      "searchByName": "Search by name",
+      "selectPatient": "Selected Patient",
+      "treatmentErrorMax": "Treatment details cannot exceed 250 characters",
+      "treatmentErrorMin": "Treatment details must be at least 5 characters",
+      "treatmentLabel": "Treatment",
+      "treatmentPlaceholder": "Enter treatment details",
+      "updateBtn": "Update Treatment"
+    },
+    "management": "Treatment Management",
+    "searchPlaceholder": "Search by patient or doctor",
+    "subHeader": "All your treatment records, one place"
+  },
+  "unit": {
+    "pkg": "pkg",
+    "box": "box",
+    "strip": "strip",
+    "btl": "btl",
+    "amp": "amp",
+    "tube": "tube",
+    "sac": "sac",
+    "cap": "cap",
+    "tab": "tab",
+    "pcs": "pcs"
+  }
+}

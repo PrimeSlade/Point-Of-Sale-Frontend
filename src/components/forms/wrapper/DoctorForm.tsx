@@ -1,6 +1,6 @@
 import type { LocationType } from "@/types/LocationType";
 import type { DoctorData } from "@/types/DoctorType";
-import { type Dispatch, type SetStateAction } from "react";
+import { type Dispatch, type SetStateAction, useMemo } from "react";
 import z from "zod";
 import ReusableFormDialog, { type FieldType, type Types } from "../form/ReusableFrom";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addDoctor, editDoctorById } from "@/api/doctors";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 type DoctorFormProps = {
   data?: DoctorData;
@@ -25,6 +26,7 @@ const DoctorForm = ({
   locationData,
 }: DoctorFormProps) => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   const {
     mutate: addDoctorMutate,
@@ -58,29 +60,32 @@ const DoctorForm = ({
     },
   });
 
-  const formSchema = z.object({
-    name: z
-      .string()
-      .min(2, { message: "Name must be at least 2 characters." })
-      .max(50, { message: "Name must be at most 50 characters." }),
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        name: z
+          .string()
+          .min(2, { message: t("doctor.form.nameErrorMin") })
+          .max(50, { message: t("doctor.form.nameErrorMax") }),
 
-    email: z.email({ message: "Please enter a valid email address." }),
+        email: z.email({ message: t("doctor.form.emailError") }),
 
-    commission: z
-      .float64({ message: "Commission must be a valid number." })
-      .min(0, { message: "Commission cannot be negative." }),
+        commission: z
+          .float64({ message: t("doctor.form.commissionError") })
+          .min(0, { message: t("doctor.form.commissionNegative") }),
 
-    address: z.string().optional(),
+        address: z.string().optional(),
 
-    description: z.string().optional(),
+        description: z.string().optional(),
 
-    locationId: z.number({ message: "Please select a valid location." }),
+        locationId: z.number({ message: t("doctor.form.locationError") }),
 
-    phoneNumber: z.string().regex(/^\+?[0-9]{9,15}$/, {
-      message:
-        "Phone number must contain only digits and be 9–15 characters long.",
-    }),
-  });
+        phoneNumber: z.string().regex(/^\+?[0-9]{9,15}$/, {
+          message: t("doctor.form.phoneError"),
+        }),
+      }),
+    [t]
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -106,37 +111,37 @@ const DoctorForm = ({
   const doctorFields = [
     {
       name: "name",
-      label: "Doctor Name",
-      placeholder: "Enter doctor name",
+      label: t("doctor.form.nameLabel"),
+      placeholder: t("doctor.form.namePlaceholder"),
     },
     {
       name: "email",
-      label: "Email",
-      placeholder: "Enter doctor email",
+      label: t("doctor.form.emailLabel"),
+      placeholder: t("doctor.form.emailPlaceholder"),
       type: "email" as Types,
     },
     {
       name: "commission",
-      label: "Commission (%)",
-      placeholder: "Enter commission percentage",
+      label: t("doctor.form.commissionLabel"),
+      placeholder: t("doctor.form.commissionPlaceholder"),
       type: "number" as Types,
     },
     {
       name: "address",
-      label: "Address",
-      placeholder: "Enter address",
+      label: t("doctor.form.addressLabel"),
+      placeholder: t("doctor.form.addressPlaceholder"),
       optional: true,
     },
     {
       name: "description",
-      label: "Description",
-      placeholder: "Enter description",
+      label: t("doctor.form.descriptionLabel"),
+      placeholder: t("doctor.form.descriptionPlaceholder"),
       optional: true,
     },
     {
       name: "locationId",
-      label: "Location",
-      placeholder: "Select a Location",
+      label: t("doctor.form.locationLabel"),
+      placeholder: t("doctor.form.locationPlaceholder"),
       fieldType: "select" as FieldType,
       options: locationData!.map((l: LocationType) => ({
         value: l.id,
@@ -145,8 +150,8 @@ const DoctorForm = ({
     },
     {
       name: "phoneNumber",
-      label: "Phone Number",
-      placeholder: "Enter phone number",
+      label: t("doctor.form.phoneLabel"),
+      placeholder: t("doctor.form.phonePlaceholder"),
     },
   ];
 
@@ -157,7 +162,7 @@ const DoctorForm = ({
       mode={mode}
       open={open}
       onClose={onClose}
-      title={mode === "create" ? "Add New Doctor" : "Edit Doctor"}
+      title={mode === "create" ? t("doctor.addNew") : t("doctor.edit")}
       fields={doctorFields}
       form={form}
       onSubmit={onSubmit}

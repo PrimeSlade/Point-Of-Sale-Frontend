@@ -9,12 +9,14 @@ import {
 import type { ItemType, ItemUnits } from "@/types/ItemType";
 import { formatDate } from "@/utils/formatDate";
 import { Eye } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 type ItemCardProps = {
   data: ItemType;
 };
 
 const ItemCard = ({ data }: ItemCardProps) => {
+  const { t } = useTranslation();
   const formatted = formatDate(data.expiryDate);
 
   const convertIntoUnit = (itemUnits: ItemUnits[]) => {
@@ -46,11 +48,11 @@ const ItemCard = ({ data }: ItemCardProps) => {
           </DialogHeader>
           <div className="grid grid-cols-4 gap-y-3 p-5">
             <h1 className="font-bold text-[var(--text-secondary)]">Item</h1>
-            <h1 className="font-bold text-[var(--text-secondary)]">Category</h1>
+            <h1 className="font-bold text-[var(--text-secondary)]">{t("column.category")}</h1>
             <h1 className="font-bold text-[var(--text-secondary)]">
               Expire Date
             </h1>
-            <h1 className="font-bold text-[var(--text-secondary)]">Location</h1>
+            <h1 className="font-bold text-[var(--text-secondary)]">{t("column.location")}</h1>
 
             <div className="col-span-4 grid grid-cols-4 rounded-md border bg-[var(--background-color)]">
               <div className="px-3 py-2 truncate">{data.name}</div>
@@ -62,10 +64,10 @@ const ItemCard = ({ data }: ItemCardProps) => {
             <h1 className="font-bold text-[var(--text-secondary)]">
               Unit Types
             </h1>
-            <h1 className="font-bold text-[var(--text-secondary)]">Rate</h1>
-            <h1 className="font-bold text-[var(--text-secondary)]">Quantity</h1>
+            <h1 className="font-bold text-[var(--text-secondary)]">{t("form.inventory.rate")}</h1>
+            <h1 className="font-bold text-[var(--text-secondary)]">{t("common.quantity")}</h1>
             <h1 className="font-bold text-[var(--text-secondary)]">
-              Purchase Price
+              {t("column.purchasePrice")}
             </h1>
 
             {data.itemUnits.map((d, index) => (
@@ -98,7 +100,7 @@ const ItemCard = ({ data }: ItemCardProps) => {
             {data.description && (
               <div className="col-span-4 flex flex-col gap-3">
                 <h1 className="font-bold text-[var(--text-secondary)]">
-                  Description
+                  {t("column.description")}
                 </h1>
                 <div className="px-3 py-1 border rounded-md bg-[var(--background-color)]">
                   {data.description}

@@ -1,5 +1,5 @@
 import AlertBox from "@/components/alertBox/AlertBox";
-import InvoiceColumns from "@/components/columns/InvoiceColumns";
+import { useInvoiceColumns } from "@/components/columns/InvoiceColumns";
 import PaymentSummaryBox from "@/components/report/PaymentSummaryBox";
 import ReportDataTable from "@/components/report/ReportDataTable ";
 import { useReportInvoices } from "@/hooks/useInvoices";
@@ -7,6 +7,7 @@ import type { Invoice } from "@/types/InvoiceType";
 import { parseDateFromURL } from "@/utils/formatDate";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const calcTotalAmount = (data: Invoice[]) => {
   if (!data) return;
@@ -29,6 +30,7 @@ const calcTotalAmount = (data: Invoice[]) => {
 };
 
 const InvoiceReportPage = () => {
+  const { t } = useTranslation();
   const [errorOpen, setErrorOpen] = useState(false);
   const [searchParams] = useSearchParams();
 
@@ -47,7 +49,7 @@ const InvoiceReportPage = () => {
     }
   }, [fetchExpenseError]);
 
-  const columns = InvoiceColumns({
+  const columns = useInvoiceColumns({
     serverSide: false,
     action: false,
   });
@@ -57,7 +59,7 @@ const InvoiceReportPage = () => {
       <ReportDataTable
         columns={columns}
         data={data?.data ?? []}
-        prompt="Search by patient names and paymetn method"
+        prompt={t("search")}
         showTotalAmount={false}
         totalAmount={0}
       />
@@ -66,7 +68,7 @@ const InvoiceReportPage = () => {
         <AlertBox
           open={errorOpen}
           onClose={() => setErrorOpen(false)}
-          title="Error"
+          title={t("common.error")}
           description={fetchExpenseError.message}
           mode={"error"}
         />

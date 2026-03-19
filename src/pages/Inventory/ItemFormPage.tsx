@@ -5,9 +5,11 @@ import Loading from "@/components/loading/Loading";
 import { useItem } from "@/hooks/useItems";
 import { useLocations } from "@/hooks/useLocations";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 //used for both create and edit
 const ItemFormPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -29,7 +31,7 @@ const ItemFormPage = () => {
   return (
     <div>
       <Header
-        header={!isEdit ? "Add Item" : "Edit Item"}
+        header={!isEdit ? t("inventory.addNew") : t("inventory.management")}
         className="text-3xl mb-5"
         subHeader=""
         action={

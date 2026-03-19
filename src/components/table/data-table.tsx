@@ -21,6 +21,7 @@ import FilterBtn from "./FilterBtn";
 import type { DateRange } from "@/types/TreatmentType";
 import FilterByDate from "./FilterByDate";
 import ExcelBtn from "./ExcelBtn";
+import { useTranslation } from "react-i18next";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -76,6 +77,8 @@ export function DataTable<TData, TValue>({
   showTotalAmount = false,
   totalAmount,
 }: DataTableProps<TData, TValue>) {
+  const { t } = useTranslation();
+
   const table = useReactTable({
     data,
     columns,
@@ -188,7 +191,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {t("table.noResults")}
                 </TableCell>
               </TableRow>
             )}
@@ -197,7 +200,7 @@ export function DataTable<TData, TValue>({
         {showTotalAmount && (
           <div className="flex border-t">
             <div className="p-2 px-5 font-bold w-[75%] border-r">
-              Total Amount
+              {t("table.totalAmount")}
             </div>
             <div className="p-2 w-[20%] font-bold">{totalAmount ?? 0}</div>
           </div>

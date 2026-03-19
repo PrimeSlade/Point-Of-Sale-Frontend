@@ -8,8 +8,10 @@ import AuthForm from "../form/AuthForm";
 import type { Types } from "../form/ReusableFrom";
 import type { LoginForm } from "@/types/AuthType";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const CredentialForm = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -31,8 +33,8 @@ const CredentialForm = () => {
 
   //Form
   const formSchema = z.object({
-    email: z.email("Email is required"),
-    password: z.string().min(1, "Password is required"),
+    email: z.email(t("form.login.error.email_required")),
+    password: z.string().min(1, t("form.login.error.password_required")),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -50,13 +52,13 @@ const CredentialForm = () => {
   const LoginField = [
     {
       name: "email" as keyof LoginForm,
-      label: "Email",
-      placeholder: "Enter your email",
+      label: t("form.login.email_label"),
+      placeholder: t("form.login.email_placeholder"),
     },
     {
       name: "password" as keyof LoginForm,
-      label: "Password",
-      placeholder: "Enter your password",
+      label: t("form.login.password_label"),
+      placeholder: t("form.login.password_placeholder"),
       type: "password" as Types,
     },
   ];

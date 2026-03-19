@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import InventoryItemForm from "../form/InventoryItemForm";
+import { useTranslation } from "react-i18next";
 
 type ItemFormProps = {
   itemData?: ItemType;
@@ -30,6 +31,7 @@ const unitType = [
 ] as const;
 
 const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
+  const { t } = useTranslation();
   //TenStack
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -37,48 +39,48 @@ const ItemForm = ({ mode, itemData, locationData }: ItemFormProps) => {
   //Form
   const subUnitSchema = z.object({
     unitType: z.enum(unitType, {
-      message: "Plese select a valid unit",
+      message: t("form.item.error.unit_required"),
     }),
 
     rate: z.number({
-      message: "Rate must be a number",
+      message: t("form.item.error.rate_number"),
     }),
 
     quantity: z
       .number({
-        message: "Quantity must be a number",
+        message: t("form.item.error.quantity_number"),
       })
-      .int({ message: "Quantity must be a whole number" })
-      .min(0, { message: "Quantity price cannot be negative." }),
+      .int({ message: t("form.item.error.quantity_whole") })
+      .min(0, { message: t("form.item.error.quantity_negative") }),
 
     purchasePrice: z
       .number()
-      .min(0, { message: "Purchase price cannot be negative." }),
+      .min(0, { message: t("form.item.error.price_negative") }),
   });
 
   const formSchema = z.object({
     name: z
       .string()
-      .min(2, { message: "Item name must be at least 2 characters." })
-      .max(50, { message: "Item name must be at most 50 characters." }),
+      .min(2, { message: t("form.item.error.name_min") })
+      .max(50, { message: t("form.item.error.name_max") }),
 
     category: z
       .string()
-      .min(2, { message: "Name must be at least 2 characters." })
-      .max(50, { message: "Name must be at most 50 characters." }),
+      .min(2, { message: t("form.item.error.category_min") })
+      .max(50, { message: t("form.item.error.category_max") }),
 
     expiryDate: z.date({
-      message: "Expire date is required.",
+      message: t("form.item.error.expiry_date_required"),
     }),
 
     locationId: z.number({
-      message: "Please select a valid location.",
+      message: t("form.item.error.location_required"),
     }),
 
     description: z.string().optional(),
 
     itemUnits: z.array(subUnitSchema).length(3, {
-      message: "You must provide exactly 3 units.",
+      message: t("form.item.error.units_length"),
     }),
   });
 
