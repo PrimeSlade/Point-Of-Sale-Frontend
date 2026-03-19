@@ -10,13 +10,16 @@ import RolesSection from "@/components/help/sections/RolesSection";
 import TreatmentsSection from "@/components/help/sections/TreatmentsSection";
 import { HELP_NAV, type Lang } from "@/data/helpContent";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const HelpPage = () => {
+  const { i18n } = useTranslation();
+  const lang = (i18n.language === "my" ? "my" : "en") as Lang;
+
   const initialHash = window.location.hash.slice(1);
   const [active, setActive] = useState(
     HELP_NAV.some((n) => n.id === initialHash) ? initialHash : "overview",
   );
-  const [lang, setLang] = useState<Lang>("en");
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
@@ -55,32 +58,15 @@ const HelpPage = () => {
       <HelpNav active={active} lang={lang} onScrollTo={scrollTo} />
 
       <div className="min-w-0 flex-1 pl-56 pr-4">
-        <div className="flex items-start justify-between">
-          <Header
-            header={lang === "en" ? "Help & Documentation" : "အကူအညီနှင့် လမ်းညွှန်ချက်များ"}
-            className="text-2xl"
-            subHeader={
-              lang === "en"
-                ? "How the system works — for staff and administrators."
-                : "စနစ်အသုံးပြုပုံ လမ်းညွှန် - ဝန်ထမ်းများနှင့် စီမံခန့်ခွဲသူများအတွက်။"
-            }
-          />
-          <div className="mt-5 flex shrink-0 overflow-hidden rounded-lg border border-[var(--border-color)]">
-            {(["en", "my"] as Lang[]).map((l) => (
-              <button
-                key={l}
-                onClick={() => setLang(l)}
-                className={`px-3 py-1.5 text-xs font-medium transition-colors ${
-                  lang === l
-                    ? "bg-[var(--primary-color)] text-white"
-                    : "bg-white text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                }`}
-              >
-                {l === "en" ? "EN" : "မြန်မာ"}
-              </button>
-            ))}
-          </div>
-        </div>
+        <Header
+          header={lang === "en" ? "Help & Documentation" : "အကူအညီနှင့် လမ်းညွှန်ချက်များ"}
+          className="text-2xl"
+          subHeader={
+            lang === "en"
+              ? "How the system works — for staff and administrators."
+              : "စနစ်အသုံးပြုပုံ လမ်းညွှန် - ဝန်ထမ်းများနှင့် စီမံခန့်ခွဲသူများအတွက်။"
+          }
+        />
 
         <OverviewSection lang={lang} />
         <PatientsSection lang={lang} />

@@ -25,6 +25,7 @@ import {
 import type { LocationType } from "@/types/LocationType";
 import InvoiceItemRow from "@/components/invoice/InvoiceItemRow";
 import PaymentCard from "@/components/invoice/PaymentCard";
+import { useTranslation } from "react-i18next";
 
 type InvoiceFormFieldProps<T extends FieldValues> = {
   form: UseFormReturn<any>;
@@ -51,6 +52,7 @@ const InvoiceFormField = <T extends FieldValues>({
   onRemoveField,
   isTreatment,
 }: InvoiceFormFieldProps<T>) => {
+  const { t } = useTranslation();
   const serviceOptions =
     serviceData?.map((data: ServiceData) => ({
       value: data.name,
@@ -82,7 +84,7 @@ const InvoiceFormField = <T extends FieldValues>({
                   >
                     <FormControl>
                       <SelectTrigger className="w-full" size="md">
-                        <SelectValue placeholder="Select a Location" />
+                        <SelectValue placeholder={t("common.selectLocation")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -106,7 +108,7 @@ const InvoiceFormField = <T extends FieldValues>({
                 name="invoiceServices"
                 render={({ field }) => (
                   <FormItem>
-                    <label className="text-md font-semibold">Services</label>
+                    <label className="text-md font-semibold">{t("common.services")}</label>
                     <FormControl>
                       <MultiSelect
                         options={serviceOptions}
@@ -138,22 +140,22 @@ const InvoiceFormField = <T extends FieldValues>({
         <div className="border border-[var(--border-color)] rounded-lg overflow-x-auto shadow">
           <div className="grid min-w-270 grid-cols-6 gap-0 bg-[var(--primary-color)] border-b border-[var(--border-color)]">
             <div className="p-3 font-semibold text-white border-r border-[var(--border-color)]">
-              Name
+              {t("column.name")}
             </div>
             <div className="p-3 font-semibold text-white border-r border-[var(--border-color)]">
-              Unit Type
+              {t("common.unitType")}
             </div>
             <div className="p-3 font-semibold text-white border-r border-[var(--border-color)]">
-              Quantity
+              {t("common.quantity")}
             </div>
             <div className="p-3 font-semibold text-white border-r border-[var(--border-color)]">
-              Retail Price
+              {t("column.retailPrice")}
             </div>
             <div className="p-3 font-semibold text-white border-r border-[var(--border-color)]">
-              Discount Price
+              {t("form.invoice.discountPrice")}
             </div>
             <div className="p-3 font-semibold text-white text-center">
-              Action
+              {t("common.action")}
             </div>
           </div>
 
@@ -175,7 +177,7 @@ const InvoiceFormField = <T extends FieldValues>({
               className="bg-[var(--primary-color)] hover:bg-[var(--primary-color-hover)] text-white cursor-pointer min-w-20"
               size="sm"
             >
-              Add
+              {t("action.add")}
             </Button>
           </div>
         </div>
@@ -189,7 +191,7 @@ const InvoiceFormField = <T extends FieldValues>({
           onClick={form.handleSubmit(onSubmit)}
           className="bg-[var(--success-color)] hover:bg-[var(--success-color-hover)] cursor-pointer"
         >
-          {mode === "create" ? "Generate Invoice" : "Update Invoice"}
+          {mode === "create" ? t("form.invoice.generateInvoice") : t("form.invoice.updateInvoice")}
         </Button>
       </div>
     </Form>

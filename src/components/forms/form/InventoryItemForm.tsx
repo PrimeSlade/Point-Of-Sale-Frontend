@@ -31,6 +31,7 @@ import type {
   UseFormReturn,
 } from "react-hook-form";
 import { formatDate } from "@/utils/formatDate";
+import { useTranslation } from "react-i18next";
 
 export const unitType = [
   "pkg",
@@ -62,6 +63,7 @@ const InventoryItemForm = <T extends FieldValues>({
   isPending,
   mode,
 }: InventoryItemFormProps<T>) => {
+  const { t } = useTranslation();
   return (
     <Form {...form}>
       <form
@@ -77,12 +79,12 @@ const InventoryItemForm = <T extends FieldValues>({
                 <FormItem>
                   <FormLabel>
                     <span>
-                      Item Name
+                      {t("form.inventory.itemName")}
                       <span className="text-[var(--danger-color)]">*</span>
                     </span>
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="Item Name" {...field} />
+                    <Input placeholder={t("form.inventory.itemName")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -95,12 +97,12 @@ const InventoryItemForm = <T extends FieldValues>({
                 <FormItem>
                   <FormLabel>
                     <span>
-                      Category
+                      {t("form.inventory.category")}
                       <span className="text-[var(--danger-color)]">*</span>
                     </span>
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="Category" {...field} />
+                    <Input placeholder={t("form.inventory.category")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -113,7 +115,7 @@ const InventoryItemForm = <T extends FieldValues>({
                 <FormItem>
                   <FormLabel>
                     <span>
-                      Expire Date
+                      {t("form.inventory.expiryDate")}
                       <span className="text-[var(--danger-color)]">*</span>
                     </span>
                   </FormLabel>
@@ -130,7 +132,7 @@ const InventoryItemForm = <T extends FieldValues>({
                           {field.value ? (
                             formatDate(field.value)
                           ) : (
-                            <span>Pick a date</span>
+                            <span>{t("common.pickDate")}</span>
                           )}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
@@ -159,7 +161,7 @@ const InventoryItemForm = <T extends FieldValues>({
                 <FormItem>
                   <FormLabel>
                     <span>
-                      Location
+                      {t("common.location")}
                       <span className="text-[var(--danger-color)]">*</span>
                     </span>
                   </FormLabel>
@@ -171,7 +173,7 @@ const InventoryItemForm = <T extends FieldValues>({
                   >
                     <FormControl>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select a Location" />
+                        <SelectValue placeholder={t("common.selectLocation")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -193,9 +195,9 @@ const InventoryItemForm = <T extends FieldValues>({
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>{t("common.description")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Description" {...field} />
+                    <Input placeholder={t("common.description")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -213,14 +215,14 @@ const InventoryItemForm = <T extends FieldValues>({
                   <FormItem>
                     <FormLabel>
                       <span>
-                        Unit Type
+                        {t("form.inventory.unitType")}
                         <span className="text-[var(--danger-color)]">*</span>
                       </span>
                     </FormLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className=" w-full min-w-[100px]">
-                          <SelectValue placeholder="Select a Type" />
+                          <SelectValue placeholder={t("form.inventory.selectUnitType")} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -243,13 +245,13 @@ const InventoryItemForm = <T extends FieldValues>({
                   <FormItem>
                     <FormLabel>
                       <span>
-                        Rate
+                        {t("form.inventory.rate")}
                         <span className="text-[var(--danger-color)]">*</span>
                       </span>
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Rate"
+                        placeholder={t("form.inventory.rate")}
                         type="number"
                         className="no-spinner"
                         {...field}
@@ -271,13 +273,13 @@ const InventoryItemForm = <T extends FieldValues>({
                   <FormItem>
                     <FormLabel>
                       <span>
-                        Quantity
+                        {t("common.quantity")}
                         <span className="text-[var(--danger-color)]">*</span>
                       </span>
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Quantity"
+                        placeholder={t("common.quantity")}
                         type="number"
                         className="no-spinner"
                         {...field}
@@ -299,13 +301,13 @@ const InventoryItemForm = <T extends FieldValues>({
                   <FormItem>
                     <FormLabel>
                       <span>
-                        Purchase Price
+                        {t("form.inventory.purchasePrice")}
                         <span className="text-[var(--danger-color)]">*</span>
                       </span>
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Price"
+                        placeholder={t("common.price")}
                         type="number"
                         className="no-spinner"
                         {...field}
@@ -330,7 +332,7 @@ const InventoryItemForm = <T extends FieldValues>({
             disabled={isPending}
             className="bg-[var(--success-color)] hover:bg-[var(--success-color-hover)]"
           >
-            {mode === "create" ? "Add" : "Save Changes"}
+            {mode === "create" ? t("action.add") : t("action.saveChanges")}
           </Button>
         </div>
       </form>

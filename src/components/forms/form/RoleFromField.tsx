@@ -14,6 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { toUpperCase } from "@/utils/formatText";
 import { Label } from "@/components/ui/label";
+import { useTranslation } from "react-i18next";
 
 type RoleFormFieldProps<T> = {
   permissions: Permission[] | any;
@@ -30,6 +31,7 @@ const RoleFormField = <T,>({
   mode,
   isPending,
 }: RoleFormFieldProps<T>) => {
+  const { t } = useTranslation();
   const groupedPermissions = permissions.reduce(
     (acc: any, permission: Permission) => {
       if (!acc[permission.subject]) {
@@ -54,11 +56,11 @@ const RoleFormField = <T,>({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  <span>Name</span>
+                  <span>{t("common.name")}</span>
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder={"Enter role name"}
+                    placeholder={t("form.role.enterName")}
                     type="text"
                     {...field}
                     className="no-spinner w-[30%]"
@@ -74,7 +76,7 @@ const RoleFormField = <T,>({
             ([subject, subjectPermission]: any) => (
               <div className="space-y-3" key={subject}>
                 <div className="font-bold">
-                  {subject === "all" ? "Admin" : subject}
+                  {subject === "all" ? t("role.admin") : subject}
                 </div>
 
                 <div className="grid gap-3 grid-cols-2 md:grid-cols-5">
@@ -128,7 +130,7 @@ const RoleFormField = <T,>({
           )}
           {error && (
             <div className="text-red-600 text-sm">
-              {get(error, "message") || "An error occurred"}
+              {get(error, "message") || t("common.errorOccurred")}
             </div>
           )}
         </div>
@@ -139,7 +141,7 @@ const RoleFormField = <T,>({
             disabled={isPending}
             className="bg-[var(--success-color)] hover:bg-[var(--success-color-hover)] min-w-20"
           >
-            {mode === "create" ? "Add" : "Save Changes"}
+            {mode === "create" ? t("action.add") : t("action.saveChanges")}
           </Button>
         </div>
       </form>

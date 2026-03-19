@@ -35,6 +35,7 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { formatDate } from "@/utils/formatDate";
 import { toUpperCase } from "@/utils/formatText";
+import { useTranslation } from "react-i18next";
 
 export type Types = "text" | "number" | "email" | "password" | "radio";
 
@@ -71,6 +72,7 @@ function ReusableFormDialog<T>({
   mode = "create",
   isPending = false,
 }: ReusableFormDialogProps<T>) {
+  const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onClose}>
       {/* if fields len is more than 6, remove the w and apply grid  */}
@@ -127,7 +129,7 @@ function ReusableFormDialog<T>({
                                   {field.value ? (
                                     formatDate(field.value)
                                   ) : (
-                                    <span>Pick a date</span>
+                                    <span>{t("common.pickDate")}</span>
                                   )}
                                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                 </Button>
@@ -253,7 +255,7 @@ function ReusableFormDialog<T>({
                   className="bg-[var(--danger-color)] hover:bg-[var(--danger-color-hover)]"
                   onClick={() => form.reset()}
                 >
-                  Cancel
+                  {t("action.cancel")}
                 </Button>
               </DialogClose>
               <Button
@@ -261,7 +263,7 @@ function ReusableFormDialog<T>({
                 disabled={isPending}
                 className="bg-[var(--success-color)] hover:bg-[var(--success-color-hover)]"
               >
-                {mode === "create" ? "Add" : "Save Changes"}
+                {mode === "create" ? t("action.add") : t("action.saveChanges")}
               </Button>
             </DialogFooter>
           </form>
