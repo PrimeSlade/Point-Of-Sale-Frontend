@@ -9,7 +9,9 @@ import {
   NotebookPen,
   ChartNoAxesCombined,
   MapPin,
+  BookOpen,
 } from "lucide-react";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 import {
   Sidebar,
@@ -114,8 +116,11 @@ export function AppSidebar() {
           <div className="flex flex-col justify-between h-screen">
             <SidebarGroup>
               <div className="mt-5">
-                <div className="text-2xl font-bold text-black px-4">
-                  Yaung Ni Oo
+                <div className="flex items-center justify-between px-4">
+                  <div className="text-2xl font-bold text-black">
+                    Yaung Ni Oo
+                  </div>
+                  <SidebarTrigger />
                 </div>
                 <div className="mx-auto mt-3 p-4 border rounded-xl w-55 flex flex-col gap-2 bg-[var(--background-color)] text-base">
                   <div className="flex items-center gap-3 text-[var(--primary-color)]  ">
@@ -160,6 +165,26 @@ export function AppSidebar() {
                       </SidebarMenuItem>
                     );
                   })}
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      className={`p-6 ${isActive("/dashboard/help")}`}
+                    >
+                      <Link
+                        to="help"
+                        className={isTextActive("/dashboard/help")}
+                      >
+                        <BookOpen
+                          className={isTextActive("/dashboard/help")}
+                        />
+                        <span
+                          className={`text-xl ${isTextActive("/dashboard/help")}`}
+                        >
+                          Help
+                        </span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>

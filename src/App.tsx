@@ -32,6 +32,7 @@ import ItemFormPage from "./pages/Inventory/ItemFormPage";
 import { lazy, Suspense } from "react";
 import Loading from "./components/loading/Loading";
 import DynamicIndex from "./routes/DynamicIndex";
+import HelpPage from "./pages/help/HelpPage";
 
 // Lazy load PDF-heavy page
 const InvoiceDetailsPage = lazy(
@@ -398,6 +399,7 @@ function App() {
             />
             {/* <Route path="general" element={<GeneralPage />} /> */}
           </Route>
+          <Route path="help" element={<HelpPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

@@ -1,0 +1,134 @@
+import { type Lang } from "@/data/helpContent";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+
+const CalcRow = ({
+  label,
+  value,
+  onChange,
+  suffix,
+}: {
+  label: string;
+  value: number;
+  onChange: (v: number) => void;
+  suffix?: string;
+}) => (
+  <div className="flex items-center justify-between gap-4">
+    <span className="text-xs text-[var(--text-secondary)]">{label}</span>
+    <div className="flex items-center gap-1.5">
+      <Input
+        type="number"
+        value={value}
+        min={0}
+        onChange={(e) => onChange(Number(e.target.value) || 0)}
+        className="h-8 w-28 px-2 py-1 text-right font-mono"
+      />
+      {suffix && (
+        <span className="w-6 text-xs text-[var(--text-secondary)]">{suffix}</span>
+      )}
+    </div>
+  </div>
+);
+
+const CalcResult = ({
+  label,
+  value,
+  suffix,
+}: {
+  label: string;
+  value: number;
+  suffix?: string;
+}) => (
+  <div className="flex items-center justify-between rounded-md bg-[var(--primary-color)]/10 px-3 py-2">
+    <span className="text-xs font-semibold text-[var(--text-primary)]">{label}</span>
+    <span className="font-mono text-sm font-bold text-[var(--primary-color)]">
+      {value.toLocaleString()} {suffix}
+    </span>
+  </div>
+);
+
+const CalcWrapper = ({
+  title,
+  lang,
+  children,
+}: {
+  title: string;
+  lang: Lang;
+  children: React.ReactNode;
+}) => (
+  <div className="my-4 overflow-hidden rounded-lg border border-dashed border-[var(--primary-color)]/40">
+    <div className="flex items-center gap-2 border-b border-[var(--border-color)] bg-[var(--background-color)] px-4 py-2">
+      <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--primary-color)]">
+        {lang === "en" ? "Try it" : "စမ်းကြည့်ပါ"}
+      </span>
+      <span className="text-[10px] text-[var(--text-secondary)]">— {title}</span>
+    </div>
+    <div className="space-y-3 bg-[var(--primary-bg)] px-4 py-4">{children}</div>
+  </div>
+);
+
+export const RetailPriceCalc = ({ lang = "en" }: { lang?: Lang }) => {
+  const [purchasePrice, setPurchasePrice] = useState(1000);
+  const [pricePercent, setPricePercent] = useState(30);
+  const retail = purchasePrice + (purchasePrice * pricePercent) / 100;
+
+  const labels = {
+    en: {
+      title: "retail price calculator",
+      purchase: "Purchase Price",
+      percent: "Price Percent",
+      retail: "Retail Price",
+    },
+    my: {
+      title: "လက်လီဈေးနှုန်း တွက်ချက်ကိရိယာ",
+      purchase: "ဝယ်ဈေး",
+      percent: "ဈေးတင်နှုန်း",
+      retail: "လက်လီဈေးနှုန်း",
+    },
+  }[lang];
+
+  return (
+    <CalcWrapper title={labels.title} lang={lang}>
+      <CalcRow label={labels.purchase} value={purchasePrice} onChange={setPurchasePrice} suffix="MMK" />
+      <CalcRow label={labels.percent} value={pricePercent} onChange={setPricePercent} suffix="%" />
+      <div className="border-t border-[var(--border-color)] pt-3">
+        <CalcResult label={labels.retail} value={retail} suffix="MMK" />
+      </div>
+    </CalcWrapper>
+  );
+};
+
+export const InvoiceTotalCalc = ({ lang = "en" }: { lang?: Lang }) => {
+  const [subtotal, setSubtotal] = useState(7600);
+  const [itemDiscount, setItemDiscount] = useState(400);
+  const [invoiceDiscount, setInvoiceDiscount] = useState(600);
+  const total = Math.max(0, subtotal - itemDiscount - invoiceDiscount);
+
+  const labels = {
+    en: {
+      title: "invoice total calculator",
+      subtotal: "Sub Total",
+      itemDiscount: "Total Item Discount",
+      invoiceDiscount: "Invoice Discount",
+      total: "Total Amount",
+    },
+    my: {
+      title: "စုစုပေါင်းကျသင့်ငွေ တွက်ချက်ကိရိယာ",
+      subtotal: "စုစုပေါင်း (Sub Total)",
+      itemDiscount: "ပစ္စည်းလျှော့ဈေး",
+      invoiceDiscount: "ဘေလ်လျှော့ဈေး",
+      total: "စုစုပေါင်း ကျသင့်ငွေ",
+    },
+  }[lang];
+
+  return (
+    <CalcWrapper title={labels.title} lang={lang}>
+      <CalcRow label={labels.subtotal} value={subtotal} onChange={setSubtotal} suffix="MMK" />
+      <CalcRow label={labels.itemDiscount} value={itemDiscount} onChange={setItemDiscount} suffix="MMK" />
+      <CalcRow label={labels.invoiceDiscount} value={invoiceDiscount} onChange={setInvoiceDiscount} suffix="MMK" />
+      <div className="border-t border-[var(--border-color)] pt-3">
+        <CalcResult label={labels.total} value={total} suffix="MMK" />
+      </div>
+    </CalcWrapper>
+  );
+};
