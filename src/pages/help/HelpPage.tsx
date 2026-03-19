@@ -8,7 +8,7 @@ import OverviewSection from "@/components/help/sections/OverviewSection";
 import PatientsSection from "@/components/help/sections/PatientsSection";
 import RolesSection from "@/components/help/sections/RolesSection";
 import TreatmentsSection from "@/components/help/sections/TreatmentsSection";
-import { HELP_NAV } from "@/data/helpContent";
+import { HELP_NAV, type Lang } from "@/data/helpContent";
 import { useEffect, useRef, useState } from "react";
 
 const HelpPage = () => {
@@ -16,6 +16,7 @@ const HelpPage = () => {
   const [active, setActive] = useState(
     HELP_NAV.some((n) => n.id === initialHash) ? initialHash : "overview",
   );
+  const [lang, setLang] = useState<Lang>("en");
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
@@ -51,23 +52,44 @@ const HelpPage = () => {
 
   return (
     <div className="flex gap-12 pb-24">
-      <HelpNav active={active} onScrollTo={scrollTo} />
+      <HelpNav active={active} lang={lang} onScrollTo={scrollTo} />
 
       <div className="min-w-0 flex-1 pl-56 pr-4">
-        <Header
-          header="Help & Documentation"
-          className="text-2xl"
-          subHeader="How the system works — for staff and administrators."
-        />
+        <div className="flex items-start justify-between">
+          <Header
+            header={lang === "en" ? "Help & Documentation" : "အကူအညီနှင့် လမ်းညွှန်"}
+            className="text-2xl"
+            subHeader={
+              lang === "en"
+                ? "How the system works — for staff and administrators."
+                : "စနစ်အသုံးပြုပုံ — ဝန်ထမ်းများနှင့် စီမံခန့်ခွဲသူများအတွက်။"
+            }
+          />
+          <div className="mt-5 flex shrink-0 overflow-hidden rounded-lg border border-[var(--border-color)]">
+            {(["en", "my"] as Lang[]).map((l) => (
+              <button
+                key={l}
+                onClick={() => setLang(l)}
+                className={`px-3 py-1.5 text-xs font-medium transition-colors ${
+                  lang === l
+                    ? "bg-[var(--primary-color)] text-white"
+                    : "bg-white text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                }`}
+              >
+                {l === "en" ? "EN" : "မြန်မာ"}
+              </button>
+            ))}
+          </div>
+        </div>
 
-        <OverviewSection />
-        <PatientsSection />
-        <TreatmentsSection />
-        <InvoicesSection />
-        <FeeCalculationsSection />
-        <CommissionSection />
-        <InventorySection />
-        <RolesSection />
+        <OverviewSection lang={lang} />
+        <PatientsSection lang={lang} />
+        <TreatmentsSection lang={lang} />
+        <InvoicesSection lang={lang} />
+        <FeeCalculationsSection lang={lang} />
+        <CommissionSection lang={lang} />
+        <InventorySection lang={lang} />
+        <RolesSection lang={lang} />
       </div>
     </div>
   );

@@ -1,18 +1,19 @@
-import { HELP_NAV } from "@/data/helpContent";
+import { HELP_NAV, type Lang } from "@/data/helpContent";
 
 type HelpNavProps = {
   active: string;
+  lang: Lang;
   onScrollTo: (id: string) => void;
 };
 
-const HelpNav = ({ active, onScrollTo }: HelpNavProps) => (
+const HelpNav = ({ active, lang, onScrollTo }: HelpNavProps) => (
   <aside className="hidden lg:block">
     <div className="fixed top-8 w-48">
       <p className="mb-4 px-3 text-[10px] font-bold uppercase tracking-widest text-[var(--text-secondary)]">
-        On this page
+        {lang === "en" ? "On this page" : "ဤစာမျက်နှာတွင်"}
       </p>
       <nav className="flex flex-col">
-        {HELP_NAV.map(({ id, label }) => (
+        {HELP_NAV.map(({ id, en, my }) => (
           <button
             key={id}
             onClick={() => onScrollTo(id)}
@@ -28,7 +29,7 @@ const HelpNav = ({ active, onScrollTo }: HelpNavProps) => (
             <span
               className={`pl-2 transition-transform ${active === id ? "translate-x-1" : ""}`}
             >
-              {label}
+              {lang === "en" ? en : my}
             </span>
           </button>
         ))}
