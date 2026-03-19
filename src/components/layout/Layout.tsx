@@ -21,7 +21,7 @@ export default function Layout() {
   return (
     <>
       <AppSidebar />
-      <SidebarTrigger className="mt-2" />
+      {!open && <SidebarTrigger className="fixed top-4 left-4 z-50" />}
       <div className={`mx-auto ${width()} overflow-x-auto px-1`}>
         <div className="min-w-[600px] lg:min-w-0">
           <Outlet />
