@@ -56,7 +56,7 @@ export const Example = ({
       <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
       <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
       <span className="ml-2 text-[10px] font-bold uppercase tracking-widest text-white/80">
-        {lang === "en" ? "Example" : "ဥပမာ"}
+        {lang === "en" ? "Example" : "ဥပမာအနေနဲ့"}
       </span>
     </div>
     <div className="bg-[var(--primary-bg)] px-4 py-3 text-xs leading-7 text-[var(--text-primary)]">

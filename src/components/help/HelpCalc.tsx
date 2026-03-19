@@ -58,7 +58,7 @@ const CalcWrapper = ({
   <div className="my-4 overflow-hidden rounded-lg border border-dashed border-[var(--primary-color)]/40">
     <div className="flex items-center gap-2 border-b border-[var(--border-color)] bg-[var(--background-color)] px-4 py-2">
       <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--primary-color)]">
-        {lang === "en" ? "Try it" : "စမ်းသပ်တွက်ချက်ရန်"}
+        {lang === "en" ? "Try it" : "စမ်းကြည့်ပါ"}
       </span>
       <span className="text-[10px] text-[var(--text-secondary)]">— {title}</span>
     </div>
@@ -80,7 +80,7 @@ export const RetailPriceCalc = ({ lang = "en" }: { lang?: Lang }) => {
     },
     my: {
       title: "လက်လီဈေးနှုန်း တွက်ချက်ကိရိယာ",
-      purchase: "ဝယ်ယူဈေး (MMK)",
+      purchase: "ဝယ်ဈေး (MMK)",
       percent: "ဈေးတင်နှုန်း (%)",
       retail: "လက်လီဈေးနှုန်း",
     },
@@ -113,9 +113,9 @@ export const InvoiceTotalCalc = ({ lang = "en" }: { lang?: Lang }) => {
     },
     my: {
       title: "စုစုပေါင်းကျသင့်ငွေ တွက်ချက်ကိရိယာ",
-      subtotal: "စုစုပေါင်း (Sub Total) (MMK)",
+      subtotal: "စုစုပေါင်း (MMK)",
       itemDiscount: "ပစ္စည်းလျှော့ဈေး (MMK)",
-      invoiceDiscount: "ငွေတောင်းခံလွှာလျှော့ဈေး (MMK)",
+      invoiceDiscount: "ဘေလ်လျှော့ဈေး (MMK)",
       total: "စုစုပေါင်း ကျသင့်ငွေ",
     },
   }[lang];
